@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "203054644223",
+    "project_id": "ghmc-96ed7",
+    "storage_bucket": "ghmc-96ed7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203054644223:android:325711321e7a08b02a45ca",
+        "android_client_info": {
+          "package_name": "com.example.ghmc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "203054644223-lav0jsg833456bupmlbvoijafobkmjg6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcIwvhNUAXx_I5aBrckHM45NlIBV3G9WA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "203054644223-lav0jsg833456bupmlbvoijafobkmjg6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
