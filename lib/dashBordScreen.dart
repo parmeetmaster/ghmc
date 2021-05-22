@@ -1,21 +1,31 @@
 import 'dart:async';
 import 'dart:io' show Platform;
 
-import 'package:barcode_scan2/barcode_scan2.dart';
+/*import 'package:barcode_scan2/barcode_scan2.dart';*/
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ghmc/api/api.dart';
+import 'package:ghmc/model/credentials.dart';
+import 'package:ghmc/model/driver_data_model.dart';
+import 'package:ghmc/provider/dash_board_provider.dart';
 import 'package:ghmc/userDataScreen.dart';
+import 'package:ghmc/util/m_progress_indicator.dart';
+
+import 'util/qrcode_screen.dart';
 
 class DashBordScreen extends StatefulWidget {
-  const DashBordScreen({Key? key}) : super(key: key);
+  CredentialsModel? credentialsModel;
+
+  DashBordScreen(this.credentialsModel, {Key? key}) : super(key: key);
 
   @override
   _DashBordScreenState createState() => _DashBordScreenState();
 }
 
 class _DashBordScreenState extends State<DashBordScreen> {
-  ScanResult? scanResult;
+/*  ScanResult? scanResult;
 
   final _flashOnController = TextEditingController(text: 'Flash on');
   final _flashOffController = TextEditingController(text: 'Flash off');
@@ -30,21 +40,21 @@ class _DashBordScreenState extends State<DashBordScreen> {
   static final _possibleFormats = BarcodeFormat.values.toList()
     ..removeWhere((e) => e == BarcodeFormat.unknown);
 
-  List<BarcodeFormat> selectedFormats = [..._possibleFormats];
+  List<BarcodeFormat> selectedFormats = [..._possibleFormats];*/
 
   @override
   void initState() {
     super.initState();
-
-    Future.delayed(Duration.zero, () async {
+    print(widget.credentialsModel!.data!.email);
+ /*   Future.delayed(Duration.zero, () async {
       _numberOfCameras = await BarcodeScanner.numberOfCameras;
       setState(() {});
-    });
+    });*/
   }
 
   @override
   Widget build(BuildContext context) {
-    final scanResult = this.scanResult;
+/*    final scanResult = this.scanResult;*/
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -106,45 +116,265 @@ class _DashBordScreenState extends State<DashBordScreen> {
   }
 
   Future<void> _scan() async {
-    try {
-      final result = await BarcodeScanner.scan(
-        options: ScanOptions(
-          strings: {
-            'cancel': _cancelController.text,
-            'flash_on': _flashOnController.text,
-            'flash_off': _flashOffController.text,
-          },
-          restrictFormat: selectedFormats,
-          useCamera: _selectedCamera,
-          autoEnableFlash: _autoEnableFlash,
-          android: AndroidOptions(
-            aspectTolerance: _aspectTolerance,
-            useAutoFocus: _useAutoFocus,
+    String qrdata = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => QRScreen()));
+    print(qrdata);
+    MProgressIndicator.show(context);
+    ApiResponse? model=  await DashBoardProvider.getInstance(context).getDriverData(widget.credentialsModel!.data!.userId!,qrdata);
+   MProgressIndicator.hide();
+    if(model!.status==200)
+     showSuccessDialog(DriverDataModel.fromJson(model!.completeResponse??"")!);
+    setState(() {});
+  }
+
+  int flexleft = 3;
+  int flexright = 5;
+  TextStyle style = TextStyle(
+    fontSize: 16,
+  );
+
+  showSuccessDialog(DriverDataModel model) {
+    Dialog leadDialog = Dialog(
+      child: Container(
+        width: 360.0,
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20.0,
           ),
+          child: ListView(shrinkWrap: true,
+              // mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(
+                  height: 10,
+                ),
+                SvgPicture.asset(
+                  'assets/check.svg',
+                  width: 50,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: Text(
+                    "Successfully scanned",
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green[800]),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        flex: flexleft,
+                        child: Text("Vehicle Type", style: style)),
+                    SizedBox(
+                      width: 15,
+                      child: Text(":"),),
+                    Expanded(
+                        flex: flexright,
+                        child: Text("${model.data!.vechileType!.trim()}", style: style,
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        flex: flexleft,
+                        child: Text("Vehicle Number", style: style)),
+                    SizedBox(
+                      width: 15,
+                      child: Text(":"),),
+                    Expanded(
+                        flex: flexright,
+                        child: Text("${model.data!.vechileNo!.trim()}", style: style,
+                        ))
+                  ],
+                ),
+
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        flex: flexleft,
+                        child: Text("Driver Name", style: style)),
+                    SizedBox(
+                      width: 15,
+                      child: Text(":"),),
+                    Expanded(
+                        flex: flexright,
+                        child: Text(
+                          "${model.data!.driverName}",
+                          style: style,
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        flex: flexleft,
+                        child: Text("Driver Phno", style: style)),
+                    SizedBox(
+                      width: 15,
+                      child: Text(":"),),
+                    Expanded(
+                        flex: flexright,
+                        child: Text(
+                          "${model.data!.driverNo}",
+                          style: style,
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        flex: flexleft, child: Text("Address", style: style)),
+                    SizedBox(
+                      width: 15,
+                      child: Text(":"),),
+                    Expanded(
+                        flex: flexright,
+                        child: Text(
+                          "${model.data!.address}",
+                          style: style,
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        flex: flexleft,
+                        child: Text("Landmark", style: style)),
+                    SizedBox(
+                      width: 15,
+                      child: Text(":"),),
+                    Expanded(
+                        flex: flexright,
+                        child: Text(
+                          "${model.data!.landmark}",
+                          style: style,
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        flex: flexleft, child: Text("Ward", style: style)),
+                    SizedBox(
+                      width: 15,
+                      child: Text(":"),),
+                    Expanded(
+                        flex: flexright,
+                        child: Text(
+                          "${model.data!.ward}",
+                          style: style,
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        flex: flexleft,
+                        child: Text("Circle", style: style)),
+                    SizedBox(
+                      width: 15,
+                      child: Text(":"),),
+                    Expanded(
+                        flex: flexright,
+                        child: Text(
+                          "${model.data!.circle}",
+                          style: style,
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        flex: flexleft,
+                        child: Text("Created On", style: style)),
+                    SizedBox(
+                      width: 15,
+                      child: Text(":"),),
+                    Expanded(
+                        flex: flexright,
+                        child: Text(
+                          "${model.data!.createdDate}",
+                          style: style,
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        flex: flexleft, child: Text("Zone", style: style)),
+                    SizedBox(
+                      width: 15,
+                      child: Text(":"),),
+                    Expanded(
+                        flex: flexright,
+                        child: Text(
+                          "${model.data!.zone}",
+                          style: style,
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+
+                SizedBox(
+                  width: 50,
+                  child: ElevatedButton(
+
+                    child: Text("Done"),
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.green[800],
+                      onPrimary: Colors.white,
+                      shape: RoundedRectangleBorder(
+
+                        borderRadius: BorderRadius.circular(32.0),
+                      ),
+                    ),
+                  ),
+                ),
+
+              ]),
         ),
-      );
-      setState(() {
-        scanResult = result;
-        Navigator.push(
-          context,
-          CupertinoPageRoute(
-            builder: (context) => UserDataScreen(),
-          ),
-        );
-      });
-      print('((((((((((((((((((((((($result)))))))))))))))))))))))');
-    } on PlatformException catch (e) {
-      setState(() {
-        scanResult = ScanResult(
-          type: ResultType.Error,
-          format: BarcodeFormat.unknown,
-          rawContent: e.code == BarcodeScanner.cameraAccessDenied
-              ? 'The user did not grant the camera permission!'
-              : 'Unknown error: $e',
-        );
-        Navigator.pop(context);
-        print('222222222222222222222222222222222222$e');
-      });
-    }
+      ),
+    );
+    showDialog(context: context, builder: (BuildContext context) => leadDialog);
   }
 }

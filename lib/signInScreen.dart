@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ghmc/authenticationDBHelperClass.dart';
 import 'package:ghmc/dashBordScreen.dart';
+import 'package:ghmc/provider/login_provider.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -18,15 +19,20 @@ class _SignInScreenState extends State<SignInScreen> {
   // TextEditingController
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
+  LoginProvider? _instance;
   @override
   Widget build(BuildContext context) {
+     _instance =LoginProvider.getInstance(context);
+
     return Scaffold(
       body: _buildBody(context),
     );
   }
 
   Widget _buildBody(BuildContext context) {
+
+    _emailController.text="8328473790";
+    _passwordController.text="8328473790";
     return Stack(
       children: [
         Container(
@@ -162,27 +168,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                     ),
                                   ),
                                   onPressed: () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      var x = await AuthenticationDBHelperClass
-                                          .signIn(
-                                        email: _emailController.text,
-                                        password: _passwordController.text,
-                                      );
-                                      if (!x['error']) {
-                                        Navigator.pushReplacement(
-                                          context,
-                                          CupertinoPageRoute(
-                                            builder: (context) =>
-                                                DashBordScreen(),
-                                          ),
-                                        );
-                                      } else {
-                                        setState(() {
-                                          errorLogin = true;
-                                          Text('Incorrect Email or password');
-                                        });
-                                      }
-                                    }
+
+                                    await _instance!.performLogin(_emailController,_passwordController,context);
+
                                   },
                               ),
                             ),

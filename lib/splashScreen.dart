@@ -27,6 +27,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset('assets/Mobile splash screen 2.jpg');
+    return Image.asset('assets/Mobile splash screen 2.jpg',fit: BoxFit.cover,);
   }
 }
