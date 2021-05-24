@@ -12,6 +12,7 @@ import 'package:ghmc/model/driver_data_model.dart';
 import 'package:ghmc/provider/dash_board_provider.dart';
 import 'package:ghmc/userDataScreen.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
+import 'package:ghmc/widget/drawer.dart';
 
 import 'util/qrcode_screen.dart';
 
@@ -57,6 +58,7 @@ class _DashBordScreenState extends State<DashBordScreen> {
 /*    final scanResult = this.scanResult;*/
     return MaterialApp(
       home: Scaffold(
+        drawer: Drawer(child: MainDrawer(),),
         appBar: AppBar(
           flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -69,11 +71,11 @@ class _DashBordScreenState extends State<DashBordScreen> {
               ),
             ),
           ),
-          leading: IconButton(
+      /*    leading: IconButton(
             icon: const Icon(Icons.menu),
             tooltip: 'menu',
             onPressed: () {},
-          ),
+          ),*/
           title: const Text('Dash Board'),
           actions: [
             IconButton(
@@ -118,6 +120,7 @@ class _DashBordScreenState extends State<DashBordScreen> {
   Future<void> _scan() async {
     String qrdata = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => QRScreen()));
+    print("QR DATA IS : $qrdata");
     print(qrdata);
     MProgressIndicator.show(context);
     ApiResponse? model=  await DashBoardProvider.getInstance(context).getDriverData(widget.credentialsModel!.data!.userId!,qrdata);
