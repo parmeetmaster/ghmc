@@ -101,11 +101,11 @@ class _DashBordScreenState extends State<DashBordScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               TextButton(
-                child: Text('Vechiles'),
+                child: Text('Vehicle'),
                 onPressed: () {},
               ),
               TextButton(
-                child: Text('Gvp/Bvp'),
+                child: Text('GVP/BEP'),
                 onPressed: () {},
               ),
             ],
@@ -143,6 +143,7 @@ class _DashBordScreenState extends State<DashBordScreen> {
             horizontal: 20.0,
           ),
           child: ListView(shrinkWrap: true,
+
               // mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 SizedBox(
@@ -349,27 +350,26 @@ class _DashBordScreenState extends State<DashBordScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 25,
                 ),
 
-                SizedBox(
-                  width: 50,
-                  child: ElevatedButton(
-
-                    child: Text("Done"),
-                    onPressed: (){
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.green[800],
-                      onPrimary: Colors.white,
-                      shape: RoundedRectangleBorder(
-
-                        borderRadius: BorderRadius.circular(32.0),
-                      ),
+                InkWell(
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                  child: Padding(
+                    padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.2),
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: Colors.green[800],
+                          borderRadius: BorderRadius.circular(30)), // Make rounded corner
+                      child: Text("Done",style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold),),
                     ),
                   ),
                 ),
+                  SizedBox(height: 25,)
 
               ]),
         ),
