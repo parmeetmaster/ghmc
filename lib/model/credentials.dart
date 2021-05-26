@@ -42,6 +42,7 @@ class Data {
     this.mobileNumber,
     this.departmentName,
     this.token,
+    this.department_id,
     this.access,
   });
 
@@ -51,6 +52,7 @@ class Data {
   String? email;
   String? mobileNumber;
   String? departmentName;
+  String? department_id;
   String? token;
   List<dynamic>? access;
 
@@ -64,6 +66,7 @@ class Data {
         lastName: json["last_name"],
         email: json["email"],
         mobileNumber: json["mobile_number"],
+    department_id: json["department_id"],
         departmentName: json["department_name"],
         token: json["token"],
         access: List<dynamic>.from(json["access"].map((x) => x)),
@@ -74,6 +77,7 @@ class Data {
         "first_name": firstName,
         "last_name": lastName,
         "email": email,
+    "department_id": department_id,
         "mobile_number": mobileNumber,
         "department_name": departmentName,
         "token": token,

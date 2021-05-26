@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghmc/api/api.dart';
+import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/model/credentials.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,7 @@ class LoginProvider extends ChangeNotifier {
               "password": passwordController.text.toString(),
             }));
     user=  CredentialsModel.fromJson(response.completeResponse);
+    Globals.userData=user!; // setting up user on login
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(

@@ -13,3 +13,6 @@ List<Color> btn_grid=[
   Color(0xFFC11E63),
   Color(0xFFC11E63),
 ];
+
+enum modes{testing,release}
+dynamic mode=modes.testing;

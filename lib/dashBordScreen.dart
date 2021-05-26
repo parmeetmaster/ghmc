@@ -10,10 +10,12 @@ import 'package:ghmc/api/api.dart';
 import 'package:ghmc/model/credentials.dart';
 import 'package:ghmc/model/driver_data_model.dart';
 import 'package:ghmc/provider/dash_board_provider.dart';
+import 'package:ghmc/screens/transfer/transfer_station.dart';
 import 'package:ghmc/userDataScreen.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:ghmc/widget/drawer.dart';
 
+import 'globals/globals.dart';
 import 'util/qrcode_screen.dart';
 
 class DashBordScreen extends StatefulWidget {
@@ -47,7 +49,7 @@ class _DashBordScreenState extends State<DashBordScreen> {
   void initState() {
     super.initState();
     print(widget.credentialsModel!.data!.email);
- /*   Future.delayed(Duration.zero, () async {
+    /*   Future.delayed(Duration.zero, () async {
       _numberOfCameras = await BarcodeScanner.numberOfCameras;
       setState(() {});
     });*/
@@ -58,7 +60,9 @@ class _DashBordScreenState extends State<DashBordScreen> {
 /*    final scanResult = this.scanResult;*/
     return MaterialApp(
       home: Scaffold(
-        drawer: Drawer(child: MainDrawer(),),
+        drawer: Drawer(
+          child: MainDrawer(),
+        ),
         appBar: AppBar(
           flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -71,7 +75,7 @@ class _DashBordScreenState extends State<DashBordScreen> {
               ),
             ),
           ),
-      /*    leading: IconButton(
+          /*    leading: IconButton(
             icon: const Icon(Icons.menu),
             tooltip: 'menu',
             onPressed: () {},
@@ -89,6 +93,12 @@ class _DashBordScreenState extends State<DashBordScreen> {
               onPressed: _scan,
             ),
           ],
+          bottom: TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.directions_car)),
+              Tab(icon: Icon(Icons.directions_bike)),
+            ],
+          ),
         ),
         body: _buildBody(),
       ),
@@ -123,11 +133,16 @@ class _DashBordScreenState extends State<DashBordScreen> {
     print("QR DATA IS : $qrdata");
     print(qrdata);
     MProgressIndicator.show(context);
-    ApiResponse? model=  await DashBoardProvider.getInstance(context).getDriverData(widget.credentialsModel!.data!.userId!,qrdata);
-   MProgressIndicator.hide();
-    if(model!.status==200)
-     showSuccessDialog(DriverDataModel.fromJson(model!.completeResponse??"")!);
-    setState(() {});
+    ApiResponse? model = await DashBoardProvider.getInstance(context)
+        .getDriverData(widget.credentialsModel!.data!.userId!, qrdata);
+    MProgressIndicator.hide();
+
+    // check user for attendence
+    if (Globals.getUserData()!.data!.department_id == "3") {
+      justDialog(model);
+    } else if (Globals.getUserData()!.data!.department_id == "4") {
+      showTransferScreen(model, qrdata);
+    }
   }
 
   int flexleft = 3;
@@ -178,10 +193,13 @@ class _DashBordScreenState extends State<DashBordScreen> {
                         child: Text("Vehicle Type", style: style)),
                     SizedBox(
                       width: 15,
-                      child: Text(":"),),
+                      child: Text(":"),
+                    ),
                     Expanded(
                         flex: flexright,
-                        child: Text("${model.data!.vechileType!.trim()}", style: style,
+                        child: Text(
+                          "${model.data!.vechileType!.trim()}",
+                          style: style,
                         ))
                   ],
                 ),
@@ -195,14 +213,16 @@ class _DashBordScreenState extends State<DashBordScreen> {
                         child: Text("Vehicle Number", style: style)),
                     SizedBox(
                       width: 15,
-                      child: Text(":"),),
+                      child: Text(":"),
+                    ),
                     Expanded(
                         flex: flexright,
-                        child: Text("${model.data!.vechileNo!.trim()}", style: style,
+                        child: Text(
+                          "${model.data!.vechileNo!.trim()}",
+                          style: style,
                         ))
                   ],
                 ),
-
                 SizedBox(
                   height: 10,
                 ),
@@ -213,7 +233,8 @@ class _DashBordScreenState extends State<DashBordScreen> {
                         child: Text("Driver Name", style: style)),
                     SizedBox(
                       width: 15,
-                      child: Text(":"),),
+                      child: Text(":"),
+                    ),
                     Expanded(
                         flex: flexright,
                         child: Text(
@@ -232,7 +253,8 @@ class _DashBordScreenState extends State<DashBordScreen> {
                         child: Text("Driver Phno", style: style)),
                     SizedBox(
                       width: 15,
-                      child: Text(":"),),
+                      child: Text(":"),
+                    ),
                     Expanded(
                         flex: flexright,
                         child: Text(
@@ -250,7 +272,8 @@ class _DashBordScreenState extends State<DashBordScreen> {
                         flex: flexleft, child: Text("Address", style: style)),
                     SizedBox(
                       width: 15,
-                      child: Text(":"),),
+                      child: Text(":"),
+                    ),
                     Expanded(
                         flex: flexright,
                         child: Text(
@@ -265,11 +288,11 @@ class _DashBordScreenState extends State<DashBordScreen> {
                 Row(
                   children: [
                     Expanded(
-                        flex: flexleft,
-                        child: Text("Landmark", style: style)),
+                        flex: flexleft, child: Text("Landmark", style: style)),
                     SizedBox(
                       width: 15,
-                      child: Text(":"),),
+                      child: Text(":"),
+                    ),
                     Expanded(
                         flex: flexright,
                         child: Text(
@@ -283,11 +306,11 @@ class _DashBordScreenState extends State<DashBordScreen> {
                 ),
                 Row(
                   children: [
-                    Expanded(
-                        flex: flexleft, child: Text("Ward", style: style)),
+                    Expanded(flex: flexleft, child: Text("Ward", style: style)),
                     SizedBox(
                       width: 15,
-                      child: Text(":"),),
+                      child: Text(":"),
+                    ),
                     Expanded(
                         flex: flexright,
                         child: Text(
@@ -302,11 +325,11 @@ class _DashBordScreenState extends State<DashBordScreen> {
                 Row(
                   children: [
                     Expanded(
-                        flex: flexleft,
-                        child: Text("Circle", style: style)),
+                        flex: flexleft, child: Text("Circle", style: style)),
                     SizedBox(
                       width: 15,
-                      child: Text(":"),),
+                      child: Text(":"),
+                    ),
                     Expanded(
                         flex: flexright,
                         child: Text(
@@ -325,7 +348,8 @@ class _DashBordScreenState extends State<DashBordScreen> {
                         child: Text("Created On", style: style)),
                     SizedBox(
                       width: 15,
-                      child: Text(":"),),
+                      child: Text(":"),
+                    ),
                     Expanded(
                         flex: flexright,
                         child: Text(
@@ -339,11 +363,11 @@ class _DashBordScreenState extends State<DashBordScreen> {
                 ),
                 Row(
                   children: [
-                    Expanded(
-                        flex: flexleft, child: Text("Zone", style: style)),
+                    Expanded(flex: flexleft, child: Text("Zone", style: style)),
                     SizedBox(
                       width: 15,
-                      child: Text(":"),),
+                      child: Text(":"),
+                    ),
                     Expanded(
                         flex: flexright,
                         child: Text(
@@ -355,29 +379,60 @@ class _DashBordScreenState extends State<DashBordScreen> {
                 SizedBox(
                   height: 25,
                 ),
-
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     Navigator.pop(context);
                   },
                   child: Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.2),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.2),
                     child: Container(
                       padding: EdgeInsets.all(10),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           color: Colors.green[800],
-                          borderRadius: BorderRadius.circular(30)), // Make rounded corner
-                      child: Text("Done",style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold),),
+                          borderRadius: BorderRadius.circular(30)),
+                      // Make rounded corner
+                      child: Text(
+                        "Done",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),
-                  SizedBox(height: 25,)
-
+                SizedBox(
+                  height: 25,
+                )
               ]),
         ),
       ),
     );
     showDialog(context: context, builder: (BuildContext context) => leadDialog);
   }
+
+  // step 2.1 qr
+  justDialog(
+    ApiResponse? model,
+  ) {
+    if (model!.status == 200)
+      showSuccessDialog(DriverDataModel.fromJson(model.completeResponse ?? ""));
+    setState(() {});
+  }
+
+  // step 2.2 qr
+  showTransferScreen(ApiResponse? model, String qrdata) {
+    if (model!.status == 200)
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (ctx) => TransferStation(
+                    model:
+                        DriverDataModel.fromJson(model.completeResponse ?? ""),
+                    scanid: qrdata,
+                  )));
+  }
 }
+// todo add validation for jpg and png

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ghmc/authenticationDBHelperClass.dart';
 import 'package:ghmc/dashBordScreen.dart';
+import 'package:ghmc/globals/constants.dart';
 import 'package:ghmc/provider/login_provider.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -20,6 +21,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   LoginProvider? _instance;
+  bool obsecure=true;
   @override
   Widget build(BuildContext context) {
      _instance =LoginProvider.getInstance(context);
@@ -31,8 +33,11 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget _buildBody(BuildContext context) {
 
-    _emailController.text="8328473790";
-    _passwordController.text="8328473790";
+    if(mode==modes.testing){
+      _emailController.text="TSM-Jiyaguda";
+      _passwordController.text="123456789";
+    }
+
     return Stack(
       children: [
         Container(
@@ -65,7 +70,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             height: 18.0,
                           ),
                           Text(
-                            'LOGIN',
+                            'SIGN IN',
                             style: TextStyle(fontSize: 18.0),
                           ),
                           SizedBox(
@@ -78,7 +83,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               controller: _emailController,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText: 'Email',
+                                labelText: 'User Name',
                                 prefixIcon: Icon(Icons.account_circle_rounded),
                               ),
                               validator: (value) {
@@ -95,12 +100,24 @@ class _SignInScreenState extends State<SignInScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
                               controller: _passwordController,
-                              obscureText: true,
+                              obscureText: this.obsecure,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: 'Password',
+                                suffixIcon: InkWell(
+                                  onTap: (){
+                                setState(() {
+                                  this.obsecure=!this.obsecure;
+                                });
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(Icons.remove_red_eye),
+                                  ),
+                                ),
                                 prefixIcon: Icon(Icons.lock),
                               ),
+
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Please enter valid password';
