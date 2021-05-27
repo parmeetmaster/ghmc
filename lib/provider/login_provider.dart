@@ -1,4 +1,6 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:ghmc/api/api.dart';
 import 'package:ghmc/globals/constants.dart';
 import 'package:ghmc/globals/globals.dart';
@@ -36,25 +38,19 @@ class LoginProvider extends ChangeNotifier {
     Globals.userData = user!; // setting up user on login
     await SPreference().setString(login_credentials, user!.toRawJson())!;
 
- if(response.status==200){
-    if(user!=null){
-      user!.message!.showSnackbar(context);
-
-    }
+   "Login Successfully".showSnackbar(context);
    Navigator.pushReplacement(
      context,
      MaterialPageRoute(
-       builder: (context) => DashBordScreen(user),
+       builder: (context) => DashBordScreen(),
      ),
    );
- }
+
   }
 
   logout(context) async{
     Globals.userData = null;
   await  SPreference().clear();
-    Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
-
+    Phoenix.rebirth(context);
   }
 }

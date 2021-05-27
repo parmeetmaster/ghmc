@@ -4,6 +4,7 @@ import 'dart:io' show Platform;
 /*import 'package:barcode_scan2/barcode_scan2.dart';*/
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ghmc/api/api.dart';
@@ -21,18 +22,24 @@ import 'globals/globals.dart';
 import 'screens/Testscreens/test_screen.dart';
 import 'util/qrcode_screen.dart';
 
+enum WhatToDo { qrscan }
+
 class DashBordScreen extends StatefulWidget {
   CredentialsModel? credentialsModel;
 
-  DashBordScreen(this.credentialsModel, {Key? key}){
-    Globals.userData=credentialsModel;
+  dynamic operation;
+
+  DashBordScreen( {Key? key, dynamic? operaton=null}) {
+    credentialsModel= Globals.userData ;
+    this.operation = operaton;
   }
 
   @override
   _DashBordScreenState createState() => _DashBordScreenState();
 }
 
-class _DashBordScreenState extends State<DashBordScreen>    with SingleTickerProviderStateMixin {
+class _DashBordScreenState extends State<DashBordScreen>
+    with SingleTickerProviderStateMixin {
 /*  ScanResult? scanResult;
 
   final _flashOnController = TextEditingController(text: 'Flash on');
@@ -51,6 +58,7 @@ class _DashBordScreenState extends State<DashBordScreen>    with SingleTickerPro
   List<BarcodeFormat> selectedFormats = [..._possibleFormats];*/
   TabController? _tabController;
   int _activeIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -60,18 +68,29 @@ class _DashBordScreenState extends State<DashBordScreen>    with SingleTickerPro
       setState(() {});
     });*/
 
-    _tabController = TabController(
-    length: 2, vsync: this
-    );
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      print("WidgetsBinding");
+    });
 
+    // it call function when build is complete
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      if (widget.operation != null) {
+        if(widget.operation==WhatToDo.qrscan){
+          _scan();
+        }
+
+      }
+    });
+
+    _tabController = TabController(length: 2, vsync: this);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
-    int activetab;
+    // its for qr scan from multiple screens
 
+
+    int activetab;
 
 /*    final scanResult = this.scanResult;*/
     return MaterialApp(
@@ -112,7 +131,6 @@ class _DashBordScreenState extends State<DashBordScreen>    with SingleTickerPro
               ),
             ],
             bottom: TabBar(
-
               indicator: BoxDecoration(
                   border: Border(
                 left: BorderSide(color: Colors.white),
@@ -186,7 +204,6 @@ class _DashBordScreenState extends State<DashBordScreen>    with SingleTickerPro
   );
 
   showSuccessDialog(QrDataModel model) {
-
     Dialog leadDialog = Dialog(
       child: Container(
         width: 360.0,

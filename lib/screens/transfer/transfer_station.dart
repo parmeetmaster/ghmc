@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ghmc/api/api.dart';
+import 'package:ghmc/dashBordScreen.dart';
 import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/model/driver_data_model.dart';
 import 'dart:io';
@@ -12,6 +13,7 @@ import 'package:ghmc/util/utils.dart';
 import 'package:dio/dio.dart';
 import 'package:ghmc/provider/dash_board_provider.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
+import 'package:ghmc/widget/drawer.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:simple_logger/simple_logger.dart';
@@ -37,11 +39,16 @@ class _TransferStationState extends State<TransferStation> {
   bool isdomestic = true;
   bool iscommercial = false;
 
-  late Future<MultipartFile> multipart;
+  late Future<MultipartFile>? multipart;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: Drawer(
+        child: MainDrawer(),
+      ),
       appBar: AppBar(
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -56,7 +63,9 @@ class _TransferStationState extends State<TransferStation> {
         leading: IconButton(
           icon: const Icon(Icons.menu),
           tooltip: 'menu',
-          onPressed: () {},
+          onPressed: () {
+            _scaffoldKey.currentState!.openDrawer();
+          },
         ),
         title: Text(
             '${Globals.userData!.data!.firstName ?? ""} ${Globals.userData!.data!.lastName ?? ""}'),
@@ -68,7 +77,15 @@ class _TransferStationState extends State<TransferStation> {
           IconButton(
             icon: const Icon(Icons.qr_code),
             tooltip: 'Scan',
-            onPressed: _truck_loader,
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DashBordScreen(
+                            operaton: WhatToDo.qrscan,
+                          )),
+                  (route) => false);
+            },
           ),
         ],
       ),
@@ -127,7 +144,8 @@ class _TransferStationState extends State<TransferStation> {
                         height: gap,
                       ),
                       _getRowVehicleDetails(
-                          key: "Circle", value: "${widget.model!.data!.circle}"),
+                          key: "Circle",
+                          value: "${widget.model!.data!.circle}"),
                       SizedBox(
                         height: gap,
                       ),
@@ -293,6 +311,14 @@ class _TransferStationState extends State<TransferStation> {
                           topLeft: Radius.circular(20),
                           topRight: Radius.circular(20)),
                       child: Container(
+                        child: Center(
+                            child: Text(
+                          "Live Picture",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold),
+                        )),
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
@@ -317,57 +343,62 @@ class _TransferStationState extends State<TransferStation> {
                     InkWell(
                       onTap: () {
                         this.multipart = getMultiPartFromFile();
-
                       },
-                      child: capture_image==null ? Container(
-                        child: Center(
-                          child: Icon(
-                            Icons.camera_alt_outlined,
-                            size: 70,
-                          ),
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset:
-                                  Offset(0, 3), // changes position of shadow
+                      child: capture_image == null
+                          ? Container(
+                              child: Center(
+                                child: Icon(
+                                  Icons.camera_alt_outlined,
+                                  size: 70,
+                                ),
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              height: 200,
+                              width: 99,
+                            )
+                          : Container(
+                              child: Center(
+                                child: Image.file(
+                                  capture_image!,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              height: 200,
+                              width: 99,
                             ),
-                          ],
-                        ),
-                        height: 200,
-                        width: 99,
-                      ): Container(
-                        child: Center(
-                          child: Image.file(capture_image!,fit: BoxFit.cover,),
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset:
-                              Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        height: 200,
-                        width: 99,
-                      ),
                     ),
                   ],
                 )),
           ),
           InkWell(
             onTap: () async {
-              if(this.capture_image==null){
+              if (this.capture_image == null) {
                 "No image Selected".showSnackbar(context);
-                return;}
+                return;
+              }
               if (this.isdomestic == true) {
                 this.type_of_waste = 0;
               } else if (this.iscommercial == true) {
@@ -378,18 +409,17 @@ class _TransferStationState extends State<TransferStation> {
 
               MProgressIndicator.show(context);
 
-
-              MultipartFile file = await multipart;
-
-
-              DashBoardProvider.getInstance(context).uploadData(
-                  file,
+              await DashBoardProvider.getInstance(context).uploadData(
                   active_percent,
                   type_of_waste,
                   widget.model,
                   widget.scanid,
-                  multipart,
+                  multipart!,
                   context);
+              // remove images so user need to capture new image on upload
+              this.capture_image = null;
+              this.multipart = null;
+              setState(() {});
             },
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -496,9 +526,7 @@ class _TransferStationState extends State<TransferStation> {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
     final File? file = File(pickedFile!.path);
     this.capture_image = file;
-    setState(() {
-
-    });
+    setState(() {});
     return file;
   }
 }

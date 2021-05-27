@@ -20,6 +20,7 @@ class MainDrawer extends StatefulWidget {
 }
 
 class _MainDrawerState extends State<MainDrawer> {
+  AwesomeDialog? dialog;
   double drawer_item_text=15;
   @override
   Widget build(BuildContext context) {
@@ -179,19 +180,20 @@ class _MainDrawerState extends State<MainDrawer> {
                 style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {
-                AwesomeDialog(
+                 dialog=   AwesomeDialog(
                     context: context,
                     dialogType: DialogType.INFO,
                     animType: AnimType.BOTTOMSLIDE,
                     title: 'Logout',
                     desc: 'Do you really like to logout?',
                     btnCancelOnPress: () {
-                      Navigator.of(context,rootNavigator: true).pop();
+                     dialog!.dissmiss();
                     },
                   btnOkOnPress: () async{
                   await  LoginProvider.getInstance(context).logout(context);
-                    Navigator.of(context,rootNavigator: true).pop();
-                  },
+
+
+                    },
                 )..show();
 
 

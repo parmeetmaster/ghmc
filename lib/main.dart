@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:ghmc/provider/dash_board_provider.dart';
 import 'package:ghmc/provider/login_provider.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
@@ -21,7 +22,7 @@ void main() async {
 
 
     ],
-    child: MyApp(),
+    child: Phoenix(child: MyApp()),
   ));
 }
 

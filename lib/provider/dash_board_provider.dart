@@ -9,16 +9,11 @@ import 'package:ghmc/screens/success/success.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:ghmc/util/utils.dart';
-mixin Callabe<T> {
-  getInstances(T? provider, BuildContext context) {
-    if (context != null)
-      return Provider.of<T>(context);
-    else
-      return Provider.of<T>(context, listen: false);
-  }
-}
 
-class DashBoardProvider extends ChangeNotifier with Callabe {
+
+class DashBoardProvider extends ChangeNotifier  {
+  AwesomeDialog? dialog;
+
   static DashBoardProvider getInstance(BuildContext context) {
 
       return Provider.of<DashBoardProvider>(context, listen: false);
@@ -41,13 +36,12 @@ class DashBoardProvider extends ChangeNotifier with Callabe {
   }
 
 
-  void uploadData(MultipartFile file, int? active_percent, int? type_of_waste, QrDataModel? model, String? scanid, Future<MultipartFile> multipart, BuildContext context) async{
+   uploadData( int? active_percent, int? type_of_waste, QrDataModel? model, String? scanid, Future<MultipartFile> multipart, BuildContext context) async{
 
     if(multipart==null){
       "Please select file".showSnackbar(context);
       return;
     }
-
 
     MultipartFile? multipart2=await multipart;
     Response? responses;
@@ -66,15 +60,17 @@ class DashBoardProvider extends ChangeNotifier with Callabe {
  }
     MProgressIndicator.hide();
  if(responses!.statusCode==200)
-    AwesomeDialog(
+    dialog= AwesomeDialog(
       context: context,
       dialogType: DialogType.SUCCES,
       animType: AnimType.BOTTOMSLIDE,
       title: 'Upload Successful',
       desc: 'Your data is posted successfully',
       btnOkOnPress: () {
-        Navigator.pop(context);
+        dialog!.dissmiss();
+        //Navigator.of(context,rootNavigator: true);
       },
     )..show();
+
   }
 }

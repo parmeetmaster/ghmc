@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ghmc/authenticationDBHelperClass.dart';
@@ -24,7 +25,7 @@ class _SignInScreenState extends State<SignInScreen> {
   bool obsecure=true;
   @override
   Widget build(BuildContext context) {
-     _instance =LoginProvider.getInstance(context);
+     _instance =LoginProvider.getInståance(context);
 
     return Scaffold(
       body: _buildBody(context),
@@ -208,3 +209,4 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 }
+*/

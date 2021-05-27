@@ -198,12 +198,12 @@ class _AddDataPageState extends State<AddDataPage> {
                               height: 30,
                               minWidth: 200,
                               onPressed: () {
-                                Navigator.push(
+                                /*Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           (TransferStation()),
-                                    ));
+                                    ));*/
                               },
                               child: Text(
                                 'Transfer Station',

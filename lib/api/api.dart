@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/provider/login_provider.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -27,9 +28,9 @@ class ApiBase {
       _initialize();
     }
 
-    if(LoginProvider.user!=null){
+    if(Globals.userData!=null){
      dio!.options.headers.addAll({
-       "Authorization":LoginProvider.user!=null?"Bearer " +  LoginProvider.user!.data!.token!:""
+       "Authorization":"Bearer " +  Globals.userData!.data!.token!
      });
     }
 

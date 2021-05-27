@@ -6,6 +6,8 @@ import 'package:ghmc/screens/login/ghmc_loginpage.dart';
 class Globals {
   static CredentialsModel? userData;
 
+
+
   static CredentialsModel? getUserData() {
     return userData!;
   }

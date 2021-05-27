@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ghmc/globals/constants.dart';
+import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/model/credentials.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
 import 'package:ghmc/signInScreen.dart';
@@ -19,11 +20,12 @@ class _SplashScreenState extends State<SplashScreen> {
   checkuserLoggedIn() async {
     String? userdata = await SPreference().getString(login_credentials);
     if (userdata != null) {
+      Globals.userData=CredentialsModel.fromRawJson(userdata);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) =>
-              DashBordScreen(CredentialsModel.fromRawJson(userdata)),
+              DashBordScreen(),
         ),
       );
     } else {
