@@ -6,11 +6,15 @@ import 'package:ghmc/signInScreen.dart';
 import 'package:ghmc/splashScreen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:ghmc/util/share_preferences.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+
+
   runApp(MultiProvider(
     providers: [ChangeNotifierProvider(create: (ctx)=>LoginProvider()),
       ChangeNotifierProvider(create: (ctx)=>DashBoardProvider())

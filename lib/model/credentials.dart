@@ -84,3 +84,39 @@ class Data {
         "access": List<dynamic>.from(access!.map((x) => x)),
       };
 }
+
+////////////////////////////login error
+
+// To parse this JSON data, do
+//
+//     final loginError = loginErrorFromJson(jsonString);
+
+
+
+class LoginError {
+  LoginError({
+    this.success,
+    this.message,
+    this.data,
+  });
+
+  bool? success;
+  String? message;
+  List<dynamic>? data;
+
+  factory LoginError.fromRawJson(String str) => LoginError.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory LoginError.fromJson(Map<String, dynamic> json) => LoginError(
+    success: json["success"],
+    message: json["message"],
+    data: List<dynamic>.from(json["data"].map((x) => x)),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "success": success,
+    "message": message,
+    "data": List<dynamic>.from(data!.map((x) => x)),
+  };
+}

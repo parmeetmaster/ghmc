@@ -24,7 +24,9 @@ import 'util/qrcode_screen.dart';
 class DashBordScreen extends StatefulWidget {
   CredentialsModel? credentialsModel;
 
-  DashBordScreen(this.credentialsModel, {Key? key}) : super(key: key);
+  DashBordScreen(this.credentialsModel, {Key? key}){
+    Globals.userData=credentialsModel;
+  }
 
   @override
   _DashBordScreenState createState() => _DashBordScreenState();
@@ -120,13 +122,13 @@ class _DashBordScreenState extends State<DashBordScreen>    with SingleTickerPro
               tabs: [
                 Tab(
                   icon: Text(
-                    "Vehicle",
+                    "VEHICLES",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                 ),
                 Tab(
                   icon: Text(
-                    "Gvp/Bvp",
+                    "GVP / BEP",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                 ),

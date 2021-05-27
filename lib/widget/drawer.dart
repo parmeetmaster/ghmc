@@ -1,7 +1,9 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ghmc/globals/globals.dart';
+import 'package:ghmc/provider/login_provider.dart';
 import 'package:ghmc/screens/add_data/add_data_page.dart';
 import 'package:ghmc/screens/gvp_bvp/gvp_bvp.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
@@ -62,12 +64,12 @@ class _MainDrawerState extends State<MainDrawer> {
                     Text(
                       "${Globals.userData!.data!.firstName} ${Globals.userData!.data!.lastName??""}",
                       style:
-                      TextStyle(color: Color(0xFFAD801D9E), fontSize: 25),
+                      TextStyle(color: Color(0xFFAD801D9E), fontSize: 20),
                     ),
                     Text("${Globals.userData!.data!.mobileNumber??""}",
                         style: TextStyle(
                           color: Color(0xFFAD801D9E),
-                          fontSize: 25,
+                          fontSize: 20,
                         )),
                   ],
                 ),
@@ -136,7 +138,7 @@ class _MainDrawerState extends State<MainDrawer> {
                     ));
               },
             ),
-            ListTile(
+          /*  ListTile(
               leading: Icon(
                 Icons.notifications,
                 color: Colors.white,
@@ -165,7 +167,7 @@ class _MainDrawerState extends State<MainDrawer> {
                       builder: (context) => (SettingPage()),
                     ));
               },
-            ),
+            ),*/
             ListTile(
               leading: Icon(
                 Icons.power_settings_new,
@@ -177,8 +179,21 @@ class _MainDrawerState extends State<MainDrawer> {
                 style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {
-                Globals.userData=null;
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginPage()), (route) => false);
+                AwesomeDialog(
+                    context: context,
+                    dialogType: DialogType.INFO,
+                    animType: AnimType.BOTTOMSLIDE,
+                    title: 'Logout',
+                    desc: 'Do you really like to logout?',
+                    btnCancelOnPress: () {
+                      Navigator.of(context,rootNavigator: true).pop();
+                    },
+                  btnOkOnPress: () async{
+                  await  LoginProvider.getInstance(context).logout(context);
+                    Navigator.of(context,rootNavigator: true).pop();
+                  },
+                )..show();
+
 
               },
             ),

@@ -80,7 +80,7 @@ class ApiBase {
           message: (error.response?.data ?? {})['message']?.toString() ??
               error.message,
           result: (error.response?.data ?? {})['result'] ?? {},
-          status: error.response?.statusCode ?? Status.Failed);
+          status: error.response?.statusCode ?? Status.Failed,completeResponse: error.response?.data );
     } catch (error) {
       print(error);
       // rethrow;
