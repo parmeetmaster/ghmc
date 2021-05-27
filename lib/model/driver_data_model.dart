@@ -4,8 +4,8 @@
 
 import 'dart:convert';
 
-class DriverDataModel {
-  DriverDataModel({
+class QrDataModel {
+  QrDataModel({
     this.success,
     this.login,
     this.message,
@@ -17,11 +17,11 @@ class DriverDataModel {
   String? message;
   Data? data;
 
-  factory DriverDataModel.fromRawJson(String str) => DriverDataModel.fromJson(json.decode(str));
+  factory QrDataModel.fromRawJson(String str) => QrDataModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory DriverDataModel.fromJson(Map<String, dynamic> json) => DriverDataModel(
+  factory QrDataModel.fromJson(Map<String, dynamic> json) => QrDataModel(
     success: json["success"],
     login: json["login"],
     message: json["message"],
@@ -47,6 +47,7 @@ class Data {
     this.ward,
     this.circle,
     this.zone,
+    this.owner_type,
     this.createdDate,
   });
 
@@ -60,6 +61,7 @@ class Data {
   String? circle;
   String? zone;
   String? createdDate;
+  String? owner_type;
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 
@@ -75,6 +77,7 @@ class Data {
     ward: json["ward"],
     circle: json["circle"],
     zone: json["zone"],
+    owner_type: json["owner_type"],
     createdDate: json["created_date"],
   );
 
@@ -88,6 +91,7 @@ class Data {
     "ward": ward,
     "circle": circle,
     "zone": zone,
+    "owner_type": owner_type,
     "created_date": createdDate,
   };
 }

@@ -10,12 +10,15 @@ import 'package:ghmc/api/api.dart';
 import 'package:ghmc/model/credentials.dart';
 import 'package:ghmc/model/driver_data_model.dart';
 import 'package:ghmc/provider/dash_board_provider.dart';
+import 'package:ghmc/screens/add_vehicle/add_vehicle_page.dart';
+import 'package:ghmc/screens/gvp_bvp/gvp_bvp.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
 import 'package:ghmc/userDataScreen.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:ghmc/widget/drawer.dart';
 
 import 'globals/globals.dart';
+import 'screens/Testscreens/test_screen.dart';
 import 'util/qrcode_screen.dart';
 
 class DashBordScreen extends StatefulWidget {
@@ -27,7 +30,7 @@ class DashBordScreen extends StatefulWidget {
   _DashBordScreenState createState() => _DashBordScreenState();
 }
 
-class _DashBordScreenState extends State<DashBordScreen> {
+class _DashBordScreenState extends State<DashBordScreen>    with SingleTickerProviderStateMixin {
 /*  ScanResult? scanResult;
 
   final _flashOnController = TextEditingController(text: 'Flash on');
@@ -44,7 +47,8 @@ class _DashBordScreenState extends State<DashBordScreen> {
     ..removeWhere((e) => e == BarcodeFormat.unknown);
 
   List<BarcodeFormat> selectedFormats = [..._possibleFormats];*/
-
+  TabController? _tabController;
+  int _activeIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -53,77 +57,94 @@ class _DashBordScreenState extends State<DashBordScreen> {
       _numberOfCameras = await BarcodeScanner.numberOfCameras;
       setState(() {});
     });*/
+
+    _tabController = TabController(
+    length: 2, vsync: this
+    );
+
   }
+
+
 
   @override
   Widget build(BuildContext context) {
+    int activetab;
+
+
 /*    final scanResult = this.scanResult;*/
     return MaterialApp(
-      home: Scaffold(
-        drawer: Drawer(
-          child: MainDrawer(),
-        ),
-        appBar: AppBar(
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: <Color>[
-                  Color(0xFF9C27B0),
-                  Color(0xFFF06292),
-                  Color(0xFFFF5277),
-                ],
+      home: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          drawer: Drawer(
+            child: MainDrawer(),
+          ),
+          appBar: AppBar(
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: <Color>[
+                    Color(0xFF9C27B0),
+                    Color(0xFFF06292),
+                    Color(0xFFFF5277),
+                  ],
+                ),
               ),
             ),
-          ),
-          /*    leading: IconButton(
-            icon: const Icon(Icons.menu),
-            tooltip: 'menu',
-            onPressed: () {},
-          ),*/
-          title: const Text('Dash Board'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.map),
-              tooltip: 'map',
+            /*    leading: IconButton(
+              icon: const Icon(Icons.menu),
+              tooltip: 'menu',
               onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(Icons.qr_code_scanner_rounded),
-              tooltip: 'Scan',
-              onPressed: _scan,
-            ),
-          ],
-          bottom: TabBar(
-            tabs: [
-              Tab(icon: Icon(Icons.directions_car)),
-              Tab(icon: Icon(Icons.directions_bike)),
+            ),*/
+            title: const Text('Dash Board'),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.map),
+                tooltip: 'map',
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: const Icon(Icons.qr_code_scanner_rounded),
+                tooltip: 'Scan',
+                onPressed: _scan,
+              ),
             ],
+            bottom: TabBar(
+
+              indicator: BoxDecoration(
+                  border: Border(
+                left: BorderSide(color: Colors.white),
+                // provides to left side
+                right: BorderSide(color: Colors.white), // for right side
+              )),
+              tabs: [
+                Tab(
+                  icon: Text(
+                    "Vehicle",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                ),
+                Tab(
+                  icon: Text(
+                    "Gvp/Bvp",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                ),
+              ],
+            ),
           ),
+          body: _buildBody(),
         ),
-        body: _buildBody(),
       ),
     );
   }
 
   Widget _buildBody() {
-    return Center(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TextButton(
-                child: Text('Vehicle'),
-                onPressed: () {},
-              ),
-              TextButton(
-                child: Text('GVP/BEP'),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ],
-      ),
+    return TabBarView(
+      children: [
+        TestScreen(),
+        TestScreen(),
+      ],
     );
   }
 
@@ -133,8 +154,19 @@ class _DashBordScreenState extends State<DashBordScreen> {
     print("QR DATA IS : $qrdata");
     print(qrdata);
     MProgressIndicator.show(context);
-    ApiResponse? model = await DashBoardProvider.getInstance(context)
-        .getDriverData(widget.credentialsModel!.data!.userId!, qrdata);
+    ApiResponse? model;
+
+    if (Globals.userData!.data!.department_id == "3") {
+      // if user is admin
+      model = await DashBoardProvider.getInstance(context)
+          .getDriverData(widget.credentialsModel!.data!.userId!, qrdata);
+    } else if (Globals.userData!.data!.department_id == "4") {
+      // if user is transfer manager
+      model = await DashBoardProvider.getInstance(context)
+          .getTransferStationManager(
+              widget.credentialsModel!.data!.userId!, qrdata);
+    }
+
     MProgressIndicator.hide();
 
     // check user for attendence
@@ -151,7 +183,8 @@ class _DashBordScreenState extends State<DashBordScreen> {
     fontSize: 16,
   );
 
-  showSuccessDialog(DriverDataModel model) {
+  showSuccessDialog(QrDataModel model) {
+
     Dialog leadDialog = Dialog(
       child: Container(
         width: 360.0,
@@ -381,7 +414,7 @@ class _DashBordScreenState extends State<DashBordScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.of(context, rootNavigator: true).pop();
                   },
                   child: Padding(
                     padding: EdgeInsets.symmetric(
@@ -410,6 +443,7 @@ class _DashBordScreenState extends State<DashBordScreen> {
         ),
       ),
     );
+
     showDialog(context: context, builder: (BuildContext context) => leadDialog);
   }
 
@@ -418,7 +452,7 @@ class _DashBordScreenState extends State<DashBordScreen> {
     ApiResponse? model,
   ) {
     if (model!.status == 200)
-      showSuccessDialog(DriverDataModel.fromJson(model.completeResponse ?? ""));
+      showSuccessDialog(QrDataModel.fromJson(model.completeResponse ?? ""));
     setState(() {});
   }
 
@@ -429,8 +463,7 @@ class _DashBordScreenState extends State<DashBordScreen> {
           context,
           MaterialPageRoute(
               builder: (ctx) => TransferStation(
-                    model:
-                        DriverDataModel.fromJson(model.completeResponse ?? ""),
+                    model: QrDataModel.fromJson(model.completeResponse ?? ""),
                     scanid: qrdata,
                   )));
   }

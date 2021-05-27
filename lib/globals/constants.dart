@@ -15,4 +15,4 @@ List<Color> btn_grid=[
 ];
 
 enum modes{testing,release}
-dynamic mode=modes.testing;
+dynamic mode=modes.release;

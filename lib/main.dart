@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ghmc/provider/dash_board_provider.dart';
 import 'package:ghmc/provider/login_provider.dart';
+import 'package:ghmc/screens/login/ghmc_loginpage.dart';
 import 'package:ghmc/signInScreen.dart';
 import 'package:ghmc/splashScreen.dart';
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => SplashScreen(),
-        '/signIn': (context) => SignInScreen(),
+        '/signIn': (context) => LoginPage(),
       },
     );
   }

@@ -5,20 +5,22 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ghmc/api/api.dart';
+import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/model/driver_data_model.dart';
 import 'dart:io';
-
+import 'package:ghmc/util/utils.dart';
 import 'package:dio/dio.dart';
 import 'package:ghmc/provider/dash_board_provider.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:simple_logger/simple_logger.dart';
 
 class TransferStation extends StatefulWidget {
-  DriverDataModel? model;
+  QrDataModel? model;
   String? scanid;
 
-  TransferStation({DriverDataModel? model, String? scanid, Key? key}) {
+  TransferStation({QrDataModel? model, String? scanid, Key? key}) {
     this.model = model;
     this.scanid = scanid;
   }
@@ -30,8 +32,10 @@ class TransferStation extends StatefulWidget {
 class _TransferStationState extends State<TransferStation> {
   double gap = 10;
   int? active_percent = 25;
-
+  File? capture_image = null;
   int? type_of_waste = 0;
+  bool isdomestic = true;
+  bool iscommercial = false;
 
   late Future<MultipartFile> multipart;
 
@@ -43,9 +47,8 @@ class _TransferStationState extends State<TransferStation> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: <Color>[
-                Color(0xFF9C27B0),
-                Color(0xFFF06292),
-                Color(0xFFFF5277),
+                Color(0xFFAD1457),
+                Color(0xFFAD801D9E),
               ],
             ),
           ),
@@ -55,7 +58,8 @@ class _TransferStationState extends State<TransferStation> {
           tooltip: 'menu',
           onPressed: () {},
         ),
-        title: const Text('Transfer Station'),
+        title: Text(
+            '${Globals.userData!.data!.firstName ?? ""} ${Globals.userData!.data!.lastName ?? ""}'),
         actions: [
           Image.asset("assets/truck.png"),
           SizedBox(
@@ -72,82 +76,90 @@ class _TransferStationState extends State<TransferStation> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-            child: Card(
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  children: [
-                    _getRowVehicleDetails(key: "Owner Type", value: ""),
-                    SizedBox(
-                      height: gap,
-                    ),
-                    _getRowVehicleDetails(
-                        key: "Vehicle Type",
-                        value: "${widget.model!.data!.vechileType}"),
-                    SizedBox(
-                      height: gap,
-                    ),
-                    _getRowVehicleDetails(
-                        key: "Vehicle Number",
-                        value: "${widget.model!.data!.vechileNo}"),
-                    SizedBox(
-                      height: gap,
-                    ),
-                    _getRowVehicleDetails(
-                        key: "Drive Name",
-                        value: "${widget.model!.data!.driverName}"),
-                    SizedBox(
-                      height: gap,
-                    ),
-                    _getRowVehicleDetails(
-                        key: "Driver Number",
-                        value: "${widget.model!.data!.driverNo}"),
-                    SizedBox(
-                      height: gap,
-                    ),
-                    _getRowVehicleDetails(
-                        key: "Landmark",
-                        value: "${widget.model!.data!.landmark}"),
-                    SizedBox(
-                      height: gap,
-                    ),
-                    _getRowVehicleDetails(
-                        key: "Ward", value: "${widget.model!.data!.ward}"),
-                    SizedBox(
-                      height: gap,
-                    ),
-                    _getRowVehicleDetails(
-                        key: "Circle", value: "${widget.model!.data!.circle}"),
-                    SizedBox(
-                      height: gap,
-                    ),
-                    _getRowVehicleDetails(
-                        key: "Zone", value: "${widget.model!.data!.zone}"),
-                  ],
+            child: Container(
+              child: Card(
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      _getRowVehicleDetails(
+                          key: "Owner Type",
+                          value: "${widget.model!.data!.owner_type}"),
+                      SizedBox(
+                        height: gap,
+                      ),
+                      _getRowVehicleDetails(
+                          key: "Vehicle Type",
+                          value: "${widget.model!.data!.vechileType}"),
+                      SizedBox(
+                        height: gap,
+                      ),
+                      _getRowVehicleDetails(
+                          key: "Vehicle Number",
+                          value: "${widget.model!.data!.vechileNo}"),
+                      SizedBox(
+                        height: gap,
+                      ),
+                      _getRowVehicleDetails(
+                          key: "Drive Name",
+                          value: "${widget.model!.data!.driverName}"),
+                      SizedBox(
+                        height: gap,
+                      ),
+                      _getRowVehicleDetails(
+                          key: "Driver Number",
+                          value: "${widget.model!.data!.driverNo}"),
+                      SizedBox(
+                        height: gap,
+                      ),
+                      _getRowVehicleDetails(
+                          key: "Landmark",
+                          value: "${widget.model!.data!.landmark}"),
+                      SizedBox(
+                        height: gap,
+                      ),
+                      _getRowVehicleDetails(
+                          key: "Ward", value: "${widget.model!.data!.ward}"),
+                      SizedBox(
+                        height: gap,
+                      ),
+                      _getRowVehicleDetails(
+                          key: "Circle", value: "${widget.model!.data!.circle}"),
+                      SizedBox(
+                        height: gap,
+                      ),
+                      _getRowVehicleDetails(
+                          key: "Zone", value: "${widget.model!.data!.zone}"),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-          Container(
-            child: Center(
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * .06,
+            ),
+            child: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        Color(0xFFAD1457),
+                        Color(0xFFAD801D9E),
+                      ]),
+                  borderRadius: BorderRadius.circular(15.0)),
+              child: Center(
                 child: Text(
-              "Percentage of Waste",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
-            )),
-            height: 50,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: <Color>[
-                  Color(0xFF9C27B0),
-                  Color(0xFFF06292),
-                  Color(0xFFFF5277),
-                ],
+                  "Type of Waste",
+                  style: TextStyle(color: Colors.white, fontSize: 25),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
           ),
@@ -166,23 +178,27 @@ class _TransferStationState extends State<TransferStation> {
           SizedBox(
             height: 20,
           ),
-          Container(
-            child: Center(
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * .06,
+            ),
+            child: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        Color(0xFFAD1457),
+                        Color(0xFFAD801D9E),
+                      ]),
+                  borderRadius: BorderRadius.circular(15.0)),
+              child: Center(
                 child: Text(
-              "Type of Waste",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
-            )),
-            height: 50,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: <Color>[
-                  Color(0xFF9C27B0),
-                  Color(0xFFF06292),
-                  Color(0xFFFF5277),
-                ],
+                  "Percentage Of Waste",
+                  style: TextStyle(color: Colors.white, fontSize: 25),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
           ),
@@ -192,32 +208,74 @@ class _TransferStationState extends State<TransferStation> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              OutlineButton(
-                onPressed: () {
-                  setState(() {
-                    this.type_of_waste = 0;
-                  });
-                },
-                borderSide: BorderSide(
-                    color: type_of_waste == 0
-                        ? Color(0xFF5FD548)
-                        : Color(0xFF9C27B0)),
-                shape: StadiumBorder(),
-                child: const Text("Domestic"),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: InkWell(
+                  onTap: () {
+                    this.isdomestic = !this.isdomestic;
+                    setState(() {});
+                  },
+                  child: Container(
+                    padding:
+                        EdgeInsets.only(top: 10, right: 8, left: 8, bottom: 10),
+                    decoration: BoxDecoration(
+                        color: this.isdomestic == true
+                            ? Colors.pink
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(20.0),
+                        border: Border.all(
+                            width: 2,
+                            color: this.isdomestic == true
+                                ? Color(0xFF5FD548)
+                                : Color(0xFF9C27B0))),
+                    child: Center(
+                      child: Text(
+                        "Domestic",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: this.isdomestic == true
+                                ? Colors.white
+                                : Colors.black87),
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              OutlineButton(
-                onPressed: () {
-                  setState(() {
-                    this.type_of_waste = 1;
-                  });
-                },
-                borderSide: BorderSide(
-                    color: type_of_waste == 1
-                        ? Color(0xFF5FD548)
-                        : Color(0xFF9C27B0)),
-                shape: StadiumBorder(),
-                child: const Text("Commercial"),
-              )
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: InkWell(
+                  onTap: () {
+                    this.iscommercial = !iscommercial;
+                    setState(() {});
+                  },
+                  child: Container(
+                    padding:
+                        EdgeInsets.only(top: 10, right: 8, left: 8, bottom: 10),
+                    decoration: BoxDecoration(
+                        color: this.iscommercial == true
+                            ? Colors.pink
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(20.0),
+                        border: Border.all(
+                            width: 2,
+                            color: this.iscommercial == true
+                                ? Color(0xFF5FD548)
+                                : Color(0xFF9C27B0))),
+                    child: Center(
+                      child: Text(
+                        "Commercial",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: this.iscommercial == true
+                                ? Colors.white
+                                : Colors.black87),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
           Padding(
@@ -247,9 +305,8 @@ class _TransferStationState extends State<TransferStation> {
                           ],
                           gradient: LinearGradient(
                             colors: <Color>[
-                              Color(0xFF9C27B0),
-                              Color(0xFFF06292),
-                              Color(0xFFFF5277),
+                              Color(0xFFAD1457),
+                              Color(0xFFAD801D9E),
                             ],
                           ),
                         ),
@@ -260,12 +317,13 @@ class _TransferStationState extends State<TransferStation> {
                     InkWell(
                       onTap: () {
                         this.multipart = getMultiPartFromFile();
+
                       },
-                      child: Container(
+                      child: capture_image==null ? Container(
                         child: Center(
                           child: Icon(
                             Icons.camera_alt_outlined,
-                            size: 100,
+                            size: 70,
                           ),
                         ),
                         decoration: BoxDecoration(
@@ -282,6 +340,24 @@ class _TransferStationState extends State<TransferStation> {
                         ),
                         height: 200,
                         width: 99,
+                      ): Container(
+                        child: Center(
+                          child: Image.file(capture_image!,fit: BoxFit.cover,),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset:
+                              Offset(0, 3), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        height: 200,
+                        width: 99,
                       ),
                     ),
                   ],
@@ -289,37 +365,44 @@ class _TransferStationState extends State<TransferStation> {
           ),
           InkWell(
             onTap: () async {
+              if(this.capture_image==null){
+                "No image Selected".showSnackbar(context);
+                return;}
+              if (this.isdomestic == true) {
+                this.type_of_waste = 0;
+              } else if (this.iscommercial == true) {
+                this.type_of_waste = 1;
+              } else if (this.isdomestic == true && this.iscommercial == true) {
+                this.type_of_waste = 2;
+              }
+
               MProgressIndicator.show(context);
+
+
               MultipartFile file = await multipart;
+
+
               DashBoardProvider.getInstance(context).uploadData(
                   file,
                   active_percent,
                   type_of_waste,
                   widget.model,
                   widget.scanid,
-                  multipart,context);
+                  multipart,
+                  context);
             },
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * .2),
               child: Container(
                 width: 200,
-                child: FlatButton(
-                    height: 30,
-                    minWidth: 100,
-                    onPressed: () async {
-                      MProgressIndicator.show(context);
-                      MultipartFile file = await multipart;
-                      DashBoardProvider.getInstance(context).uploadData(
-                          file,
-                          active_percent,
-                          type_of_waste,
-                          widget.model,
-                          widget.scanid,
-                          multipart,context);
-                    },
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                child: Container(
+                    height: 50,
+                    child: Center(
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
                     )),
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -389,9 +472,8 @@ class _TransferStationState extends State<TransferStation> {
                     Color(0xFF5BFF69),
                   ]
                 : [
-                    Color(0xFFFF5277),
-                    Color(0xFFF06292),
-                    Color(0xFF9C27B0),
+                    Color(0xFFAD1457),
+                    Color(0xFFAD801D9E),
                   ],
           ),
         ),
@@ -410,9 +492,13 @@ class _TransferStationState extends State<TransferStation> {
   }
 
   Future<File?> pickImage() async {
-    FilePickerResult? imgRes =
-        await FilePicker.platform.pickFiles(type: FileType.image);
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final File? file = File(pickedFile!.path);
+    this.capture_image = file;
+    setState(() {
 
-    return File(imgRes!.files[0].path!);
+    });
+    return file;
   }
 }

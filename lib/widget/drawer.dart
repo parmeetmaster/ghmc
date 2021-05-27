@@ -4,8 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/screens/add_data/add_data_page.dart';
 import 'package:ghmc/screens/gvp_bvp/gvp_bvp.dart';
+import 'package:ghmc/screens/login/ghmc_loginpage.dart';
 import 'package:ghmc/screens/settings/settings_page.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
+import 'package:ghmc/signInScreen.dart';
 import 'package:ghmc/util/utils.dart';
 
 class MainDrawer extends StatefulWidget {
@@ -16,6 +18,7 @@ class MainDrawer extends StatefulWidget {
 }
 
 class _MainDrawerState extends State<MainDrawer> {
+  double drawer_item_text=15;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -29,13 +32,13 @@ class _MainDrawerState extends State<MainDrawer> {
                 Color(0xFFAD801D9E),
               ],
             )),
-        child: Column(
+        child: ListView(
           children: [
             SizedBox(
               height: 30,
             ),
             Container(
-              height: 200,
+              height: 220,
               width: double.infinity,
               color: Colors.white,
               child: Center(
@@ -50,12 +53,12 @@ class _MainDrawerState extends State<MainDrawer> {
                         color: Colors.white,
                         image: DecorationImage(
                             image: AssetImage(
-                              "assets"
-                                  "/images/ThingstoDoinTelangana.jpg",
+                                  "assets/images/ThingstoDoinTelangana.jpg",
                             ),
                             fit: BoxFit.fill),
                       ),
                     ),
+                    SizedBox(height: 20,),
                     Text(
                       "${Globals.userData!.data!.firstName} ${Globals.userData!.data!.lastName??""}",
                       style:
@@ -70,6 +73,7 @@ class _MainDrawerState extends State<MainDrawer> {
                 ),
               ),
             ),
+            SizedBox(height: 20,),
             ListTile(
               leading: Icon(
                 Icons.home,
@@ -78,7 +82,7 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               title: Text(
                 "Home",
-                style: TextStyle(fontSize: 25, color: Colors.white),
+                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -92,7 +96,7 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               title: Text(
                 "Geo Tagging",
-                style: TextStyle(fontSize: 25, color: Colors.white),
+                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {},
             ),
@@ -104,7 +108,7 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               title: Text(
                 "Data Entry",
-                style: TextStyle(fontSize: 25, color: Colors.white),
+                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {
                 Navigator.push(
@@ -122,7 +126,7 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               title: Text(
                 "Add GVP/BEP",
-                style: TextStyle(fontSize: 25, color: Colors.white),
+                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {
                 Navigator.push(
@@ -140,7 +144,7 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               title: Text(
                 "Notifications",
-                style: TextStyle(fontSize: 25, color: Colors.white),
+                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {},
             ),
@@ -152,7 +156,7 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               title: Text(
                 "Settings",
-                style: TextStyle(fontSize: 25, color: Colors.white),
+                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {
                 Navigator.push(
@@ -170,9 +174,13 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               title: Text(
                 "LogOut",
-                style: TextStyle(fontSize: 25, color: Colors.white),
+                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
-              onTap: () {},
+              onTap: () {
+                Globals.userData=null;
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginPage()), (route) => false);
+
+              },
             ),
           ],
         ),

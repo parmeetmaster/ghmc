@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ghmc/screens/login/ghmc_loginpage.dart';
 import 'package:ghmc/signInScreen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,8 +19,8 @@ class _SplashScreenState extends State<SplashScreen> {
       Duration(seconds: 1),
       () => Navigator.pushReplacement(
         context,
-        CupertinoPageRoute(
-          builder: (context) => SignInScreen(),
+        MaterialPageRoute(
+          builder: (context) => LoginPage(),
         ),
       ),
     );

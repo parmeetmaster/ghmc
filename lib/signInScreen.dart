@@ -55,7 +55,7 @@ class _SignInScreenState extends State<SignInScreen> {
         Center(
           child: ListView(
             children: [
-              Image.asset('assets/GHMC.png'),
+              Image.asset('assets/ic_launcher.png'),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Card(
