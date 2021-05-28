@@ -12,12 +12,14 @@ import 'package:ghmc/model/credentials.dart';
 import 'package:ghmc/model/driver_data_model.dart';
 import 'package:ghmc/provider/dash_board_provider.dart';
 import 'package:ghmc/screens/add_vehicle/add_vehicle_page.dart';
+import 'package:ghmc/screens/errors/14_no_result_found.dart';
 import 'package:ghmc/screens/gvp_bvp/gvp_bvp.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
 import 'package:ghmc/userDataScreen.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:ghmc/util/qrcode_screen.dart';
 import 'package:ghmc/widget/drawer.dart';
+import 'util/utils.dart';
 
 import 'globals/globals.dart';
 import 'screens/Testscreens/test_screen.dart';
@@ -29,8 +31,8 @@ class DashBordScreen extends StatefulWidget {
 
   dynamic operation;
 
-  DashBordScreen( {Key? key, dynamic? operaton=null}) {
-    credentialsModel= Globals.userData ;
+  DashBordScreen({Key? key, dynamic? operaton = null}) {
+    credentialsModel = Globals.userData;
     this.operation = operaton;
   }
 
@@ -75,10 +77,9 @@ class _DashBordScreenState extends State<DashBordScreen>
     // it call function when build is complete
     SchedulerBinding.instance!.addPostFrameCallback((_) {
       if (widget.operation != null) {
-        if(widget.operation==WhatToDo.qrscan){
+        if (widget.operation == WhatToDo.qrscan) {
           _scan();
         }
-
       }
     });
 
@@ -88,7 +89,6 @@ class _DashBordScreenState extends State<DashBordScreen>
   @override
   Widget build(BuildContext context) {
     // its for qr scan from multiple screens
-
 
     int activetab;
 
@@ -172,19 +172,22 @@ class _DashBordScreenState extends State<DashBordScreen>
     String qrdata = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => QRScreen()));
     print("QR DATA IS : $qrdata");
-    print(qrdata);
     MProgressIndicator.show(context);
     ApiResponse? model;
-
     if (Globals.userData!.data!.department_id == "3") {
-      // if user is admin
+      //see if user is admin
       model = await DashBoardProvider.getInstance(context)
           .getDriverData(widget.credentialsModel!.data!.userId!, qrdata);
     } else if (Globals.userData!.data!.department_id == "4") {
-      // if user is transfer manager
+      //see if user is transfer manager
       model = await DashBoardProvider.getInstance(context)
           .getTransferStationManager(
               widget.credentialsModel!.data!.userId!, qrdata);
+    }
+    print(" here is data${model!.status}");
+    if (model.status != 200) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => NoResultFoundScreen()));
     }
 
     MProgressIndicator.hide();
@@ -315,7 +318,7 @@ class _DashBordScreenState extends State<DashBordScreen>
                         ))
                   ],
                 ),
-  /*              SizedBox(
+                /*              SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -396,8 +399,7 @@ class _DashBordScreenState extends State<DashBordScreen>
                 Row(
                   children: [
                     Expanded(
-                        flex: flexleft,
-                          child: Text("Scan Date", style: style)),
+                        flex: flexleft, child: Text("Scan Date", style: style)),
                     SizedBox(
                       width: 15,
                       child: Text(":"),
