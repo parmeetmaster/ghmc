@@ -9,7 +9,7 @@ import 'package:ghmc/screens/gvp_bvp/gvp_bvp.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
 import 'package:ghmc/screens/settings/settings_page.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
-import 'package:ghmc/signInScreen.dart';
+
 import 'package:ghmc/util/utils.dart';
 
 class MainDrawer extends StatefulWidget {
@@ -20,7 +20,7 @@ class MainDrawer extends StatefulWidget {
 }
 
 class _MainDrawerState extends State<MainDrawer> {
-  AwesomeDialog? dialog;
+  late AwesomeDialog dialog;
   double drawer_item_text=15;
   @override
   Widget build(BuildContext context) {
@@ -132,11 +132,11 @@ class _MainDrawerState extends State<MainDrawer> {
                 style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {
-                Navigator.push(
+              /*  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => (GvpBvpScreen()),
-                    ));
+                    ));*/
               },
             ),
           /*  ListTile(
@@ -187,7 +187,7 @@ class _MainDrawerState extends State<MainDrawer> {
                     title: 'Logout',
                     desc: 'Do you really like to logout?',
                     btnCancelOnPress: () {
-                     dialog!.dissmiss();
+                      Navigator.of(context,rootNavigator: true).pop();
                     },
                   btnOkOnPress: () async{
                   await  LoginProvider.getInstance(context).logout(context);

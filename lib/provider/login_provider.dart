@@ -6,6 +6,7 @@ import 'package:ghmc/globals/constants.dart';
 import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/model/credentials.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
+import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:ghmc/util/share_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:ghmc/util/utils.dart';
@@ -22,11 +23,14 @@ class LoginProvider extends ChangeNotifier {
   // call at time of input qr code
   performLogin(TextEditingController emailController,
       TextEditingController passwordController, BuildContext context) async {
+    MProgressIndicator.show(context);
+
     ApiResponse response = await ApiBase()
         .baseFunction(() => ApiBase().getInstance()!.post("/login", data: {
               "identity": emailController.text.toString(),
               "password": passwordController.text.toString(),
             }));
+    MProgressIndicator.hide();
     if (response.status != 200) {
       LoginError.fromJson(response.completeResponse)
           .message!
@@ -39,12 +43,16 @@ class LoginProvider extends ChangeNotifier {
     await SPreference().setString(login_credentials, user!.toRawJson())!;
 
    "Login Successfully".showSnackbar(context);
-   Navigator.pushReplacement(
-     context,
-     MaterialPageRoute(
-       builder: (context) => DashBordScreen(),
-     ),
-   );
+
+   Future.delayed(Duration(seconds: 1)).then((value){
+     Navigator.pushReplacement(
+       context,
+       MaterialPageRoute(
+         builder: (context) => DashBordScreen(),
+       ),
+     );
+
+   });
 
   }
 

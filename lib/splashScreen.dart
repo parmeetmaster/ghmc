@@ -6,7 +6,7 @@ import 'package:ghmc/globals/constants.dart';
 import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/model/credentials.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
-import 'package:ghmc/signInScreen.dart';
+
 import 'package:ghmc/util/share_preferences.dart';
 
 import 'dashBordScreen.dart';

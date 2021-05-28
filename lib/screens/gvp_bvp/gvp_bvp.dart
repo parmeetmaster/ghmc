@@ -18,7 +18,8 @@ class _GvpBvpScreenState extends State<GvpBvpScreen> {
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: grid,
+              colors: main_color,
+
             ),
           ),
         ),

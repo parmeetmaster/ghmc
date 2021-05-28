@@ -16,11 +16,11 @@ import 'package:ghmc/screens/gvp_bvp/gvp_bvp.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
 import 'package:ghmc/userDataScreen.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
+import 'package:ghmc/util/qrcode_screen.dart';
 import 'package:ghmc/widget/drawer.dart';
 
 import 'globals/globals.dart';
 import 'screens/Testscreens/test_screen.dart';
-import 'util/qrcode_screen.dart';
 
 enum WhatToDo { qrscan }
 
@@ -315,7 +315,7 @@ class _DashBordScreenState extends State<DashBordScreen>
                         ))
                   ],
                 ),
-                SizedBox(
+  /*              SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -333,7 +333,7 @@ class _DashBordScreenState extends State<DashBordScreen>
                           style: style,
                         ))
                   ],
-                ),
+                ),*/
                 SizedBox(
                   height: 10,
                 ),
@@ -397,7 +397,7 @@ class _DashBordScreenState extends State<DashBordScreen>
                   children: [
                     Expanded(
                         flex: flexleft,
-                        child: Text("Created On", style: style)),
+                          child: Text("Scan Date", style: style)),
                     SizedBox(
                       width: 15,
                       child: Text(":"),
