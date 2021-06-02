@@ -174,11 +174,11 @@ class _DashBordScreenState extends State<DashBordScreen>
     print("QR DATA IS : $qrdata");
     MProgressIndicator.show(context);
     ApiResponse? model;
-    if (Globals.userData!.data!.department_id == "3") {
+    if (Globals.userData!.data!.departmentId == "3") {
       //see if user is admin
       model = await DashBoardProvider.getInstance(context)
           .getDriverData(widget.credentialsModel!.data!.userId!, qrdata);
-    } else if (Globals.userData!.data!.department_id == "4") {
+    } else if (Globals.userData!.data!.departmentId == "4") {
       //see if user is transfer manager
       model = await DashBoardProvider.getInstance(context)
           .getTransferStationManager(
@@ -193,9 +193,9 @@ class _DashBordScreenState extends State<DashBordScreen>
     MProgressIndicator.hide();
 
     // check user for attendence
-    if (Globals.getUserData()!.data!.department_id == "3") {
+    if (Globals.getUserData()!.data!.departmentId == "3") {
       justDialog(model);
-    } else if (Globals.getUserData()!.data!.department_id == "4") {
+    } else if (Globals.getUserData()!.data!.departmentId == "4") {
       showTransferScreen(model, qrdata);
     }
   }

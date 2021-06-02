@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:ghmc/provider/add_vehicle/add_vehicle.dart';
 import 'package:ghmc/provider/dash_board_provider.dart';
 import 'package:ghmc/provider/login_provider.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
@@ -16,7 +17,8 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (ctx) => LoginProvider()),
-      ChangeNotifierProvider(create: (ctx) => DashBoardProvider())
+      ChangeNotifierProvider(create: (ctx) => DashBoardProvider()),
+      ChangeNotifierProvider(create: (ctx) => AddVehicleProvider()),
     ],
     child: Phoenix(child: MyApp()),
   ));
@@ -36,3 +38,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+// todo working start from owner type test pending
