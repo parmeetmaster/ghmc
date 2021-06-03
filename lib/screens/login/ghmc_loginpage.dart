@@ -28,8 +28,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     _instance = LoginProvider.getInstance(context);
     if (modes.testing == mode) {
-      _emailController.text = "TSM-Jiyaguda";
-      _passwordController.text = "123456789";
+      _emailController.text = "7569484271";
+      _passwordController.text = "7569484271";
     }
     return Scaffold(
       body: SingleChildScrollView(

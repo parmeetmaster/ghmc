@@ -14,18 +14,18 @@ class CardSeperateRow extends StatelessWidget {
           flex: 3,
           child: Text(
             "${keyval}",
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(fontSize: 18),
           ),
         ),
         SizedBox(
           width: 15,
-          child: Text(":", style: TextStyle(fontSize: 25)),
+          child: Text(":", style: TextStyle(fontSize: 22)),
         ),
         Expanded(
           flex: 5,
           child: Text(
             "${value??""}",
-            style: TextStyle(fontSize: 25),
+            style: TextStyle(fontSize: 18),
           ),
         ),
       ],

@@ -31,7 +31,13 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   OwnerTypeDataItem? selectedOwnerType;
   TransferTypeDataItem? selectedTransferType;
   VehicleTypeDataItem? selectedVehicle;
-  MultipartFile? vehicle_image;
+    MultipartFile? vehicle_image;
+
+  TextEditingController registration_number = new TextEditingController();
+  TextEditingController driver_name = new TextEditingController();
+  TextEditingController phone_number = new TextEditingController();
+
+  int textsize=18;
 
   @override
   Widget build(BuildContext context) {
@@ -100,281 +106,322 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                         CardSeperateRow("Ward", widget.access.ward),
                         CardSeperateRow("Circle", widget.access.circle),
                         CardSeperateRow("Zone", widget.access.zone),
-                        CardSeperateRow("City", ""),
+                      //  CardSeperateRow("City", ""),
                       ],
                     ),
                   ),
                 ),
               ),
-              Column(
-                children: [
-                  Container(
-                    height: 40,
-                    width: 350,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black12,
-                        ),
-                        borderRadius: BorderRadius.circular(8.0)),
-                    child: DropdownButton(
-                      isExpanded: true,
-                      //value: selectedOwnerType,
-                      onChanged: (value) {
-                        selectedOwnerType = value as OwnerTypeDataItem;
-                        setState(() {});
-                      },
-                      items: ownerTypeModel!.data!
-                          .map((e) => DropdownMenuItem<OwnerTypeDataItem>(
-                                value: e,
-                                child: Text("${e.name}"),
-                              ))
-                          .toList(),
-                      underline: Container(
-                        color: Colors.transparent,
-                      ),
-                      icon: Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.black,
-                        size: 40,
-                      ),
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                      ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical:10,horizontal: 25),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Container(
+                        height: 40,
 
-                      hint: Center(
-                        child: Text(
-                          selectedOwnerType == null
-                              ? "Owner Type"
-                              : "${selectedOwnerType!.name}",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black12,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0)),
+                        child: DropdownButton(
+                          isExpanded: true,
+                          //value: selectedOwnerType,
+                          onChanged: (value) {
+                            selectedOwnerType = value as OwnerTypeDataItem;
+                            setState(() {});
+                          },
+
+                          items: ownerTypeModel!.data!
+                              .map((e) => DropdownMenuItem<OwnerTypeDataItem>(
+                            value: e,
+                            child: Text("${e.name}"),
+                          ))
+                              .toList(),
+                          underline: Container(
+                            color: Colors.transparent,
+                          ),
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black,
+                            size: 40,
+                          ),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          ),
+
+                          hint: Center(
+                            child: Text(
+                              selectedOwnerType == null
+                                  ? "Owner Type"
+                                  : "${selectedOwnerType!.name}",
+                              style: TextStyle(color: Colors.black, fontSize: 20),
+                            ),
+                          ),
+                          onTap: () {},
                         ),
                       ),
-                      onTap: () {},
                     ),
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Container(
-                    height: 40,
-                    width: 350,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black12,
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Container(
+                        height: 40,
+
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black12,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0)),
+                        child: DropdownButton(
+                          isExpanded: true,
+                          onChanged: (value) {
+                            selectedVehicle = value! as VehicleTypeDataItem;
+                            setState(() {});
+                          },
+                          items: vehicleTypeModel!.data!
+                              .map((e) => DropdownMenuItem<VehicleTypeDataItem>(
+                                    value: e,
+                                    child: Text("${e.name}"),
+                                  ))
+                              .toList(),
+                          underline: Container(
+                            color: Colors.transparent,
+                          ),
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black,
+                            size: 40,
+                          ),
+                          hint: Center(
+                            child: Text(
+                              this.selectedVehicle == null
+                                  ? "Vehicle Type"
+                                  : "${this.selectedVehicle!.name}",
+                              style: TextStyle(color: Colors.black, fontSize: 18),
+                            ),
+                          ),
+                          onTap: () {},
                         ),
-                        borderRadius: BorderRadius.circular(8.0)),
-                    child: DropdownButton(
-                      isExpanded: true,
-                      onChanged: (value) {
-                        selectedVehicle = value! as VehicleTypeDataItem;
-                        setState(() {});
-                      },
-                      items: vehicleTypeModel!.data!
-                          .map((e) => DropdownMenuItem<VehicleTypeDataItem>(
-                                value: e,
-                                child: Text("${e.name}"),
-                              ))
-                          .toList(),
-                      underline: Container(
-                        color: Colors.transparent,
                       ),
-                      icon: Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.black,
-                        size: 40,
-                      ),
-                      hint: Center(
-                        child: Text(
-                          this.selectedVehicle == null
-                              ? "Vehicle Type"
-                              : "${this.selectedVehicle!.name}",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                    SizedBox(
+                      height: 2,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Container(
+                        height: 40,
+                        child: TextField(
+                          controller: registration_number,
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black12),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8.0)),
+                                borderSide: BorderSide(
+                                  color: Colors.black12,
+                                ),
+                              ),
+                              hintText: 'Vehicles Reg Number',
+                              hintStyle:
+                                  TextStyle(fontSize: 20, color: Colors.black)),
                         ),
                       ),
-                      onTap: () {},
                     ),
-                  ),
-                  SizedBox(
-                    height: 2,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      height: 40,
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                            contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black12),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Container(
+                        height: 40,
+                        child: TextField(
+                          controller: this.driver_name,
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black12),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              enabledBorder: OutlineInputBorder(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(8.0))),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8.0)),
-                              borderSide: BorderSide(
-                                color: Colors.black12,
+                                    BorderRadius.all(Radius.circular(8.0)),
+                                borderSide: BorderSide(
+                                  color: Colors.black12,
+                                ),
                               ),
-                            ),
-                            hintText: 'Vehicles Reg Number',
-                            hintStyle:
-                                TextStyle(fontSize: 20, color: Colors.black)),
+                              hintText: 'Driver Name',
+                              hintStyle:
+                                  TextStyle(fontSize: 20, color: Colors.black)),
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      height: 40,
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                            contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black12),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Container(
+                        height: 40,
+                        child: TextField(
+                          controller: this.phone_number,
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black12),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              enabledBorder: OutlineInputBorder(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(8.0))),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8.0)),
-                              borderSide: BorderSide(
-                                color: Colors.black12,
+                                    BorderRadius.all(Radius.circular(8.0)),
+                                borderSide: BorderSide(
+                                  color: Colors.black12,
+                                ),
                               ),
-                            ),
-                            hintText: 'Driver Name',
-                            hintStyle:
-                                TextStyle(fontSize: 20, color: Colors.black)),
+                              hintText: 'Driver Mobile Number',
+                              hintStyle:
+                                  TextStyle(fontSize: 20, color: Colors.black)),
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      height: 40,
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                            contentPadding: EdgeInsets.fromLTRB(4, 0, 4, 0),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black12),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8.0))),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8.0)),
-                              borderSide: BorderSide(
-                                color: Colors.black12,
-                              ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Container(
+                        height: 40,
+
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black12,
                             ),
-                            hintText: 'Driver Mobile Number',
-                            hintStyle:
-                                TextStyle(fontSize: 20, color: Colors.black)),
+                            borderRadius: BorderRadius.circular(8.0)),
+                        child: DropdownButton(
+                          isExpanded: true,
+                          onChanged: (value) {
+                            selectedTransferType = value! as TransferTypeDataItem;
+                            setState(() {});
+                          },
+                          items: transferStationModel!.data!
+                              .map((e) => DropdownMenuItem<TransferTypeDataItem>(
+                                    value: e,
+                                    child: Text("${e.name}"),
+                                  ))
+                              .toList(),
+                          underline: Container(
+                            color: Colors.transparent,
+                          ),
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black,
+                            size: 40,
+                          ),
+                          hint: Center(
+                            child: Text(
+                              selectedTransferType == null
+                                  ? "Transfer Type"
+                                  : "${selectedTransferType!.name}",
+                              style: TextStyle(color: Colors.black, fontSize: 20),
+                            ),
+                          ),
+                          onTap: () {},
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      height: 40,
-                      width: 350,
-                      decoration: BoxDecoration(
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 0),
+                      child: Container(
+                        decoration: BoxDecoration(
                           border: Border.all(
                             color: Colors.black12,
                           ),
-                          borderRadius: BorderRadius.circular(8.0)),
-                      child: DropdownButton(
-                        isExpanded: true,
-                        value: selectedTransferType,
-                        onChanged: (value) {
-                          selectedTransferType = value! as TransferTypeDataItem;
-                          setState(() {});
-                        },
-                        items: transferStationModel!.data!
-                            .map((e) => DropdownMenuItem<TransferTypeDataItem>(
-                                  value: e,
-                                  child: Text("${e.name}"),
-                                ))
-                            .toList(),
-                        underline: Container(
-                          color: Colors.transparent,
                         ),
-                        icon: Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.black,
-                          size: 40,
+                        height: 150,
+
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            FloatingActionButton(
+                                backgroundColor: vehicle_image == null
+                                    ? Colors.black
+                                    : Colors.green[300],
+                                onPressed: () async {
+                                  File? file = await FilePick().takepic();
+                                  MultipartFile? mfile = await FileSupport()
+                                      .getMultiPartFromFile(file!);
+                                  if (mfile != null) {
+                                    this.vehicle_image = mfile;
+                                  }
+
+                                  setState(() {});
+                                },
+                                child: Icon(
+                                  Icons.camera_alt_outlined,
+                                  color: Colors.white,
+                                  size: 40,
+                                )),
+                            FloatingActionButton(
+                                backgroundColor: vehicle_image == null
+                                    ? Colors.black
+                                    : Colors.green[300],
+                                onPressed: () async {
+                                  File? file = await FilePick().pickFile();
+                                  MultipartFile? mfile = await FileSupport()
+                                      .getMultiPartFromFile(file!);
+                                  if (mfile != null) {
+                                    this.vehicle_image = mfile;
+                                  }
+                                },
+                                child: Icon(
+                                  Icons.picture_in_picture_sharp,
+                                  color: Colors.white,
+                                  size: 40,
+                                )),
+                          ],
                         ),
-                        hint: Center(
-                          child: Text(
-                            selectedTransferType == null
-                                ? "Transfer Type"
-                                : "${selectedTransferType!.name}",
-                            style: TextStyle(color: Colors.black, fontSize: 20),
-                          ),
-                        ),
-                        onTap: () {},
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black12,
-                        ),
-                      ),
-                      height: 150,
-                      width: 340,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          FloatingActionButton(
-                              backgroundColor: Colors.black,
-                              onPressed: () async {
-                                File? file = await FilePick().pickFile();
-                                this.vehicle_image = await FileSupport()
-                                    .getMultiPartFromFile(file!);
-                              },
-                              child: Icon(
-                                Icons.camera_alt_outlined,
-                                color: Colors.white,
-                                size: 40,
-                              )),
-                          FloatingActionButton(
-                              backgroundColor: Colors.black,
-                              onPressed: () {},
-                              child: Icon(
-                                Icons.picture_in_picture_sharp,
-                                color: Colors.white,
-                                size: 40,
-                              )),
-                        ],
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        width: 200,
+                        child: FlatButton(
+                            height: 30,
+                            minWidth: 100,
+                            onPressed: ()async {
+                              MProgressIndicator.show(context);
+                              value.uploadData(
+                                  selectedOwnerType,
+                                  selectedTransferType,
+                                  selectedVehicle,
+                                  vehicle_image,
+                                  widget.access,
+
+                                  this.registration_number,
+                                  this.driver_name,
+                                  context,phone_number,);
+                              MProgressIndicator.hide();
+                            },
+                            child: Text(
+                              'Submit',
+                              style: TextStyle(color: Colors.white, fontSize: 20),
+                            )),
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color(0xFFAD1457), Color(0xFFAD801D9E)],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: BorderRadius.circular(30.0)),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      width: 200,
-                      child: FlatButton(
-                          height: 30,
-                          minWidth: 100,
-                          onPressed: () {},
-                          child: Text(
-                            'Submit',
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          )),
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Color(0xFFAD1457), Color(0xFFAD801D9E)],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                          borderRadius: BorderRadius.circular(30.0)),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               )
             ]);
           else

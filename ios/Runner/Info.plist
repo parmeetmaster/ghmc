@@ -7,7 +7,10 @@
     <key>NSCameraUsageDescription</key>
     <string>This app needs camera access to scan QR codes</string>
 
-
+<key>NSMicrophoneUsageDescription</key>
+<string>Can I use the mic please?</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>We need photos to verify User</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
