@@ -216,7 +216,9 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                       child: Container(
                         height: 40,
                         child: TextField(
+                          textCapitalization: TextCapitalization.characters,
                           controller: registration_number,
+
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
                               contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -268,6 +270,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                       child: Container(
                         height: 40,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           controller: this.phone_number,
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
@@ -353,7 +356,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                                           : Colors.green[300],
                                       onPressed: () async {
                                         vehicleImageFile =
-                                            await FilePick().takepic();
+                                            await FilePick().takecameraPic();
                                         MultipartFile? mfile =
                                             await FileSupport()
                                                 .getMultiPartFromFile(

@@ -13,9 +13,11 @@ import 'package:ghmc/model/add_vehicle_model/vehicle_type_model.dart';
 import 'package:ghmc/model/credentials.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
 import 'package:ghmc/util/utils.dart';
+
 class AddVehicleProvider with ChangeNotifier {
   String? ion;
-  AwesomeDialog?  dialog;
+  AwesomeDialog? dialog;
+
   getInstance() {
     return AddVehicleProvider();
   }
@@ -48,17 +50,19 @@ class AddVehicleProvider with ChangeNotifier {
     return transferStationModel;
   }
 
-  Future<bool?> uploadVehicleData(OwnerTypeDataItem? selectedOwnerType,
+  Future<bool?> uploadVehicleData(
+      OwnerTypeDataItem? selectedOwnerType,
       TransferTypeDataItem? selectedTransferType,
       VehicleTypeDataItem? selectedVehicle,
       File? vehicle_image,
       Access access,
       TextEditingController registration_number,
       TextEditingController driver_name,
-      BuildContext context, TextEditingController phone_number) async {
+      BuildContext context,
+      TextEditingController phone_number) async {
     if (selectedOwnerType == null) {
       "Select Owner Type".showSnackbar(context);
-   return null;
+      return null;
     } else if (selectedTransferType == null) {
       "Select Transfer Type".showSnackbar(context);
       return null;
@@ -75,17 +79,21 @@ class AddVehicleProvider with ChangeNotifier {
       "Please fill phone number".showSnackbar(context);
       return null;
     }
-    String pattern = r'^(?:[+0][1-9])?[0-9]{10,12}$';
-    RegExp regExp = new RegExp(pattern);
 
-    if( !regExp.hasMatch(phone_number.text)){
-      "Check Phone number is numeric".showSnackbar(context);
+    print("is numeric val ${isNumeric(phone_number.text)}");
+
+    if (isNumeric(phone_number.text)==false) {
+      "Phone number may contain alphablets".showSnackbar(context);
       return null;
     }
 
-    MultipartFile? file=await FileSupport().getMultiPartFromFile(vehicle_image!);
+    if (phone_number.text.length > 10 || phone_number.text.length < 10) {
+      "Check Phone number length".showSnackbar(context);
+      return null;
+    }
 
-
+    MultipartFile? file =
+        await FileSupport().getMultiPartFromFile(vehicle_image!);
 
     var map = {
       'user_id': Globals.userData!.data!.userId,
@@ -102,26 +110,24 @@ class AddVehicleProvider with ChangeNotifier {
       'image': file
     };
 
-    ApiResponse response = await ApiBase()
-        .baseFunction(() =>
-        ApiBase().getInstance()!.post(
-            "/add_vechile", data: FormData.fromMap(map)
-        ));
+    ApiResponse response = await ApiBase().baseFunction(() => ApiBase()
+        .getInstance()!
+        .post("/add_vechile", data: FormData.fromMap(map)));
     if (response.status == 200) {
-      "vechile added successfully".showSnackbar(context);
+      //  "vechile added successfully".showSnackbar(context);
       return true;
-
     } else {
-      "Something error".showSnackbar(context);
+      response.message!.showSnackbar(context);
       return null;
     }
   }
 
   // post
 
-
-
-
-
-
+  bool isNumeric(String str) {
+    if(str == null) {
+      return false;
+    }
+    return double.tryParse(str) != null;
+  }
 }

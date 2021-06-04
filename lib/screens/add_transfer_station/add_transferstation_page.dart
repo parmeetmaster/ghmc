@@ -175,7 +175,7 @@ class _AddTransferStationState extends State<AddTransferStation> {
                         child: FloatingActionButton(
                             backgroundColor: Colors.black,
                             onPressed: () async {
-                              photo = await FilePick().takepic();
+                              photo = await FilePick().takecameraPic();
                               setState(() {});
                             },
                             child: Icon(
