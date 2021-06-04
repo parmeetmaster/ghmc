@@ -14,6 +14,7 @@ abstract class Status {
 
 // [Description("false")]
       Failed = 400,
+      Dead=0,
       EmptyModel = 202,
       Unauthorized = 401,
       Duplicate = 409,
@@ -29,6 +30,7 @@ class ApiBase {
     }
 
     if(Globals.userData!=null){
+      print("TOKEN IS : ${Globals.userData!.data!.token!}");
      dio!.options.headers.addAll({
        "Authorization":"Bearer " +  Globals.userData!.data!.token!
      });
@@ -71,7 +73,7 @@ class ApiBase {
     } on SocketException {
       return ApiResponse(
           message: "Check your internet connection",
-          status: Status.Failed,
+          status: Status.Dead,
           result: {});
     } on DioError catch (error) {
       print("in dio error");

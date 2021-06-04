@@ -7,6 +7,7 @@ import 'package:ghmc/model/add_vehicle_model/owner_typ.dart';
 import 'package:ghmc/model/add_vehicle_model/transfer_station_model.dart';
 import 'package:ghmc/model/add_vehicle_model/vehicle_type_model.dart';
 import 'package:ghmc/model/credentials.dart';
+import 'package:ghmc/provider/add_data/add_data.dart';
 import 'package:ghmc/provider/add_vehicle/add_vehicle.dart';
 import 'package:ghmc/screens/search_page/search_page.dart';
 import 'package:ghmc/util/file_picker.dart';
@@ -31,13 +32,13 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   OwnerTypeDataItem? selectedOwnerType;
   TransferTypeDataItem? selectedTransferType;
   VehicleTypeDataItem? selectedVehicle;
-    MultipartFile? vehicle_image;
+  MultipartFile? vehicle_image;
 
   TextEditingController registration_number = new TextEditingController();
   TextEditingController driver_name = new TextEditingController();
   TextEditingController phone_number = new TextEditingController();
-
-  int textsize=18;
+  File? vehicleImageFile;
+  double textsize = 18;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +87,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             ],
           ),
         ),
-        body: Consumer<AddVehicleProvider>(builder: (context, value, child) {
+        body: Consumer<AddDataProvider>(builder: (context, value, child) {
           if (ownerTypeModel != null)
             return ListView(children: [
               Padding(
@@ -106,21 +107,20 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                         CardSeperateRow("Ward", widget.access.ward),
                         CardSeperateRow("Circle", widget.access.circle),
                         CardSeperateRow("Zone", widget.access.zone),
-                      //  CardSeperateRow("City", ""),
+                        //  CardSeperateRow("City", ""),
                       ],
                     ),
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical:10,horizontal: 25),
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
                 child: Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Container(
                         height: 40,
-
                         decoration: BoxDecoration(
                             border: Border.all(
                               color: Colors.black12,
@@ -136,9 +136,9 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
 
                           items: ownerTypeModel!.data!
                               .map((e) => DropdownMenuItem<OwnerTypeDataItem>(
-                            value: e,
-                            child: Text("${e.name}"),
-                          ))
+                                    value: e,
+                                    child: Text("${e.name}"),
+                                  ))
                               .toList(),
                           underline: Container(
                             color: Colors.transparent,
@@ -148,17 +148,14 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                             color: Colors.black,
                             size: 40,
                           ),
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                          ),
 
                           hint: Center(
                             child: Text(
                               selectedOwnerType == null
                                   ? "Owner Type"
                                   : "${selectedOwnerType!.name}",
-                              style: TextStyle(color: Colors.black, fontSize: 20),
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: textsize),
                             ),
                           ),
                           onTap: () {},
@@ -172,7 +169,6 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Container(
                         height: 40,
-
                         decoration: BoxDecoration(
                             border: Border.all(
                               color: Colors.black12,
@@ -203,7 +199,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                               this.selectedVehicle == null
                                   ? "Vehicle Type"
                                   : "${this.selectedVehicle!.name}",
-                              style: TextStyle(color: Colors.black, fontSize: 18),
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 18),
                             ),
                           ),
                           onTap: () {},
@@ -233,9 +230,9 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                                   color: Colors.black12,
                                 ),
                               ),
-                              hintText: 'Vehicles Reg Number',
-                              hintStyle:
-                                  TextStyle(fontSize: 20, color: Colors.black)),
+                              hintText: 'Vehicle Reg Number',
+                              hintStyle: TextStyle(
+                                  fontSize: textsize, color: Colors.black)),
                         ),
                       ),
                     ),
@@ -260,8 +257,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                                 ),
                               ),
                               hintText: 'Driver Name',
-                              hintStyle:
-                                  TextStyle(fontSize: 20, color: Colors.black)),
+                              hintStyle: TextStyle(
+                                  fontSize: textsize, color: Colors.black)),
                         ),
                       ),
                     ),
@@ -286,8 +283,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                                 ),
                               ),
                               hintText: 'Driver Mobile Number',
-                              hintStyle:
-                                  TextStyle(fontSize: 20, color: Colors.black)),
+                              hintStyle: TextStyle(
+                                  fontSize: textsize, color: Colors.black)),
                         ),
                       ),
                     ),
@@ -295,7 +292,6 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Container(
                         height: 40,
-
                         decoration: BoxDecoration(
                             border: Border.all(
                               color: Colors.black12,
@@ -304,14 +300,16 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                         child: DropdownButton(
                           isExpanded: true,
                           onChanged: (value) {
-                            selectedTransferType = value! as TransferTypeDataItem;
+                            selectedTransferType =
+                                value! as TransferTypeDataItem;
                             setState(() {});
                           },
                           items: transferStationModel!.data!
-                              .map((e) => DropdownMenuItem<TransferTypeDataItem>(
-                                    value: e,
-                                    child: Text("${e.name}"),
-                                  ))
+                              .map(
+                                  (e) => DropdownMenuItem<TransferTypeDataItem>(
+                                        value: e,
+                                        child: Text("${e.name}"),
+                                      ))
                               .toList(),
                           underline: Container(
                             color: Colors.transparent,
@@ -326,7 +324,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                               selectedTransferType == null
                                   ? "Transfer Type"
                                   : "${selectedTransferType!.name}",
-                              style: TextStyle(color: Colors.black, fontSize: 20),
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: textsize),
                             ),
                           ),
                           onTap: () {},
@@ -341,49 +340,65 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                             color: Colors.black12,
                           ),
                         ),
-                        height: 150,
+                        height: 180,
+                        child: vehicleImageFile == null
+                            ? Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  FloatingActionButton(
+                                      backgroundColor: vehicle_image == null
+                                          ? Colors.black
+                                          : Colors.green[300],
+                                      onPressed: () async {
+                                        vehicleImageFile =
+                                            await FilePick().takepic();
+                                        MultipartFile? mfile =
+                                            await FileSupport()
+                                                .getMultiPartFromFile(
+                                                    vehicleImageFile!);
+                                        if (mfile != null) {
+                                          this.vehicle_image = mfile;
+                                        }
 
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            FloatingActionButton(
-                                backgroundColor: vehicle_image == null
-                                    ? Colors.black
-                                    : Colors.green[300],
-                                onPressed: () async {
-                                  File? file = await FilePick().takepic();
-                                  MultipartFile? mfile = await FileSupport()
-                                      .getMultiPartFromFile(file!);
-                                  if (mfile != null) {
-                                    this.vehicle_image = mfile;
-                                  }
-
-                                  setState(() {});
-                                },
-                                child: Icon(
-                                  Icons.camera_alt_outlined,
-                                  color: Colors.white,
-                                  size: 40,
-                                )),
-                            FloatingActionButton(
-                                backgroundColor: vehicle_image == null
-                                    ? Colors.black
-                                    : Colors.green[300],
-                                onPressed: () async {
-                                  File? file = await FilePick().pickFile();
-                                  MultipartFile? mfile = await FileSupport()
-                                      .getMultiPartFromFile(file!);
-                                  if (mfile != null) {
-                                    this.vehicle_image = mfile;
-                                  }
-                                },
-                                child: Icon(
-                                  Icons.picture_in_picture_sharp,
-                                  color: Colors.white,
-                                  size: 40,
-                                )),
-                          ],
-                        ),
+                                        setState(() {});
+                                      },
+                                      child: Icon(
+                                        Icons.camera_alt_outlined,
+                                        color: Colors.white,
+                                        size: 40,
+                                      )),
+                                  FloatingActionButton(
+                                      backgroundColor: vehicle_image == null
+                                          ? Colors.black
+                                          : Colors.green[300],
+                                      onPressed: () async {
+                                        vehicleImageFile =
+                                            await FilePick().pickFile();
+                                        MultipartFile? mfile =
+                                            await FileSupport()
+                                                .getMultiPartFromFile(
+                                                    vehicleImageFile!);
+                                        if (mfile != null) {
+                                          this.vehicle_image = mfile;
+                                        }
+                                        setState(() {});
+                                      },
+                                      child: Icon(
+                                        Icons.picture_in_picture_sharp,
+                                        color: Colors.white,
+                                        size: 40,
+                                      )),
+                                ],
+                              )
+                            : Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [Image.file(vehicleImageFile!)],
+                                ),
+                              ),
                       ),
                     ),
                     Padding(
@@ -393,23 +408,25 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                         child: FlatButton(
                             height: 30,
                             minWidth: 100,
-                            onPressed: ()async {
+                            onPressed: () async {
                               MProgressIndicator.show(context);
-                              value.uploadData(
-                                  selectedOwnerType,
-                                  selectedTransferType,
-                                  selectedVehicle,
-                                  vehicle_image,
-                                  widget.access,
-
-                                  this.registration_number,
-                                  this.driver_name,
-                                  context,phone_number,);
+                              value.uploadVehicleData(
+                                selectedOwnerType,
+                                selectedTransferType,
+                                selectedVehicle,
+                                vehicle_image,
+                                widget.access,
+                                this.registration_number,
+                                this.driver_name,
+                                context,
+                                phone_number,
+                              );
                               MProgressIndicator.hide();
                             },
                             child: Text(
                               'Submit',
-                              style: TextStyle(color: Colors.white, fontSize: 20),
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: textsize),
                             )),
                         decoration: BoxDecoration(
                             gradient: LinearGradient(

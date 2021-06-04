@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghmc/globals/globals.dart';
+import 'package:ghmc/screens/add_transfer_station/add_transferstation_page.dart';
 import 'package:ghmc/screens/add_vehicle/add_vehicle_page.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
 import 'package:ghmc/widget/card_seperate_row.dart';
@@ -69,11 +70,11 @@ class _AddDataPageState extends State<AddDataPage> {
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
                       children: [
-                        CardSeperateRow("LandMark",e.landmarks),
-                        CardSeperateRow("Ward",e.ward),
-                        CardSeperateRow("Circle",e.circle),
-                        CardSeperateRow("Zone",e.zone),
-                        CardSeperateRow("City",""),
+                        CardSeperateRow("LandMark", e.landmarks),
+                        CardSeperateRow("Ward", e.ward),
+                        CardSeperateRow("Circle", e.circle),
+                        CardSeperateRow("Zone", e.zone),
+                        //  CardSeperateRow("City",""),
                         SizedBox(
                           height: 10,
                         ),
@@ -115,12 +116,12 @@ class _AddDataPageState extends State<AddDataPage> {
                                 height: 30,
                                 minWidth: 200,
                                 onPressed: () {
-                                  /*Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        (TransferStation()),
-                                  ));*/
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            AddTransferStation(),
+                                      ));
                                 },
                                 child: Text(
                                   'Transfer Station',
@@ -148,6 +149,4 @@ class _AddDataPageState extends State<AddDataPage> {
       ),
     );
   }
-
-
 }
