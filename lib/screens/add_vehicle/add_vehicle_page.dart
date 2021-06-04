@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:file_support/file_support.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             ],
           ),
         ),
-        body: Consumer<AddDataProvider>(builder: (context, value, child) {
+        body: Consumer<AddVehicleProvider>(builder: (context, value, child) {
           if (ownerTypeModel != null)
             return ListView(children: [
               Padding(
@@ -410,18 +411,38 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                             minWidth: 100,
                             onPressed: () async {
                               MProgressIndicator.show(context);
-                              value.uploadVehicleData(
+                            bool? res=await value.uploadVehicleData(
                                 selectedOwnerType,
                                 selectedTransferType,
                                 selectedVehicle,
-                                vehicle_image,
+                                vehicleImageFile,
                                 widget.access,
                                 this.registration_number,
                                 this.driver_name,
                                 context,
                                 phone_number,
                               );
-                              MProgressIndicator.hide();
+                            MProgressIndicator.hide();
+
+                            if(res==true){
+
+                            AwesomeDialog dialog=  AwesomeDialog(
+                                context: context,
+                                dialogType: DialogType.SUCCES,
+                                animType: AnimType.BOTTOMSLIDE,
+                                title: 'Upload Successful',
+                                desc: 'Your data is posted successfully',
+                                btnOkOnPress: () {
+                                  Navigator.of(context,rootNavigator: true).pop();
+                                  setState(() {
+
+                                  });
+
+                                },
+                              )..show();
+
+                            }
+
                             },
                             child: Text(
                               'Submit',

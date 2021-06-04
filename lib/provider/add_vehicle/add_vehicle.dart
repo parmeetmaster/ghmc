@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/src/multipart_file.dart';
+import 'package:file_support/file_support.dart';
 import 'package:flutter/material.dart';
 import 'package:ghmc/api/api.dart';
 import 'package:ghmc/globals/globals.dart';
@@ -11,7 +15,7 @@ import 'package:ghmc/screens/transfer/transfer_station.dart';
 import 'package:ghmc/util/utils.dart';
 class AddVehicleProvider with ChangeNotifier {
   String? ion;
-
+  AwesomeDialog?  dialog;
   getInstance() {
     return AddVehicleProvider();
   }
@@ -44,6 +48,74 @@ class AddVehicleProvider with ChangeNotifier {
     return transferStationModel;
   }
 
+  Future<bool?> uploadVehicleData(OwnerTypeDataItem? selectedOwnerType,
+      TransferTypeDataItem? selectedTransferType,
+      VehicleTypeDataItem? selectedVehicle,
+      File? vehicle_image,
+      Access access,
+      TextEditingController registration_number,
+      TextEditingController driver_name,
+      BuildContext context, TextEditingController phone_number) async {
+    if (selectedOwnerType == null) {
+      "Select Owner Type".showSnackbar(context);
+   return null;
+    } else if (selectedTransferType == null) {
+      "Select Transfer Type".showSnackbar(context);
+      return null;
+    } else if (selectedVehicle == null) {
+      "Select vehicle first".showSnackbar(context);
+      return null;
+    } else if (registration_number.text == null) {
+      "Please fill Registration number".showSnackbar(context);
+      return null;
+    } else if (driver_name.text == null) {
+      "Please fill driver name".showSnackbar(context);
+      return null;
+    } else if (phone_number.text == null) {
+      "Please fill phone number".showSnackbar(context);
+      return null;
+    }
+    String pattern = r'^(?:[+0][1-9])?[0-9]{10,12}$';
+    RegExp regExp = new RegExp(pattern);
+
+    if( !regExp.hasMatch(phone_number.text)){
+      "Check Phone number is numeric".showSnackbar(context);
+      return null;
+    }
+
+    MultipartFile? file=await FileSupport().getMultiPartFromFile(vehicle_image!);
+
+
+
+    var map = {
+      'user_id': Globals.userData!.data!.userId,
+      'zone_id': access.zone,
+      'circle_id': access.circleId,
+      'ward_id': access.wardId,
+      'land_mark_id': access.landmarksId,
+      'owner_type_id': selectedOwnerType.id,
+      'vechile_type_id': selectedVehicle.id,
+      'reg_no': registration_number.text,
+      'driver_name': driver_name.text,
+      'driver_mobile': phone_number.text,
+      'transfer_station_id': selectedVehicle.id,
+      'image': file
+    };
+
+    ApiResponse response = await ApiBase()
+        .baseFunction(() =>
+        ApiBase().getInstance()!.post(
+            "/add_vechile", data: FormData.fromMap(map)
+        ));
+    if (response.status == 200) {
+      "vechile added successfully".showSnackbar(context);
+      return true;
+
+    } else {
+      "Something error".showSnackbar(context);
+      return null;
+    }
+  }
 
   // post
 
