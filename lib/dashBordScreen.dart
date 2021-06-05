@@ -5,7 +5,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ghmc/api/api.dart';
 import 'package:ghmc/model/credentials.dart';
@@ -19,7 +19,6 @@ import 'package:ghmc/userDataScreen.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:ghmc/util/qrcode_screen.dart';
 import 'package:ghmc/widget/drawer.dart';
-import 'util/utils.dart';
 
 import 'globals/globals.dart';
 import 'screens/Testscreens/test_screen.dart';

@@ -74,9 +74,6 @@ extension m_string on String {
   }
 
 
-
-
-
   bool isEmail() {
     RegExp regExp = RegExp(
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
@@ -89,8 +86,6 @@ extension m_string on String {
     RegExp regExp = RegExp(pattern);
     return this != null && regExp.hasMatch(this);
   }
-
-
 
 
 }
@@ -121,6 +116,6 @@ extension navigator on Widget {
     return Navigator.of(context).push(CustomPageRouteBuilder(
         pageBuilder: (c, a, b) => this,
         opaque: false,
-        barrierColor: Colors.black45));
+        barrierColor: Colors.transparent));
   }
 }

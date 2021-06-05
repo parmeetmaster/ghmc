@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:ghmc/globals/globals.dart';
-import 'package:ghmc/provider/login_provider.dart';
+
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 const String base_url =

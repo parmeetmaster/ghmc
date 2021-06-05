@@ -67,7 +67,7 @@ class DashBoardProvider extends ChangeNotifier  {
       title: 'Upload Successful',
       desc: 'Your data is posted successfully',
       btnOkOnPress: () {
-        dialog!.dissmiss();
+        dialog!.dismiss();
         //Navigator.of(context,rootNavigator: true);
       },
     )..show();

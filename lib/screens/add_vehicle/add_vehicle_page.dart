@@ -8,7 +8,7 @@ import 'package:ghmc/model/add_vehicle_model/owner_typ.dart';
 import 'package:ghmc/model/add_vehicle_model/transfer_station_model.dart';
 import 'package:ghmc/model/add_vehicle_model/vehicle_type_model.dart';
 import 'package:ghmc/model/credentials.dart';
-import 'package:ghmc/provider/add_data/add_data.dart';
+import 'package:ghmc/provider/add_data/add_data_provider.dart';
 import 'package:ghmc/provider/add_vehicle/add_vehicle.dart';
 import 'package:ghmc/screens/search_page/search_page.dart';
 import 'package:ghmc/util/file_picker.dart';

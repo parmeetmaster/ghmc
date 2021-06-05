@@ -27,3 +27,4 @@ dynamic mode=modes.testing;
 // string
 
 const login_credentials ="login_credentials";
+const google_place_api_key ="AIzaSyDFUPgy5FpZkVED-9CBHlIsNeEVqMVolWA";

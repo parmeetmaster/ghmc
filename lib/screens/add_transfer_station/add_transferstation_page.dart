@@ -1,13 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:ghmc/api/api.dart';
 import 'package:ghmc/model/add_vehicle_model/transfer_station_model.dart';
-import 'package:ghmc/provider/add_data/add_data.dart';
+import 'package:ghmc/provider/add_data/add_data_provider.dart';
 import 'package:ghmc/provider/add_vehicle/add_vehicle.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
 import 'package:ghmc/util/file_picker.dart';
 import 'package:ghmc/util/location.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
+import 'package:ghmc/widget/dialogs/single_button_dialog.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:ghmc/util/utils.dart';
@@ -223,11 +225,20 @@ class _AddTransferStationState extends State<AddTransferStation> {
                       return;
                     }
                     MProgressIndicator.show(context);
-                    await value.uplaodTransferStation(
+                    ApiResponse response = await value.uploadTransferStation(
                         context,
                         this.selected_transferStation,
                         this.location,
                         this.photo);
+
+                    SingleButtonDialog(
+                      message: response.message,
+                      onOk: (context) {
+                        Navigator.of(context).pop();
+                      },
+                      imageurl: "assets/svgs/garbage-truck.svg",
+                    ).pushDialog(context);
+
                     MProgressIndicator.hide();
                     /*   Navigator.push(
                         context,

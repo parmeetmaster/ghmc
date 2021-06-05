@@ -6,12 +6,16 @@ import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/provider/login_provider.dart';
 import 'package:ghmc/screens/add_data/add_data_page.dart';
 import 'package:ghmc/screens/add_vehicle/add_vehicle_page.dart';
+import 'package:ghmc/screens/gvp_bep/gvp_bep.dart';
 import 'package:ghmc/screens/gvp_bvp/gvp_bvp.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
 import 'package:ghmc/screens/settings/settings_page.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
+import 'package:ghmc/util/geocoding_utils.dart';
+import 'package:ghmc/util/location.dart';
 
 import 'package:ghmc/util/utils.dart';
+import 'package:ghmc/widget/dialogs/two_button_dialog.dart';
 
 class MainDrawer extends StatefulWidget {
   const MainDrawer({Key? key}) : super(key: key);
@@ -141,7 +145,6 @@ class _MainDrawerState extends State<MainDrawer> {
                     ));
                 },
               ),
-
             ListTile(
               leading: Icon(
                 Icons.directions_car_rounded,
@@ -153,43 +156,29 @@ class _MainDrawerState extends State<MainDrawer> {
                 style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {
-              /*  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => (GvpBvpScreen()),
-                    ));*/
-              },
-            ),
-          /*  ListTile(
-              leading: Icon(
-                Icons.notifications,
-                color: Colors.white,
-                size: 25,
-              ),
-              title: Text(
-                "Notifications",
-                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
-              ),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.settings,
-                color: Colors.white,
-                size: 25,
-              ),
-              title: Text(
-                "Settings",
-                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
-              ),
-              onTap: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => (SettingPage()),
+                      builder: (context) => (GvpBepScreen()),
                     ));
               },
-            ),*/
+            ),
+
+            ListTile(
+              leading: Icon(
+                Icons.directions_car_rounded,
+                color: Colors.white,
+                size: 25,
+              ),
+              title: Text(
+                "Test",
+                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
+              ),
+              onTap: ()async {
+              },
+            ),
+
+
             ListTile(
               leading: Icon(
                 Icons.power_settings_new,
@@ -201,6 +190,8 @@ class _MainDrawerState extends State<MainDrawer> {
                 style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {
+
+
                  dialog=   AwesomeDialog(
                     context: context,
                     dialogType: DialogType.INFO,

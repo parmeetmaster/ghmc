@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:ghmc/provider/add_data/add_data.dart';
+import 'package:ghmc/provider/addGvpBepProvider.dart';
+import 'package:ghmc/provider/add_data/add_data_provider.dart';
 import 'package:ghmc/provider/add_vehicle/add_vehicle.dart';
 import 'package:ghmc/provider/dash_board_provider.dart';
+import 'package:ghmc/provider/location_provider.dart';
 import 'package:ghmc/provider/login_provider.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
 import 'package:ghmc/splashScreen.dart';
@@ -21,6 +23,8 @@ void main() async {
       ChangeNotifierProvider(create: (ctx) => DashBoardProvider()),
       ChangeNotifierProvider(create: (ctx) => AddVehicleProvider()),
       ChangeNotifierProvider(create: (ctx) => AddDataProvider()),
+      ChangeNotifierProvider(create: (ctx) => LocationProvider()),
+      ChangeNotifierProvider(create: (ctx) => AddGvpBepProvider()),
     ],
     child: Phoenix(child: MyApp()),
   ));
