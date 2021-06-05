@@ -53,9 +53,8 @@ class _AddDataPageState extends State<AddDataPage> {
         ),
       ),
       body: ListView(
-
         children: [
-          ...Globals.userData!.data!.access!.map((e) => Center(
+          ...Globals.userData!.data!.access!.map((element) => Center(
                   child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
@@ -69,76 +68,94 @@ class _AddDataPageState extends State<AddDataPage> {
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
                       children: [
-                        CardSeperateRow("LandMark", e.landmarks),
-                        CardSeperateRow("Ward", e.ward),
-                        CardSeperateRow("Circle", e.circle),
-                        CardSeperateRow("Zone", e.zone),
+                        CardSeperateRow("LandMark", element.landmarks),
+                        CardSeperateRow("Ward", element.ward),
+                        CardSeperateRow("Circle", element.circle),
+                        CardSeperateRow("Zone", element.zone),
                         //  CardSeperateRow("City",""),
                         SizedBox(
                           height: 10,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            child: FlatButton(
-                                height: 30,
-                                minWidth: 200,
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            (AddVehiclePage(e)),
-                                      ));
-                                },
-                                child: Text(
-                                  'Add Vehicle',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                )),
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Color(0xFFAD1457),
-                                    Color(0xFFAD801D9E)
-                                  ],
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                ),
-                                borderRadius: BorderRadius.circular(30.0)),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Container(
-                            child: FlatButton(
-                                height: 30,
-                                minWidth: 200,
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            AddTransferStation(),
-                                      ));
-                                },
-                                child: Text(
-                                  'Transfer Station',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                )),
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Color(0xFFAD1457),
-                                    Color(0xFFAD801D9E)
-                                  ],
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                ),
-                                borderRadius: BorderRadius.circular(30.0)),
-                          ),
-                        ),
+                      //see if user have authority 3
+                        ...element.geoTagButtons!.map((val) {
+                          if (val.id == "3")
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                child: FlatButton(
+                                    height: 30,
+                                    minWidth: 200,
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                (AddVehiclePage(element)),
+                                          ));
+                                    },
+                                    child: Text(
+                                      'Add Vehicle',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    )),
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFFAD1457),
+                                        Color(0xFFAD801D9E)
+                                      ],
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                    ),
+                                    borderRadius: BorderRadius.circular(30.0)),
+                              ),
+                            );
+                          else
+                            return Container(
+                              height: 0,
+                              width: 0,
+                            );
+                        }),
+   //see if user have authority 4
+                        ...element.geoTagButtons!.map((val) {
+                          if (val.id == "4")
+                            return Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Container(
+                                child: FlatButton(
+                                    height: 30,
+                                    minWidth: 200,
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddTransferStation(),
+                                          ));
+                                    },
+                                    child: Text(
+                                      'Add Transfer Station',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    )),
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFFAD1457),
+                                        Color(0xFFAD801D9E)
+                                      ],
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                    ),
+                                    borderRadius: BorderRadius.circular(30.0)),
+                              ),
+                            );
+                          else
+                            return Container(
+                              height: 0,
+                              width: 0,
+                            );
+                        })
                       ],
                     ),
                   ),

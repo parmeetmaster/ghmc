@@ -116,6 +116,6 @@ extension navigator on Widget {
     return Navigator.of(context).push(CustomPageRouteBuilder(
         pageBuilder: (c, a, b) => this,
         opaque: false,
-        barrierColor: Colors.transparent));
+        barrierColor: Colors.black45));
   }
 }

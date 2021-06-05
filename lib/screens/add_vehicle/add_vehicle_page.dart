@@ -20,7 +20,7 @@ import 'package:ghmc/widget/loading_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:ghmc/util/utils.dart';
 import '../../dashBordScreen.dart';
-
+import 'package:ghmc/util/utils.dart';
 class AddVehiclePage extends StatefulWidget {
   Access access;
 
@@ -429,6 +429,9 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                                 context,
                                 phone_number,
                               );
+
+                              MProgressIndicator.hide();
+                              if(response==null)return;
                               await SingleButtonDialog(
                                 message: response!.message,
                                 imageurl: "assets/svgs/garbage-truck.svg",
@@ -438,7 +441,6 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                                 },
                               ).pushDialog(context);
 
-                              MProgressIndicator.hide();
                             },
                             child: Text(
                               'Submit',
