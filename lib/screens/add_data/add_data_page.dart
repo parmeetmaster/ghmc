@@ -43,12 +43,12 @@ class _AddDataPageState extends State<AddDataPage> {
             Text(
               "Add Data",
             ),
-            IconButton(
+        /*    IconButton(
                 icon: Icon(
                   Icons.qr_code_scanner,
                   size: 35,
                 ),
-                onPressed: () {})
+                onPressed: () {})*/
           ],
         ),
       ),

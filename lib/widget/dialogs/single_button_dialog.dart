@@ -32,13 +32,13 @@ class _SingleButtonDialogState extends State<SingleButtonDialog> {
           padding: EdgeInsets.only(top: 30, bottom: 30, right: 10, left: 10),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(40)),
-              color: const Color(0xff4d159e)),
+              color: const Color(0xffFFFFFF)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text("${widget.message}",
                   style: const TextStyle(
-                      color: const Color(0xffffffff),
+                      color:  Colors.black,
                       fontWeight: FontWeight.w600,
                       fontStyle: FontStyle.normal,
                       fontSize: 24.0),
@@ -64,7 +64,7 @@ class _SingleButtonDialogState extends State<SingleButtonDialog> {
                       },
                       child: Center(
                         child: Container(
-                          width: 310,
+                          width: MediaQuery.of(context).size.width*0.7,
                           height: 55,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(8)),

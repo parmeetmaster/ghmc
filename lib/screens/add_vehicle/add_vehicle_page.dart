@@ -433,7 +433,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                               MProgressIndicator.hide();
                               if(response==null)return;
                               await SingleButtonDialog(
-                                message: response!.message,
+                                message: response.message,
                                 imageurl: "assets/svgs/garbage-truck.svg",
                                 onOk: (context) {
                                   Navigator.pop(context);

@@ -117,7 +117,7 @@ class _GvpBepScreenState extends State<GvpBepScreen> {
         shrinkWrap: true,
         children: Globals.userData!.data!.access!
             .map(
-              (e) => Padding(
+              (element) => Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 20,
                   horizontal: 20,
@@ -135,65 +135,75 @@ class _GvpBepScreenState extends State<GvpBepScreen> {
                       children: [
                         _getRowVehicleDetails(
                           key: "Landmark",
-                          value: "${e.landmarks}",
+                          value: "${element.landmarks}",
                         ),
                         SizedBox(
                           height: gap,
                         ),
                         _getRowVehicleDetails(
                           key: "Ward",
-                          value: "${e.ward}",
+                          value: "${element.ward}",
                         ),
                         SizedBox(
                           height: gap,
                         ),
                         _getRowVehicleDetails(
                           key: "Circle",
-                          value: "${e.circle}",
+                          value: "${element.circle}",
                         ),
                         SizedBox(
                           height: gap,
                         ),
                         _getRowVehicleDetails(
                           key: "Zone",
-                          value: "${e.zone}",
+                          value: "${element.zone}",
                         ),
                         SizedBox(
                           height: gap,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            child: FlatButton(
-                                height: 40,
-                                minWidth: 300,
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => AddGvpBepScreen(
-                                        data: e,
-                                      ),
+                        ...element.geoTagButtons!.map((val) {
+                          if (val.id == "1")
+                           return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                child: FlatButton(
+                                    height: 40,
+                                    minWidth: 300,
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => AddGvpBepScreen(
+                                            data: element,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Text(
+                                      'Add GVP/BVP',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    )),
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFFAD1457),
+                                        Color(0xFFAD801D9E)
+                                      ],
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
                                     ),
-                                  );
-                                },
-                                child: Text(
-                                  'Add GVP/BVP',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                )),
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Color(0xFFAD1457),
-                                    Color(0xFFAD801D9E)
-                                  ],
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                ),
-                                borderRadius: BorderRadius.circular(30.0)),
-                          ),
-                        ),
+                                    borderRadius: BorderRadius.circular(30.0)),
+                              ),
+                            );
+                          else
+                            return Container(
+                              height: 0,
+                              width: 0,
+                            );
+                        }),
+
+
                         /*Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(colors: btn_grid),

@@ -7,7 +7,6 @@ import 'package:ghmc/provider/login_provider.dart';
 import 'package:ghmc/screens/add_data/add_data_page.dart';
 import 'package:ghmc/screens/add_vehicle/add_vehicle_page.dart';
 import 'package:ghmc/screens/gvp_bep/gvp_bvp_list.dart';
-import 'package:ghmc/screens/gvp_bvp/gvp_bvp.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
 import 'package:ghmc/screens/settings/settings_page.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
