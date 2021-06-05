@@ -27,7 +27,7 @@ class _SingleButtonDialogState extends State<SingleButtonDialog> {
       backgroundColor: Colors.transparent,
       body: Center(
         child: Container(
-          width: 375,
+          width: MediaQuery.of(context).size.width*0.9,
           height: 275,
           padding: EdgeInsets.only(top: 30, bottom: 30, right: 10, left: 10),
           decoration: BoxDecoration(
@@ -41,7 +41,7 @@ class _SingleButtonDialogState extends State<SingleButtonDialog> {
                       color: const Color(0xffffffff),
                       fontWeight: FontWeight.w600,
                       fontStyle: FontStyle.normal,
-                      fontSize: 28.0),
+                      fontSize: 24.0),
                   textAlign: TextAlign.center),
               SizedBox(
                 height: 30,

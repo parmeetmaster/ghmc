@@ -12,6 +12,7 @@ import 'package:ghmc/util/m_progress_indicator.dart';
 class GeoHolder {
   String? statename;
   String? pincode;
+  GoogleMapsModel? fulldata;
 }
 
 class GeoUtils {
@@ -31,6 +32,7 @@ class GeoUtils {
     MProgressIndicator.show(context);
     GoogleMapsModel? model = await getLocationDetails(position!);
     GeoHolder holder=new GeoHolder();
+    holder.fulldata=model!;
     if (model == null) {
       "Unable to get location details".showSnackbar(context);
       return null;

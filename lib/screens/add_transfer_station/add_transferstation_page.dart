@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:ghmc/api/api.dart';
+import 'package:ghmc/dashBordScreen.dart';
 import 'package:ghmc/model/add_vehicle_model/transfer_station_model.dart';
+import 'package:ghmc/model/google_maps_model.dart';
 import 'package:ghmc/provider/add_data/add_data_provider.dart';
 import 'package:ghmc/provider/add_vehicle/add_vehicle.dart';
+import 'package:ghmc/screens/gvp_bep/googleMapScreen.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
 import 'package:ghmc/util/file_picker.dart';
 import 'package:ghmc/util/location.dart';
@@ -109,7 +112,7 @@ class _AddTransferStationState extends State<AddTransferStation> {
                       hint: Center(
                         child: Text(
                           this.selected_transferStation == null
-                              ? "Add Transfer Station"
+                              ? " Transfer Station List"
                               : "${this.selected_transferStation!.name}",
                           style: TextStyle(color: Colors.black, fontSize: 20),
                         ),
@@ -137,9 +140,13 @@ class _AddTransferStationState extends State<AddTransferStation> {
                         backgroundColor:
                             this.islocationgrab ? Colors.green : Colors.black,
                         onPressed: () async {
+                          await  GoogleMapScreen().push(context);
+
                           CustomLocation customlocation = new CustomLocation();
                           location = await customlocation.getLocation();
                           setState(() {
+
+
                             if (location != null &&
                                 (location!.latitude!.isNaN == false))
                               this.islocationgrab = true;
@@ -231,10 +238,11 @@ class _AddTransferStationState extends State<AddTransferStation> {
                         this.location,
                         this.photo);
 
-                    SingleButtonDialog(
+                 await   SingleButtonDialog(
                       message: response.message,
                       onOk: (context) {
                         Navigator.of(context).pop();
+                        DashBordScreen().pushAndPopTillFirst(context);
                       },
                       imageurl: "assets/svgs/garbage-truck.svg",
                     ).pushDialog(context);

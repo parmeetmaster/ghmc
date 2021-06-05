@@ -50,7 +50,7 @@ class AddVehicleProvider with ChangeNotifier {
     return transferStationModel;
   }
 
-  Future<bool?> uploadVehicleData(
+  Future<ApiResponse?> uploadVehicleData(
       OwnerTypeDataItem? selectedOwnerType,
       TransferTypeDataItem? selectedTransferType,
       VehicleTypeDataItem? selectedVehicle,
@@ -115,10 +115,10 @@ class AddVehicleProvider with ChangeNotifier {
         .post("/add_vechile", data: FormData.fromMap(map)));
     if (response.status == 200) {
       //  "vechile added successfully".showSnackbar(context);
-      return true;
+      return response;
     } else {
       response.message!.showSnackbar(context);
-      return null;
+      return response;
     }
   }
 

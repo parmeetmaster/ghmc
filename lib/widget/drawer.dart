@@ -6,7 +6,7 @@ import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/provider/login_provider.dart';
 import 'package:ghmc/screens/add_data/add_data_page.dart';
 import 'package:ghmc/screens/add_vehicle/add_vehicle_page.dart';
-import 'package:ghmc/screens/gvp_bep/gvp_bep.dart';
+import 'package:ghmc/screens/gvp_bep/gvp_bvp_list.dart';
 import 'package:ghmc/screens/gvp_bvp/gvp_bvp.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
 import 'package:ghmc/screens/settings/settings_page.dart';
@@ -108,6 +108,7 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               onTap: () {},
             ),
+            if(Globals.userData!.data!.departmentId=="3")
             ListTile(
               leading: Icon(
                 Icons.library_books,
@@ -126,25 +127,7 @@ class _MainDrawerState extends State<MainDrawer> {
                     ));
               },
             ),
-            if(Globals.userData!.data!.departmentId=="3")
-              ListTile(
-                leading: Icon(
-                  Icons.directions_car_rounded,
-                  color: Colors.white,
-                  size: 25,
-                ),
-                title: Text(
-                  "Add Transport Vehicle",
-                  style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
-                ),
-                onTap: () {
-                    Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => (AddDataPage()),
-                    ));
-                },
-              ),
+
             ListTile(
               leading: Icon(
                 Icons.directions_car_rounded,
@@ -161,20 +144,6 @@ class _MainDrawerState extends State<MainDrawer> {
                     MaterialPageRoute(
                       builder: (context) => (GvpBepScreen()),
                     ));
-              },
-            ),
-
-            ListTile(
-              leading: Icon(
-                Icons.directions_car_rounded,
-                color: Colors.white,
-                size: 25,
-              ),
-              title: Text(
-                "Test",
-                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
-              ),
-              onTap: ()async {
               },
             ),
 

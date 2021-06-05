@@ -42,7 +42,6 @@ class _AddDataPageState extends State<AddDataPage> {
           children: [
             Text(
               "Add Data",
-              style: TextStyle(fontSize: 25),
             ),
             IconButton(
                 icon: Icon(
@@ -54,7 +53,7 @@ class _AddDataPageState extends State<AddDataPage> {
         ),
       ),
       body: ListView(
-        shrinkWrap: true,
+
         children: [
           ...Globals.userData!.data!.access!.map((e) => Center(
                   child: Padding(

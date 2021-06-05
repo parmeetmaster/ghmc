@@ -25,9 +25,8 @@ class AddGvpBepProvider extends ChangeNotifier {
     String? latitude,
     String? longitude,
   }) async {
-    Response? responses;
-    try {
-      ApiResponse response = await ApiBase().baseFunction(
+    ApiResponse response;
+       response = await ApiBase().baseFunction(
         () => ApiBase().getInstance()!.post('/add_gvp_bep', data: {
           'type': type,
           'user_id': userId,
@@ -41,23 +40,5 @@ class AddGvpBepProvider extends ChangeNotifier {
         }),
       );
       return response;
-    } catch (e) {
-      print(e);
-      // "Something is error".showSnackbar(context);
-    }
-    if (responses!.statusCode == 200)
-      // dialog = AwesomeDialog(
-      //   context: context,
-      //   dialogType: DialogType.SUCCES,
-      //   animType: AnimType.BOTTOMSLIDE,
-      //   title: 'Upload Successful',
-      //   desc: 'Your data is posted successfully',
-      //   btnOkOnPress: () {
-      //     dialog!.dissmiss();
-      //     //Navigator.of(context,rootNavigator: true);
-      //   },
-      // )..show();
-      print('55555555555555555555555555');
-      print('Upload Successful');
   }
 }

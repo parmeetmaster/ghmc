@@ -4,6 +4,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:file_support/file_support.dart';
 import 'package:flutter/material.dart';
+import 'package:ghmc/api/api.dart';
 import 'package:ghmc/model/add_vehicle_model/owner_typ.dart';
 import 'package:ghmc/model/add_vehicle_model/transfer_station_model.dart';
 import 'package:ghmc/model/add_vehicle_model/vehicle_type_model.dart';
@@ -14,8 +15,11 @@ import 'package:ghmc/screens/search_page/search_page.dart';
 import 'package:ghmc/util/file_picker.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:ghmc/widget/card_seperate_row.dart';
+import 'package:ghmc/widget/dialogs/single_button_dialog.dart';
 import 'package:ghmc/widget/loading_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:ghmc/util/utils.dart';
+import '../../dashBordScreen.dart';
 
 class AddVehiclePage extends StatefulWidget {
   Access access;
@@ -71,7 +75,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             children: [
               Text(
                 "Add Vehicle",
-                style: TextStyle(fontSize: 25),
+
               ),
               IconButton(
                   icon: Icon(
@@ -218,7 +222,6 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                         child: TextField(
                           textCapitalization: TextCapitalization.characters,
                           controller: registration_number,
-
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
                               contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -414,7 +417,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                             minWidth: 100,
                             onPressed: () async {
                               MProgressIndicator.show(context);
-                            bool? res=await value.uploadVehicleData(
+                              ApiResponse? response =
+                                  await value.uploadVehicleData(
                                 selectedOwnerType,
                                 selectedTransferType,
                                 selectedVehicle,
@@ -425,27 +429,16 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                                 context,
                                 phone_number,
                               );
-                            MProgressIndicator.hide();
-
-                            if(res==true){
-
-                            AwesomeDialog dialog=  AwesomeDialog(
-                                context: context,
-                                dialogType: DialogType.SUCCES,
-                                animType: AnimType.BOTTOMSLIDE,
-                                title: 'Upload Successful',
-                                desc: 'Your data is posted successfully',
-                                btnOkOnPress: () {
-                                  Navigator.of(context,rootNavigator: true).pop();
-                                  setState(() {
-
-                                  });
-
+                              await SingleButtonDialog(
+                                message: response!.message,
+                                imageurl: "assets/svgs/garbage-truck.svg",
+                                onOk: (context) {
+                                  Navigator.pop(context);
+                                  DashBordScreen().pushAndPopTillFirst(context);
                                 },
-                              )..show();
+                              ).pushDialog(context);
 
-                            }
-
+                              MProgressIndicator.hide();
                             },
                             child: Text(
                               'Submit',

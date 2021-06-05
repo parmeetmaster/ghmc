@@ -48,9 +48,6 @@ class LocationProvider with ChangeNotifier {
         currentLocation.latitude!,
         currentLocation.longitude!,
       );
-
-      print('pppppppppppppppppp$_locationPosition');
-
       notifyListeners();
     });
   }
