@@ -12,6 +12,7 @@ import 'package:ghmc/model/credentials.dart';
 import 'package:ghmc/model/driver_data_model.dart';
 import 'package:ghmc/provider/dash_board_provider.dart';
 import 'package:ghmc/screens/add_vehicle/add_vehicle_page.dart';
+import 'package:ghmc/screens/dashboard/vehicle_tab.dart';
 import 'package:ghmc/screens/errors/14_no_result_found.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
 import 'package:ghmc/userDataScreen.dart';
@@ -19,8 +20,8 @@ import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:ghmc/util/qrcode_screen.dart';
 import 'package:ghmc/widget/drawer.dart';
 
-import 'globals/globals.dart';
-import 'screens/Testscreens/test_screen.dart';
+import '../../globals/globals.dart';
+import '../Testscreens/test_screen.dart';
 
 enum WhatToDo { qrscan }
 
@@ -160,7 +161,7 @@ class _DashBordScreenState extends State<DashBordScreen>
   Widget _buildBody() {
     return TabBarView(
       children: [
-        TestScreen(),
+        VehicleTab(),
         TestScreen(),
       ],
     );

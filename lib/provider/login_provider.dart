@@ -11,7 +11,7 @@ import 'package:ghmc/util/share_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:ghmc/util/utils.dart';
 
-import '../dashBordScreen.dart';
+import '../screens/dashboard/dashBordScreen.dart';
 
 class LoginProvider extends ChangeNotifier {
   static CredentialsModel? user;

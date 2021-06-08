@@ -9,7 +9,7 @@ import 'package:ghmc/screens/login/ghmc_loginpage.dart';
 
 import 'package:ghmc/util/share_preferences.dart';
 
-import 'dashBordScreen.dart';
+import 'screens/dashboard/dashBordScreen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

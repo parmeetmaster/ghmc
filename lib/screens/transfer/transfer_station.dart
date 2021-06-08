@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ghmc/api/api.dart';
-import 'package:ghmc/dashBordScreen.dart';
+import 'package:ghmc/screens/dashboard/dashBordScreen.dart';
 import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/model/driver_data_model.dart';
 import 'dart:io';
@@ -16,7 +16,7 @@ import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:ghmc/widget/drawer.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:simple_logger/simple_logger.dart';
+
 
 class TransferStation extends StatefulWidget {
   QrDataModel? model;

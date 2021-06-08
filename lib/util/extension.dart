@@ -2,6 +2,7 @@ import 'dart:io';
 
 
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 
 import 'custom_route_builder.dart';
@@ -10,6 +11,17 @@ import 'package:path/path.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:dio/dio.dart';
+
+
+extension logs on String {
+  get printerror => Logger().e(this);
+  get printwarn => Logger().w(this);
+  get printinfo => Logger().i(this);
+  get printwtf => Logger().wtf(this);
+  get printverbose => Logger().v(this);
+}
+
+
 
 extension IndexedIterable<E> on Iterable<E> {
   Iterable<T> mapIndexed<T>(T Function(E e, int i) f) {

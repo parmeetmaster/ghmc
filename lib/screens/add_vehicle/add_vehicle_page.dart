@@ -19,7 +19,7 @@ import 'package:ghmc/widget/dialogs/single_button_dialog.dart';
 import 'package:ghmc/widget/loading_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:ghmc/util/utils.dart';
-import '../../dashBordScreen.dart';
+import '../dashboard/dashBordScreen.dart';
 import 'package:ghmc/util/utils.dart';
 class AddVehiclePage extends StatefulWidget {
   Access access;

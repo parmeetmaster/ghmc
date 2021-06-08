@@ -6,6 +6,8 @@ import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/provider/login_provider.dart';
 import 'package:ghmc/screens/add_data/add_data_page.dart';
 import 'package:ghmc/screens/add_vehicle/add_vehicle_page.dart';
+import 'package:ghmc/screens/complaint_box/complain_screen.dart';
+import 'package:ghmc/screens/dashboard/vehicle_tab.dart';
 import 'package:ghmc/screens/gvp_bep/gvp_bvp_list.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
 import 'package:ghmc/screens/settings/settings_page.dart';
@@ -92,7 +94,38 @@ class _MainDrawerState extends State<MainDrawer> {
                 style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {
+                Navigator.push(context,MaterialPageRoute(builder: (context)=>VehicleTab()));
+              },
+            ),
+
+
+            ListTile(
+              leading: Icon(
+                Icons.home,
+                color: Colors.white,
+                size: 25,
+              ),
+              title: Text(
+                "Home",
+                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
+              ),
+              onTap: () {
                 Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.local_police,
+                color: Colors.white,
+                size: 25,
+              ),
+              title: Text(
+                "Complaint",
+                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
+              ),
+              onTap: () {
+                Navigator.push(context,MaterialPageRoute(builder: (context)=>ComplainScreen()));
+
               },
             ),
             ListTile(
@@ -107,7 +140,7 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               onTap: () {},
             ),
-            if(Globals.userData!.data!.departmentId=="3")
+            if(Globals.userData!.data!.departmentId=="3" || Globals.userData!.data!.departmentId=="4")
             ListTile(
               leading: Icon(
                 Icons.library_books,

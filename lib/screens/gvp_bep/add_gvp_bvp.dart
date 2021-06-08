@@ -13,7 +13,7 @@ import 'package:ghmc/widget/dialogs/single_button_dialog.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:ghmc/util/utils.dart';
-import '../../dashBordScreen.dart';
+import '../dashboard/dashBordScreen.dart';
 import 'googleMapScreen.dart';
 
 class AddGvpBepScreen extends StatefulWidget {

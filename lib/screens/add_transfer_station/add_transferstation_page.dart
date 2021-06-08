@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:ghmc/api/api.dart';
-import 'package:ghmc/dashBordScreen.dart';
+import 'package:ghmc/screens/dashboard/dashBordScreen.dart';
 import 'package:ghmc/model/add_vehicle_model/transfer_station_model.dart';
 import 'package:ghmc/model/google_maps_model.dart';
 import 'package:ghmc/provider/add_data/add_data_provider.dart';
