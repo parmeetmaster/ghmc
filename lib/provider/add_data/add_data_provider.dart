@@ -12,6 +12,7 @@ import 'package:ghmc/model/credentials.dart';
 import 'package:ghmc/util/geocoding_utils.dart';
 import 'package:ghmc/util/utils.dart';
 import 'package:location_platform_interface/location_platform_interface.dart';
+import 'package:ghmc/util/utils.dart';
 
 class AddDataProvider extends ChangeNotifier {
   uploadTransferStation(
@@ -24,6 +25,8 @@ class AddDataProvider extends ChangeNotifier {
       "Please check Location not grabbed".showSnackbar(context);
       return;
     }
+
+    photo=await photo!.compressfile; // compression added
 
     MultipartFile? file = await FileSupport().getMultiPartFromFile(photo!);
 

@@ -28,7 +28,7 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
   Color color = Colors.red;
   int currunt_step = 0;
   SupportTypes? supportTypes;
-  var photo;
+  File? photo;
   TextEditingController controller = new TextEditingController();
 
   SupportItems? supportItem;
@@ -41,7 +41,7 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
               .printwarn;
           currunt_step = i;
           setState(() {
-            if (i == 16) {
+            if (i == 15) {
               recorder!.stop();
               recorder!.getPath();
               recorder!.reset();

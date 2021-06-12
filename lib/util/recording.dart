@@ -3,22 +3,18 @@ import 'package:path_provider/path_provider.dart' as p;
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart' as ap;
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:record/record.dart';
-import 'package:audio_session/audio_session.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:just_audio_platform_interface/just_audio_platform_interface.dart';
 import 'package:meta/meta.dart' show experimental;
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 enum recordsEnum { stop, pause, start, resume }

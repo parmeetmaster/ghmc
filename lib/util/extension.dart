@@ -1,9 +1,8 @@
 import 'dart:io';
 
-
+import 'package:file_support/file_support.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-
 
 import 'custom_route_builder.dart';
 
@@ -12,16 +11,25 @@ import 'dart:io';
 import 'dart:async';
 import 'package:dio/dio.dart';
 
-
 extension logs on String {
   get printerror => Logger().e(this);
+
   get printwarn => Logger().w(this);
+
   get printinfo => Logger().i(this);
+
   get printwtf => Logger().wtf(this);
+
   get printverbose => Logger().v(this);
 }
 
+extension imgfile on File {
+  Future<File?> get compressfile =>FileSupport().compressImage(this,quality: 30); // newly created plugin for this ghmc
 
+ /* getCompressFile() async {
+    return await  FileSupport().compressImage(this,quality: 30);
+  }*/
+}
 
 extension IndexedIterable<E> on Iterable<E> {
   Iterable<T> mapIndexed<T>(T Function(E e, int i) f) {
@@ -30,8 +38,6 @@ extension IndexedIterable<E> on Iterable<E> {
   }
 }
 
-
-
 extension m_string on String {
   String get camelCase => this == null || this.isEmpty
       ? ''
@@ -39,24 +45,19 @@ extension m_string on String {
           ? '${this[0].toUpperCase()}${this.substring(1)}'
           : '';
 
-
-
-
   String get capitalCase => this
       .replaceAll(RegExp(' +'), ' ')
       .split(" ")
       .map((str) => str.camelCase)
       .join(" ");
 
-
   bool get isCamelCase {
-    if(this.characters.first==this.characters.first.toUpperCase()){
+    if (this.characters.first == this.characters.first.toUpperCase()) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
-
 
   dynamic fromMap(Map json) {
     return json['$this'];
@@ -85,7 +86,6 @@ extension m_string on String {
     return textPainter.didExceedMaxLines;
   }
 
-
   bool isEmail() {
     RegExp regExp = RegExp(
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
@@ -98,8 +98,6 @@ extension m_string on String {
     RegExp regExp = RegExp(pattern);
     return this != null && regExp.hasMatch(this);
   }
-
-
 }
 
 extension navigator on Widget {

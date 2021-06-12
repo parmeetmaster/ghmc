@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:ghmc/api/api.dart';
 import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/model/support/support_types.dart';
-
+import 'package:ghmc/util/utils.dart';
 class SupportProvider extends ChangeNotifier {
   Future<ApiResponse?> getSupporTypes() async {
     ApiResponse response =
@@ -22,6 +22,8 @@ class SupportProvider extends ChangeNotifier {
       File? photo,
       File? recording,
       BuildContext? context})  async{
+
+    photo=await photo!.compressfile;
 
     Map<String,dynamic> map={
       'user_id': '${Globals.userData!.data!.userId}',

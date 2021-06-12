@@ -109,8 +109,14 @@ class AddVehicleProvider with ChangeNotifier {
       return null;
     }
 
+      FileSupport().getFileSize(file: vehicle_image!)!.printinfo;
+   vehicle_image=await    vehicle_image.compressfile;
+    FileSupport().getFileSize(file: vehicle_image!)!.printinfo;
+
+
     MultipartFile? file =
-        await FileSupport().getMultiPartFromFile(vehicle_image!);
+        await FileSupport().getMultiPartFromFile(vehicle_image);
+
 
     var map = {
       'user_id': Globals.userData!.data!.userId,
