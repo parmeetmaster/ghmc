@@ -13,6 +13,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:ghmc/util/share_preferences.dart';
 import 'package:provider/provider.dart';
 
+import 'provider/support/support.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -25,6 +27,8 @@ void main() async {
       ChangeNotifierProvider(create: (ctx) => AddDataProvider()),
       ChangeNotifierProvider(create: (ctx) => LocationProvider()),
       ChangeNotifierProvider(create: (ctx) => AddGvpBepProvider()),
+      ChangeNotifierProvider(create: (ctx) => SupportProvider()),
+
     ],
     child: Phoenix(child: MyApp()),
   ));

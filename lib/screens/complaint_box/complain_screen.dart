@@ -2,11 +2,18 @@ import 'dart:io';
 
 import 'package:file_support/file_support.dart';
 import 'package:flutter/material.dart';
+import 'package:ghmc/api/api.dart';
 import 'package:ghmc/globals/constants.dart';
+import 'package:ghmc/globals/constants.dart';
+import 'package:ghmc/model/support/support_types.dart';
+import 'package:ghmc/provider/support/support.dart';
+import 'package:ghmc/screens/complaint_box/step_progress_indicator.dart';
+import 'package:ghmc/screens/dashboard/dashBordScreen.dart';
 import 'package:ghmc/util/file_picker.dart';
 import 'package:ghmc/util/recording.dart';
 import 'package:ghmc/util/utils.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:ghmc/widget/dialogs/single_button_dialog.dart';
+import 'package:provider/provider.dart';
 
 class ComplainScreen extends StatefulWidget {
   const ComplainScreen({Key? key}) : super(key: key);
@@ -20,16 +27,21 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
   Icon? icon;
   Color color = Colors.red;
   int currunt_step = 0;
-
+  SupportTypes? supportTypes;
   var photo;
+  TextEditingController controller = new TextEditingController();
+
+  SupportItems? supportItem;
 
   startRecording() {
     recorder = new RecodingAudioPlayer(
         timerstatus: (i) {
-          i.toString().printwarn;
+          i
+              .toString()
+              .printwarn;
           currunt_step = i;
           setState(() {
-            if (i == 30) {
+            if (i == 16) {
               recorder!.stop();
               recorder!.getPath();
               recorder!.reset();
@@ -37,7 +49,9 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
           });
         },
         updateStatus: (s) {
-          s.toString().printinfo;
+          s
+              .toString()
+              .printinfo;
           setState(() {});
         },
         recordingstatus: (irec) {});
@@ -46,6 +60,8 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
   @override
   void initState() {
     super.initState();
+    loadData();
+
     startRecording();
   }
 
@@ -100,7 +116,7 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
                     height: 10,
                   ),
                   StepProgressIndicator(
-                    totalSteps: 30,
+                    totalSteps: 15,
                     currentStep: currunt_step,
                     size: 8,
                     padding: 0,
@@ -119,7 +135,14 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
                     ),
                   ),
                   Text(
-                      "Status: ${recorder!.status == recordsEnum.start || recorder!.status == recordsEnum.resume ? "recording" : recorder!.status == recordsEnum.stop ? "Complete" : "pause"}")
+                      "Status: ${recorder!.status == recordsEnum.start ||
+                          recorder!.status == recordsEnum.resume
+                          ? "recording"
+                          : recorder!.status == recordsEnum.stop
+                          ? "Complete"
+                          : recorder!.status == recordsEnum.pause
+                          ? "Pause"
+                          : "Wait to start Record"}")
                 ],
               ),
             ),
@@ -142,16 +165,28 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
           ),
           title: Text('Complaint'),
         ),
-        body: Container(
+        body: (supportTypes == null)
+            ? Container(
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        )
+            : Container(
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: 20),
             shrinkWrap: true,
-           children: [
-             SizedBox(height: 25,),
-             Padding(
-               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-               child: Text("Select Complaint",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-             ),
+            children: [
+              SizedBox(
+                height: 25,
+              ),
+              /*     Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        "Select Complaint",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),*/
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -160,11 +195,23 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
                   decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.black12,
-                      ),borderRadius: BorderRadius.circular(10)
-                  ),
+                      ),
+                      borderRadius: BorderRadius.circular(10)),
                   child: DropdownButton(
                     isExpanded: true,
-                    items: [],
+                    //value: selectedOwnerType,
+                    onChanged: (value) {
+                      this.supportItem = value as SupportItems;
+                      setState(() {});
+                    },
+
+                    items: supportTypes!.data!
+                        .map((e) =>
+                        DropdownMenuItem<SupportItems>(
+                          value: e,
+                          child: Text("${e.name}"),
+                        ))
+                        .toList(),
                     underline: Container(
                       color: Colors.transparent,
                     ),
@@ -176,20 +223,53 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
 
                     hint: Center(
                       child: Text(
-                        "GVP",
-                        style: TextStyle(color: Colors.black, fontSize: 25),
+                        supportItem == null
+                            ? "Select Complaint"
+                            : "${supportItem!.name}",
+                        style:
+                        TextStyle(color: Colors.black, fontSize: 18),
                       ),
                     ),
                     onTap: () {},
                   ),
                 ),
               ),
-             SizedBox(height: 25,),
-             Padding(
-               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-               child: Text("Add Photograph",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-             ),
-             this.photo == null
+              SizedBox(
+                height: 25,
+              ),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: TextField(
+                    controller: controller,
+                    minLines: 1,
+                    //Normal textInputField will be displayed
+                    maxLines: 5,
+                    //
+                    keyboardType: TextInputType.multiline,
+                    decoration: new InputDecoration(
+                      /*    focusedBorder:const OutlineInputBorder(
+                            // width: 0.0 produces a thin "hairline" border
+                            borderSide: const BorderSide(color: Color(0xFFAD1457), width: 0.0),
+                          ) ,*/
+                        enabledBorder: const OutlineInputBorder(
+                          // width: 0.0 produces a thin "hairline" border
+                          borderSide: const BorderSide(
+                              color: Color(0xFFAD1457), width: 0.0),
+                        ),
+                        border: new OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(10.0),
+                          ),
+                        ),
+                        filled: true,
+                        hintStyle: new TextStyle(color: Colors.grey[800]),
+                        hintText: "Type in your Complaint here...",
+                        fillColor: Colors.white70),
+                  )),
+              SizedBox(
+                height: 25,
+              ),
+              this.photo == null
                   ? Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -232,44 +312,99 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
                   ),
                 ),
               ),
-             SizedBox(height: 25,),
-             Padding(
-               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-               child: Text("Please speak you complaint",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-             ),
-             SizedBox(height: 10,),
-             _buildControl(),
-             SizedBox(height: 20,),
-             Padding(
-               padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.1),
-               child: Container(
-                   child: Padding(
-                     padding: const EdgeInsets.all(15.0),
-                     child: Center(
-                       child: Text(
-                         'Submit Complaint',
-                         style: TextStyle(
-                             color: Colors.white, fontSize: 20),
-                       ),
-                     ),
-                   ),
-                 decoration: BoxDecoration(
-                     gradient: LinearGradient(
-                       colors: [
-                         Color(0xFFAD1457),
-                         Color(0xFFAD801D9E)
-                       ],
-                       begin: Alignment.centerLeft,
-                       end: Alignment.centerRight,
-                     ),
-                     borderRadius: BorderRadius.circular(30.0)),
-               ),
-             )
+              SizedBox(
+                height: 25,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  "Please speak your complaint",
+                  style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              _buildControl(),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: EdgeInsets.all(
+                    MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.1),
+                child: InkWell(
+                  onTap: () async {
+                    if (validation() != true) {
+                      return;
+                    }
+                    final provider = Provider.of<SupportProvider>(context,
+                        listen: false);
+                    ApiResponse? response = await provider.submitComplaint(
+                        item: this.supportItem,
+                        controller: this.controller,
+                        photo: this.photo,
+                        recording: File(await recorder!.getPath()),
+                        context: context);
 
+                    SingleButtonDialog(message: response!.message!,imageurl: "assets/svgs/satisfaction.svg",
+                      onOk: (c){
+                        DashBordScreen().pushAndPopAll(context);
+                      },
 
+                    ).pushDialog(context);
+                  },
+                  child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Center(
+                        child: Text(
+                          'Submit Complaint',
+                          style: TextStyle(
+                              color: Colors.white, fontSize: 20),
+                        ),
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color(0xFFAD1457),
+                            Color(0xFFAD801D9E)
+                          ],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                        borderRadius: BorderRadius.circular(30.0)),
+                  ),
+                ),
+              )
             ],
           ),
         ));
+  }
+
+  void loadData() async {
+    final provider = Provider.of<SupportProvider>(context, listen: false);
+    ApiResponse? response = await provider.getSupporTypes();
+    supportTypes = SupportTypes.fromJson(response!.completeResponse);
+    setState(() {});
+  }
+
+  validation() {
+    if (this.supportItem == null) {
+      "Please Select Complaint Type".showSnackbar(context);
+      return false;
+    } else if (controller.text.isEmpty) {
+      "Please type your Complaint".showSnackbar(context);
+      return false;
+    } else if (this.photo == null) {
+      "Please add Photograph".showSnackbar(context);
+      return false;
+    }
+    return true;
   }
 
 /*

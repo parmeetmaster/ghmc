@@ -10,6 +10,8 @@ class VehicleTab extends StatefulWidget {
 }
 
 class _VehicleTabState extends State<VehicleTab> {
+  DateTime? _selectedDate;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,7 +151,7 @@ class _VehicleTabState extends State<VehicleTab> {
                       ),
 
                       Wrap(
-                        alignment: WrapAlignment.center,
+                        alignment: WrapAlignment.start,
                         children: [
                           _getBlock(),
                           _getBlock(),
@@ -184,7 +186,7 @@ class _VehicleTabState extends State<VehicleTab> {
                       ),
 
                       Wrap(
-                        alignment: WrapAlignment.center,
+                        alignment: WrapAlignment.start,
                         children: [
                           _getBlock(),
                           _getBlock(),
@@ -256,7 +258,7 @@ class _VehicleTabState extends State<VehicleTab> {
                       ),
 
                       Wrap(
-                        alignment: WrapAlignment.center,
+                        alignment: WrapAlignment.start,
                         children: [
                           _getBlock(),
                           _getBlock(),
@@ -392,23 +394,30 @@ class _VehicleTabState extends State<VehicleTab> {
                   SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    children: [
-                      Icon(Icons.calendar_today),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text("Jun 7, 2021 - Jun 7,2021"),
-                      Spacer(),
-                      Icon(Icons.arrow_back_ios,size:20 ,),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Icon(Icons.arrow_forward_ios,size:20 ,),
-                      SizedBox(
-                        width: 15,
-                      ),
-                    ],
+                  InkWell(
+                    onTap: (){
+                      _pickDateDialog();
+
+
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.calendar_today),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("Jun 7, 2021 - Jun 7,2021"),
+                        Spacer(),
+                        Icon(Icons.arrow_back_ios,size:20 ,),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Icon(Icons.arrow_forward_ios,size:20 ,),
+                        SizedBox(
+                          width: 15,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -419,24 +428,47 @@ class _VehicleTabState extends State<VehicleTab> {
     );
   }
 
+  //Method for showing the date picker
+  void _pickDateDialog() {
+    showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        //which date will display when user open the picker
+        firstDate: DateTime(1950),
+        //what will be the previous supported year in picker
+        lastDate: DateTime
+            .now()) //what will be the up to supported date in picker
+        .then((pickedDate) {
+      //then usually do the future job
+      if (pickedDate == null) {
+        //if user tap cancel then this function will stop
+        return;
+      }
+      setState(() {
+        //for rebuilding the ui
+        _selectedDate = pickedDate;
+      });
+    });
+  }
+
   Widget _getBlock(){
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 5,vertical: 5),
-      height: 80,
-      width: 80,
+      height: 70,
+      width: 70,
       child: Column(children: [
         SizedBox(height: 5,),
         Align(
             alignment: Alignment.topLeft,
             child: Padding(
               padding: const EdgeInsets.only(left: 5),
-              child: Text("Total"),
+              child: Text("Total",style: TextStyle(fontSize: 12),),
             )),
         SizedBox(height: 5,),
-        Center(child: Text("550",style: TextStyle(fontSize: 20),),),
+        Center(child: Text("550",style: TextStyle(fontSize: 16),),),
         Spacer(),
         Align(alignment: Alignment.bottomRight,
-        child: Icon(Icons.download),
+        child: Icon(Icons.download,size: 16,),
         )
 
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:path_provider/path_provider.dart' as p;
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -43,11 +43,12 @@ class RecodingAudioPlayer {
 
   Future<String> getPath() async {
     if (path == null) {
-      final dir = await getTemporaryDirectory();
+     // final dir = await getExternalStorageDirectory();
+      final dir = await p.getTemporaryDirectory();
       path = dir.path +
           '/' +
           DateTime.now().millisecondsSinceEpoch.toString() +
-          '.mp4';
+          '.mp3';
     }
     return path!;
   }

@@ -44,6 +44,9 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   TextEditingController phone_number = new TextEditingController();
   File? vehicleImageFile;
   double textsize = 18;
+  TextEditingController incharge_name = new TextEditingController();
+  TextEditingController incharge_phone_number = new TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -295,6 +298,61 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                         ),
                       ),
                     ),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Container(
+                        height: 40,
+                        child: TextField(
+                          controller: this.incharge_name,
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black12),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
+                                borderSide: BorderSide(
+                                  color: Colors.black12,
+                                ),
+                              ),
+                              hintText: 'Incharge name ',
+                              hintStyle: TextStyle(
+                                  fontSize: textsize, color: Colors.black)),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Container(
+                        height: 40,
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          controller: this.incharge_phone_number,
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black12),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
+                                borderSide: BorderSide(
+                                  color: Colors.black12,
+                                ),
+                              ),
+                              hintText: 'Incharge mobile number',
+                              hintStyle: TextStyle(
+                                  fontSize: textsize, color: Colors.black)),
+                        ),
+                      ),
+                    ),
+
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Container(
@@ -428,6 +486,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                                 this.driver_name,
                                 context,
                                 phone_number,
+                                    this.incharge_name,this.incharge_phone_number
                               );
 
                               MProgressIndicator.hide();

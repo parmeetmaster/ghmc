@@ -83,21 +83,6 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
             ),
             SizedBox(height: 20,),
-            ListTile(
-              leading: Icon(
-                Icons.home,
-                color: Colors.white,
-                size: 25,
-              ),
-              title: Text(
-                "Home",
-                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
-              ),
-              onTap: () {
-                Navigator.push(context,MaterialPageRoute(builder: (context)=>VehicleTab()));
-              },
-            ),
-
 
             ListTile(
               leading: Icon(
