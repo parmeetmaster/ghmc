@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+enum Imagetype{png,svg}
+
 class SingleButtonDialog extends StatefulWidget {
   final String? message;
   final Function? onOk, onCancel;
   final String? imageurl;
+  final Imagetype type;
   String okbtntext ;
 
    SingleButtonDialog(
@@ -13,6 +16,7 @@ class SingleButtonDialog extends StatefulWidget {
       this.onOk,
       this.onCancel,
       this.imageurl,
+      this.type=Imagetype.svg,
       this.okbtntext= "OK",})
       : super(key: key);
 
@@ -28,7 +32,7 @@ class _SingleButtonDialogState extends State<SingleButtonDialog> {
       body: Center(
         child: Container(
           width: MediaQuery.of(context).size.width*0.9,
-          height: 275,
+          height: 290,
           padding: EdgeInsets.only(top: 30, bottom: 30, right: 10, left: 10),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(40)),
@@ -46,10 +50,18 @@ class _SingleButtonDialogState extends State<SingleButtonDialog> {
               SizedBox(
                 height: 30,
               ),
+
+              if(widget.type==Imagetype.svg)
               SvgPicture.asset(
                 "${widget.imageurl}",
                 height: 50,
               ),
+              if(widget.type==Imagetype.png)
+                Image.asset(
+                  "${widget.imageurl}",
+                  height: 50,
+                ),
+
               SizedBox(
                 height: 30,
               ),

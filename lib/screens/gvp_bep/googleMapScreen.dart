@@ -9,6 +9,7 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class GoogleMapScreen extends StatefulWidget {
+
   const GoogleMapScreen({Key? key}) : super(key: key);
 
   @override

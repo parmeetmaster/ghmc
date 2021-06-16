@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:file_support/file_support.dart';
 import 'package:flutter/material.dart';
+import 'package:ghmc/util/geocoding_utils.dart';
 import 'package:logger/logger.dart';
 
 import 'custom_route_builder.dart';
@@ -129,3 +130,10 @@ extension navigator on Widget {
         barrierColor: Colors.black45));
   }
 }
+
+extension formatAddress on GeoHolder{
+ // this!.fulldata!.results!.first.formattedAddress
+
+String? get formattedAddress=> this.fulldata!.results!.first.formattedAddress;
+}
+

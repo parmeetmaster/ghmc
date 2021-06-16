@@ -13,8 +13,10 @@ class GeoHolder {
   String? statename;
   String? pincode;
   GoogleMapsModel? fulldata;
+  LocationData? position;
 }
 
+/*This class used to get currunt location adderess*/
 class GeoUtils {
   Future<GoogleMapsModel?>? getLocationDetails(LocationData position) async {
     Response response = await Dio().get(
@@ -53,6 +55,7 @@ class GeoUtils {
     }
 
     MProgressIndicator.hide();
+    holder.position=position;
     return holder;
   }
 
@@ -67,4 +70,7 @@ class GeoUtils {
 
     });
   }
+
+
 }
+
