@@ -10,6 +10,7 @@ import 'package:ghmc/screens/complaint_box/complain_screen.dart';
 import 'package:ghmc/screens/dashboard/vehicle_tab.dart';
 import 'package:ghmc/screens/gvp_bep/gvp_bvp_list.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
+import 'package:ghmc/screens/password_screen/password_screen.dart';
 import 'package:ghmc/screens/settings/settings_page.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
 import 'package:ghmc/util/geocoding_utils.dart';
@@ -160,6 +161,24 @@ class _MainDrawerState extends State<MainDrawer> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => (GvpBepScreen()),
+                    ));
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.vpn_key,
+                color: Colors.white,
+                size: 25,
+              ),
+              title: Text(
+                "Change Password",
+                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
+              ),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => (ChangePasswordScreen()),
                     ));
               },
             ),

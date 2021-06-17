@@ -154,106 +154,7 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
               SizedBox(
                 height: 20.0,
               ),
-              Padding(
-                padding: const EdgeInsets.all(0.0),
-                child: TextFormField(
-                  controller: _landMarkController,
-                  decoration: InputDecoration(
-                      enabledBorder: const OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 0.0),
-                      ),
-                      focusColor: Colors.black45,
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 2.0),
-                      ),
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                      border: OutlineInputBorder(),
-                      labelText: 'Land Mark',
-                      labelStyle: TextStyle(color: Colors.black)),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Field should not be empty';
-                    }
-                    return null;
-                  },
-                ),
-              ),
 
-              //ward
-              _getDropDownParent(
-                  child: DropdownButton(
-                isExpanded: true,
-                //value: selectedOwnerType,
-                onChanged: (value) {
-                  selected_ward = value as Access?;
-                  setState(() {});
-                },
-                items: Globals.userData!.data!.access!
-                    .toList()
-                    .map((e) => DropdownMenuItem<Access>(
-                          value: e,
-                          child: Text("${e.ward}"),
-                        ))
-                    .toList(),
-                underline: Container(
-                  color: Colors.transparent,
-                ),
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black,
-                  size: 40,
-                ),
-
-                hint: Center(
-                  child: Text(
-                    selected_ward == null //change here
-                        ? "Select Ward"
-                        : "${selected_ward!.ward}",
-                    style: TextStyle(color: Colors.black, fontSize: textsize),
-                  ),
-                ),
-                onTap: () {},
-              )), //end ward
-
-              //circle
-              _getDropDownParent(
-                  child: DropdownButton(
-                isExpanded: true,
-                //value: selectedOwnerType,
-                onChanged: (value) {
-                  selected_circle = value as Access?;
-                  setState(() {});
-                },
-                items: avaiable_circle_list
-                    .toList()
-                    .map((e) => DropdownMenuItem<Access>(
-                          value: e,
-                          child: Text("${e.circle}"),
-                        ))
-                    .toList(),
-                underline: Container(
-                  color: Colors.transparent,
-                ),
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black,
-                  size: 40,
-                ),
-
-                hint: Center(
-                  child: Text(
-                    selected_circle == null
-                        ? "Select Circle"
-                        : "${selected_circle!.circle}",
-                    style: TextStyle(color: Colors.black, fontSize: textsize),
-                  ),
-                ),
-                onTap: () {},
-              )), //end circle
 
               //zone
               _getDropDownParent(
@@ -290,6 +191,110 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
                 ),
                 onTap: () {},
               )), //end zone
+
+              //circle
+              _getDropDownParent(
+                  child: DropdownButton(
+                    isExpanded: true,
+                    //value: selectedOwnerType,
+                    onChanged: (value) {
+                      selected_circle = value as Access?;
+                      setState(() {});
+                    },
+                    items: avaiable_circle_list
+                        .toList()
+                        .map((e) => DropdownMenuItem<Access>(
+                      value: e,
+                      child: Text("${e.circle}"),
+                    ))
+                        .toList(),
+                    underline: Container(
+                      color: Colors.transparent,
+                    ),
+                    icon: Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.black,
+                      size: 40,
+                    ),
+
+                    hint: Center(
+                      child: Text(
+                        selected_circle == null
+                            ? "Select Circle"
+                            : "${selected_circle!.circle}",
+                        style: TextStyle(color: Colors.black, fontSize: textsize),
+                      ),
+                    ),
+                    onTap: () {},
+                  )), //end circle
+
+              //ward
+              _getDropDownParent(
+                  child: DropdownButton(
+                    isExpanded: true,
+                    //value: selectedOwnerType,
+                    onChanged: (value) {
+                      selected_ward = value as Access?;
+                      setState(() {});
+                    },
+                    items: Globals.userData!.data!.access!
+                        .toList()
+                        .map((e) => DropdownMenuItem<Access>(
+                      value: e,
+                      child: Text("${e.ward}"),
+                    ))
+                        .toList(),
+                    underline: Container(
+                      color: Colors.transparent,
+                    ),
+                    icon: Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.black,
+                      size: 40,
+                    ),
+
+                    hint: Center(
+                      child: Text(
+                        selected_ward == null //change here
+                            ? "Select Ward"
+                            : "${selected_ward!.ward}",
+                        style: TextStyle(color: Colors.black, fontSize: textsize),
+                      ),
+                    ),
+                    onTap: () {},
+                  )), //end ward
+             SizedBox(height: 10,),
+              // landmark
+              Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: TextFormField(
+                  controller: _landMarkController,
+                  decoration: InputDecoration(
+                      enabledBorder: const OutlineInputBorder(
+                        // width: 0.0 produces a thin "hairline" border
+                        borderSide:
+                        const BorderSide(color: Colors.grey, width: 0.0),
+                      ),
+                      focusColor: Colors.black45,
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                        const BorderSide(color: Colors.grey, width: 2.0),
+                      ),
+                      contentPadding:
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      border: OutlineInputBorder(),
+                      labelText: 'Land Mark',
+                      labelStyle: TextStyle(color: Colors.black)),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Field should not be empty';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+
+              SizedBox(height: 20,),
 
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 50),

@@ -42,23 +42,36 @@ class LoginProvider extends ChangeNotifier {
     Globals.userData = user!; // setting up user on login
     await SPreference().setString(login_credentials, user!.toRawJson())!;
 
-   "Login Successfully".showSnackbar(context);
+    "Login Successfully".showSnackbar(context);
 
-   Future.delayed(Duration(seconds: 1)).then((value){
-     Navigator.pushReplacement(
-       context,
-       MaterialPageRoute(
-         builder: (context) => DashBordScreen(),
-       ),
-     );
-
-   });
-
+    Future.delayed(Duration(seconds: 1)).then((value) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DashBordScreen(),
+        ),
+      );
+    });
   }
 
-  logout(context) async{
+  Future<ApiResponse> update_password(
+      {TextEditingController? old_password,
+      TextEditingController? new_password,
+      TextEditingController? new_confirm_password}) async {
+    ApiResponse response = await ApiBase().baseFunction(
+        () => ApiBase().getInstance()!.post("/change_password", data: {
+              "user_id": Globals.userData!.data!.userId,
+              "password": old_password!.text,
+              "new_password": new_password!.text,
+              "confirm_password": new_confirm_password!.text,
+            }));
+    MProgressIndicator.hide();
+    return response;
+  }
+
+  logout(context) async {
     Globals.userData = null;
-  await  SPreference().clear();
+    await SPreference().clear();
     Phoenix.rebirth(context);
   }
 }
