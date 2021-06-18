@@ -42,7 +42,7 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
   // TextEditingController
 
   final TextEditingController _landMarkController = TextEditingController();
-
+  final TextEditingController _areaController = TextEditingController();
   double textsize = 14;
 
   @override
@@ -133,7 +133,7 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
 
                 hint: Center(
                   child: Text(
-                    selected_type == null ? "Type" : "${selected_type}",
+                    selected_type == null ? "Select GVP/BEP" : "${selected_type}",
                     style: TextStyle(color: Colors.black, fontSize: textsize),
                   ),
                 ),
@@ -154,6 +154,39 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
               SizedBox(
                 height: 20.0,
               ),
+             //area
+              Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: TextFormField(
+                  controller: _areaController,
+                  decoration: InputDecoration(
+                      enabledBorder: const OutlineInputBorder(
+                        // width: 0.0 produces a thin "hairline" border
+                        borderSide:
+                        const BorderSide(color: Colors.grey, width: 0.0),
+                      ),
+                      focusColor: Colors.black45,
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                        const BorderSide(color: Colors.grey, width: 2.0),
+                      ),
+                      contentPadding:
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      border: OutlineInputBorder(),
+                      labelText: ' Area/ Colony',
+                      labelStyle: TextStyle(color: Colors.black)),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Field should not be empty';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+
 
 
               //zone
@@ -306,7 +339,7 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
                         return;
                       }
                       if (this.selected_type == null) {
-                        "Please Choose type.".showSnackbar(context);
+                        "Please Select Gvp and BEP.".showSnackbar(context);
                         return;
                       }
                       if (this.selected_ward == null) {
@@ -329,6 +362,11 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
                         "Landmark is required.".showSnackbar(context);
                         return;
                       }
+                      if (this._areaController.text.isEmpty) {
+                        "Area is required.".showSnackbar(context);
+                        return;
+                      }
+
                       if (this.geoData == null) {
                         "Please fill map coordinates".showSnackbar(context);
                         return;
@@ -343,6 +381,7 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
                           selected_type: this.selected_type,
                           selected_ward: this.selected_ward,
                           selected_circle: this.selected_circle,
+                          area:this._areaController,
                           selected_zone: this.selected_zone);
                       if (response.status != 200)
                         SingleButtonDialog(

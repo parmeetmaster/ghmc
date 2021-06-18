@@ -17,8 +17,10 @@ import 'package:ghmc/screens/errors/14_no_result_found.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
 import 'package:ghmc/userDataScreen.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
+import 'package:ghmc/util/permission.dart';
 import 'package:ghmc/util/qrcode_screen.dart';
 import 'package:ghmc/widget/drawer.dart';
+import 'package:ghmc/util/utils.dart';
 
 import '../../globals/globals.dart';
 import '../Testscreens/test_screen.dart';
@@ -62,6 +64,7 @@ class _DashBordScreenState extends State<DashBordScreen>
 
   @override
   void initState() {
+    PermissionUtils().initialisationPermission();
     super.initState();
     print(widget.credentialsModel!.data!.email);
     /*   Future.delayed(Duration.zero, () async {
@@ -167,7 +170,15 @@ class _DashBordScreenState extends State<DashBordScreen>
     );
   }
 
-  Future<void> _scan() async {
+  _scan() async {
+    if(PermissionUtils().isCameraEnable()==false){
+     await "Please give Camera Permission".showSnackbar(context);
+     Future.delayed(Duration(seconds: 5)).then((value) async =>   await PermissionUtils().initialisationPermission());
+      return;
+    }
+
+
+
     String qrdata = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => QRScreen()));
     print("QR DATA IS : $qrdata");

@@ -149,6 +149,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           .showSnackbar(context);
       return;
     }
+    // check length should 8
+    if (new_password.text.characters.length<9 || new_confirm_password.text.characters.length<9) {
+      "New Password length must greater than 8"
+          .showSnackbar(context);
+      return;
+    }
+
 
     // check both password match
     if (new_password.text != new_confirm_password.text) {

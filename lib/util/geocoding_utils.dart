@@ -31,7 +31,7 @@ class GeoUtils {
       LocationData? position, BuildContext context) async {
 
 
-    MProgressIndicator.show(context);
+    //MProgressIndicator.show(context);
     GoogleMapsModel? model = await getLocationDetails(position!);
     GeoHolder holder=new GeoHolder();
     holder.fulldata=model!;

@@ -6,10 +6,12 @@ import 'package:ghmc/globals/constants.dart';
 import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/model/credentials.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
+import 'package:ghmc/util/security.dart';
 
 import 'package:ghmc/util/share_preferences.dart';
 
 import 'screens/dashboard/dashBordScreen.dart';
+import 'util/utils.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -18,14 +20,21 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   checkuserLoggedIn() async {
+   bool isrooted= await Security().check_is_device_rooted();
+
+    if (isrooted==true) {
+      "Your Device is root we unable to allow to use Application"
+          .showSnackbar(context);
+      return;
+    }
+
     String? userdata = await SPreference().getString(login_credentials);
     if (userdata != null) {
-      Globals.userData=CredentialsModel.fromRawJson(userdata);
+      Globals.userData = CredentialsModel.fromRawJson(userdata);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              DashBordScreen(),
+          builder: (context) => DashBordScreen(),
         ),
       );
     } else {
@@ -42,6 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     Timer(
       Duration(seconds: 2),
       () async => checkuserLoggedIn(),

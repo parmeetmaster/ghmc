@@ -130,9 +130,9 @@ class _AddGvpBepScreenState extends State<AddGvpBepScreen> {
                 },
                 items: items
                     .map((e) => DropdownMenuItem<String>(
-                  value: e,
-                  child: Text("${e}"),
-                ))
+                          value: e,
+                          child: Text("${e}"),
+                        ))
                     .toList(),
                 underline: Container(
                   color: Colors.transparent,
@@ -184,7 +184,6 @@ class _AddGvpBepScreenState extends State<AddGvpBepScreen> {
                     selecteditem = 1;
                   }
 
-                  MProgressIndicator.show(context);
                   String? statename = await GeoUtils().getStateName(context);
                   LocationData? locationdata =
                       await CustomLocation().getLocation();
@@ -194,6 +193,13 @@ class _AddGvpBepScreenState extends State<AddGvpBepScreen> {
                     return;
                   }
 
+                  // if map not found validation
+                  if (mapData != true) {
+                    "Please add location on Map".showSnackbar(context);
+                    return;
+                  }
+
+                  MProgressIndicator.show(context);
                   ApiResponse? response =
                       await AddGvpBepProvider.getInstance(context)
                           .addGvpBepData(
@@ -207,7 +213,7 @@ class _AddGvpBepScreenState extends State<AddGvpBepScreen> {
                     latitude: "${locationdata.latitude}",
                     type: '$selecteditem',
                   );
-                  if (response!.status == 200)
+                  if (response!.status == 200) {
                     await SingleButtonDialog(
                       message: response.message,
                       imageurl: "assets/svgs/garbage-truck.svg",
@@ -216,7 +222,7 @@ class _AddGvpBepScreenState extends State<AddGvpBepScreen> {
                         DashBordScreen().pushAndPopTillFirst(context);
                       },
                     ).pushDialog(context);
-
+                  }
                   MProgressIndicator.hide();
                 },
                 child: Text(

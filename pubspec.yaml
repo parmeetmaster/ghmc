@@ -42,8 +42,10 @@ dependencies:
   file_support: ^1.0.2
   app_settings: ^4.1.0
   google_maps_flutter: ^2.0.6
-  record: ^2.1.1
+ # record: ^2.1.1
   logger: ^1.0.0
+  permission_handler: ^8.1.1
+  root_access: ^1.0.4
  # firebase_crashlytics: ^2.0.5
 
 

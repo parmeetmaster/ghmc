@@ -10,7 +10,7 @@ import 'package:ghmc/provider/support/support.dart';
 import 'package:ghmc/screens/complaint_box/step_progress_indicator.dart';
 import 'package:ghmc/screens/dashboard/dashBordScreen.dart';
 import 'package:ghmc/util/file_picker.dart';
-import 'package:ghmc/util/recording.dart';
+//import 'package:ghmc/util/recording.dart';
 import 'package:ghmc/util/utils.dart';
 import 'package:ghmc/widget/dialogs/single_button_dialog.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +23,7 @@ class ComplainScreen extends StatefulWidget {
 }
 
 class _ComplainScreenState<T> extends State<ComplainScreen> {
-  RecodingAudioPlayer? recorder;
+ // RecodingAudioPlayer? recorder;
   Icon? icon;
   Color color = Colors.red;
   int currunt_step = 0;
@@ -33,6 +33,7 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
 
   SupportItems? supportItem;
 
+/*
   startRecording() {
     recorder = new RecodingAudioPlayer(
         timerstatus: (i) {
@@ -56,15 +57,17 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
         },
         recordingstatus: (irec) {});
   }
+*/
 
   @override
   void initState() {
     super.initState();
     loadData();
 
-    startRecording();
+    //startRecording();
   }
 
+/*
   Widget _buildControl() {
     if (recorder!.status == null) {
       final theme = Theme.of(context);
@@ -151,6 +154,7 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
       ),
     );
   }
+*/
 
   @override
   Widget build(BuildContext context) {
@@ -281,17 +285,33 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
                       ),
                       borderRadius: BorderRadius.circular(15.0)),
                   child: Center(
-                    child: FloatingActionButton(
-                        backgroundColor: Colors.black,
-                        onPressed: () async {
-                          photo = await FilePick().takecameraPic();
-                          setState(() {});
-                        },
-                        child: Icon(
-                          Icons.camera_alt_outlined,
-                          color: Colors.white,
-                          size: 40,
-                        )),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        FloatingActionButton(
+                            backgroundColor: Colors.black,
+                            onPressed: () async {
+                              photo = await FilePick().takecameraPic();
+                              setState(() {});
+                            },
+                            child: Icon(
+                              Icons.camera_alt_outlined,
+                              color: Colors.white,
+                              size: 40,
+                            )),
+                        FloatingActionButton(
+                            backgroundColor: Colors.black,
+                            onPressed: () async {
+                              photo = await FilePick().pickFile();
+                              setState(() {});
+                            },
+                            child: Icon(
+                              Icons.picture_in_picture_sharp,
+                              color: Colors.white,
+                              size: 40,
+                            )),
+                      ],
+                    ),
                   ),
                 ),
               )
@@ -312,7 +332,7 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
                   ),
                 ),
               ),
-              SizedBox(
+  /*            SizedBox(
                 height: 25,
               ),
               Padding(
@@ -329,7 +349,7 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
               _buildControl(),
               SizedBox(
                 height: 20,
-              ),
+              ),*/
               Padding(
                 padding: EdgeInsets.all(
                     MediaQuery
@@ -347,7 +367,7 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
                         item: this.supportItem,
                         controller: this.controller,
                         photo: this.photo,
-                        recording: File(await recorder!.getPath()),
+                      //  recording: File(await recorder!.getPath()),
                         context: context);
 
                     SingleButtonDialog(message: response!.message!,imageurl: "assets/svgs/satisfaction.svg",
@@ -397,13 +417,13 @@ class _ComplainScreenState<T> extends State<ComplainScreen> {
     if (this.supportItem == null) {
       "Please Select Complaint Type".showSnackbar(context);
       return false;
-    } else if (controller.text.isEmpty) {
+    } /*else if (controller.text.isEmpty) {
       "Please type your Complaint".showSnackbar(context);
       return false;
     } else if (this.photo == null) {
       "Please add Photograph".showSnackbar(context);
       return false;
-    }
+    }*/
     return true;
   }
 

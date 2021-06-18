@@ -8,6 +8,7 @@ import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/model/credentials.dart';
 import 'package:ghmc/util/geocoding_utils.dart';
 import 'package:ghmc/util/location.dart';
+import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:provider/provider.dart';
 
 class AddGvpBepProvider extends ChangeNotifier {
@@ -42,6 +43,7 @@ class AddGvpBepProvider extends ChangeNotifier {
         'longitude': longitude,
       }),
     );
+    MProgressIndicator.hide();
     return response;
   }
 
@@ -52,7 +54,7 @@ class AddGvpBepProvider extends ChangeNotifier {
       Access? selected_circle,
       Access? selected_zone,
       GeoHolder? geo_data,
-      TextEditingController? landmark_controller}) async {
+      TextEditingController? landmark_controller, TextEditingController? area}) async {
     ApiResponse response;
     selected_type=selected_type!.toLowerCase();// to lower cases
 
@@ -64,11 +66,13 @@ class AddGvpBepProvider extends ChangeNotifier {
         'ward': selected_ward!.wardId,
         'landmark': landmark_controller!.text,
         'location': formatted_address,
+        'area': area!.text,
         'lattitude': geo_data!.position!.latitude!,
         'longitude': geo_data.position!.longitude!,
         'type': selected_type
       }),
     );
+    MProgressIndicator.hide();
     return response;
   }
 }
