@@ -25,9 +25,10 @@ extension logs on String {
 }
 
 extension imgfile on File {
-  Future<File?> get compressfile =>FileSupport().compressImage(this,quality: 30); // newly created plugin for this ghmc
+  Future<File?> get compressfile => FileSupport()
+      .compressImage(this, quality: 30); // newly created plugin for this ghmc
 
- /* getCompressFile() async {
+  /* getCompressFile() async {
     return await  FileSupport().compressImage(this,quality: 30);
   }*/
 }
@@ -131,9 +132,9 @@ extension navigator on Widget {
   }
 }
 
-extension formatAddress on GeoHolder{
- // this!.fulldata!.results!.first.formattedAddress
+extension formatAddress on GeoHolder {
+  // this!.fulldata!.results!.first.formattedAddress
 
-String? get formattedAddress=> this.fulldata!.results!.first.formattedAddress;
+  String? get formattedAddress =>
+      this.fulldata!.results!.first.formattedAddress;
 }
-

@@ -15,21 +15,23 @@ class CredentialsModel {
   String? message;
   Data? data;
 
-  factory CredentialsModel.fromRawJson(String str) => CredentialsModel.fromJson(json.decode(str));
+  factory CredentialsModel.fromRawJson(String str) =>
+      CredentialsModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory CredentialsModel.fromJson(Map<String, dynamic> json) => CredentialsModel(
-    success: json["success"],
-    message: json["message"],
-    data: Data.fromJson(json["data"]),
-  );
+  factory CredentialsModel.fromJson(Map<String, dynamic> json) =>
+      CredentialsModel(
+        success: json["success"],
+        message: json["message"],
+        data: Data.fromJson(json["data"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "success": success,
-    "message": message,
-    "data": data!.toJson(),
-  };
+        "success": success,
+        "message": message,
+        "data": data!.toJson(),
+      };
 }
 
 class Data {
@@ -60,28 +62,29 @@ class Data {
   String toRawJson() => json.encode(toJson());
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    userId: json["user_id"],
-    firstName: json["first_name"],
-    lastName: json["last_name"],
-    email: json["email"],
-    mobileNumber: json["mobile_number"],
-    departmentId: json["department_id"],
-    departmentName: json["department_name"],
-    token: json["token"],
-    access: List<Access>.from(json["access"].map((x) => Access.fromJson(x))),
-  );
+        userId: json["user_id"],
+        firstName: json["first_name"],
+        lastName: json["last_name"],
+        email: json["email"],
+        mobileNumber: json["mobile_number"],
+        departmentId: json["department_id"],
+        departmentName: json["department_name"],
+        token: json["token"],
+        access:
+            List<Access>.from(json["access"].map((x) => Access.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "user_id": userId,
-    "first_name": firstName,
-    "last_name": lastName,
-    "email": email,
-    "mobile_number": mobileNumber,
-    "department_id": departmentId,
-    "department_name": departmentName,
-    "token": token,
-    "access": List<dynamic>.from(access!.map((x) => x.toJson())),
-  };
+        "user_id": userId,
+        "first_name": firstName,
+        "last_name": lastName,
+        "email": email,
+        "mobile_number": mobileNumber,
+        "department_id": departmentId,
+        "department_name": departmentName,
+        "token": token,
+        "access": List<dynamic>.from(access!.map((x) => x.toJson())),
+      };
 }
 
 class Access {
@@ -112,28 +115,30 @@ class Access {
   String toRawJson() => json.encode(toJson());
 
   factory Access.fromJson(Map<String, dynamic> json) => Access(
-    zone: json["zone"],
-    zoneId: json["zone_id"],
-    circle: json["circle"],
-    circleId: json["circle_id"],
-    ward: json["ward"],
-    wardId: json["ward_id"],
-    landmarks: json["landmarks"],
-    landmarksId: json["landmarks_id"],
-    geoTagButtons: List<GeoTagButton>.from(json["geo_tag_buttons"].map((x) => GeoTagButton.fromJson(x))),
-  );
+        zone: json["zone"],
+        zoneId: json["zone_id"],
+        circle: json["circle"],
+        circleId: json["circle_id"],
+        ward: json["ward"],
+        wardId: json["ward_id"],
+        landmarks: json["landmarks"],
+        landmarksId: json["landmarks_id"],
+        geoTagButtons: List<GeoTagButton>.from(
+            json["geo_tag_buttons"].map((x) => GeoTagButton.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "zone": zone,
-    "zone_id": zoneId,
-    "circle": circle,
-    "circle_id": circleId,
-    "ward": ward,
-    "ward_id": wardId,
-    "landmarks": landmarks,
-    "landmarks_id": landmarksId,
-    "geo_tag_buttons": List<dynamic>.from(geoTagButtons!.map((x) => x.toJson())),
-  };
+        "zone": zone,
+        "zone_id": zoneId,
+        "circle": circle,
+        "circle_id": circleId,
+        "ward": ward,
+        "ward_id": wardId,
+        "landmarks": landmarks,
+        "landmarks_id": landmarksId,
+        "geo_tag_buttons":
+            List<dynamic>.from(geoTagButtons!.map((x) => x.toJson())),
+      };
 }
 
 class GeoTagButton {
@@ -145,21 +150,21 @@ class GeoTagButton {
   String? id;
   String? name;
 
-  factory GeoTagButton.fromRawJson(String str) => GeoTagButton.fromJson(json.decode(str));
+  factory GeoTagButton.fromRawJson(String str) =>
+      GeoTagButton.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory GeoTagButton.fromJson(Map<String, dynamic> json) => GeoTagButton(
-    id: json["id"],
-    name: json["name"],
-  );
+        id: json["id"],
+        name: json["name"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-  };
+        "id": id,
+        "name": name,
+      };
 }
-
 
 class LoginError {
   LoginError({
@@ -172,19 +177,20 @@ class LoginError {
   String? message;
   List<dynamic>? data;
 
-  factory LoginError.fromRawJson(String str) => LoginError.fromJson(json.decode(str));
+  factory LoginError.fromRawJson(String str) =>
+      LoginError.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory LoginError.fromJson(Map<String, dynamic> json) => LoginError(
-    success: json["success"],
-    message: json["message"],
-    data: List<dynamic>.from(json["data"].map((x) => x)),
-  );
+        success: json["success"],
+        message: json["message"],
+        data: List<dynamic>.from(json["data"].map((x) => x)),
+      );
 
   Map<String, dynamic> toJson() => {
-    "success": success,
-    "message": message,
-    "data": List<dynamic>.from(data!.map((x) => x)),
-  };
+        "success": success,
+        "message": message,
+        "data": List<dynamic>.from(data!.map((x) => x)),
+      };
 }

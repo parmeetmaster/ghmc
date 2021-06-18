@@ -52,8 +52,7 @@ class _QRScreenState extends State<QRScreen> {
           onPressed: () {},
         ),
         title: const Text('Qr Code Scan'),
-        actions: [
-        ],
+        actions: [],
       ),
       body: Column(
         children: <Widget>[
@@ -72,13 +71,13 @@ class _QRScreenState extends State<QRScreen> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) async {
-         setState(() {
+      setState(() {
         result = scanData;
-        print( 'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}');
+        print(
+            'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}');
       });
-         controller.dispose();
-         Navigator.pop(context, scanData.code);
-
+      controller.dispose();
+      Navigator.pop(context, scanData.code);
     });
   }
 

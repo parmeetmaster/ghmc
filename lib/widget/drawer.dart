@@ -28,20 +28,20 @@ class MainDrawer extends StatefulWidget {
 
 class _MainDrawerState extends State<MainDrawer> {
   late AwesomeDialog dialog;
-  double drawer_item_text=15;
+  double drawer_item_text = 15;
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Color(0xFFAD1457),
-                Color(0xFFAD801D9E),
-              ],
-            )),
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Color(0xFFAD1457),
+            Color(0xFFAD801D9E),
+          ],
+        )),
         child: ListView(
           children: [
             SizedBox(
@@ -63,18 +63,20 @@ class _MainDrawerState extends State<MainDrawer> {
                         color: Colors.white,
                         image: DecorationImage(
                             image: AssetImage(
-                                  "assets/images/ThingstoDoinTelangana.jpg",
+                              "assets/images/ThingstoDoinTelangana.jpg",
                             ),
                             fit: BoxFit.fill),
                       ),
                     ),
-                    SizedBox(height: 20,),
-                    Text(
-                      "${Globals.userData!.data!.firstName} ${Globals.userData!.data!.lastName??""}",
-                      style:
-                      TextStyle(color: Color(0xFFAD801D9E), fontSize: 20),
+                    SizedBox(
+                      height: 20,
                     ),
-                    Text("${Globals.userData!.data!.mobileNumber??""}",
+                    Text(
+                      "${Globals.userData!.data!.firstName} ${Globals.userData!.data!.lastName ?? ""}",
+                      style:
+                          TextStyle(color: Color(0xFFAD801D9E), fontSize: 20),
+                    ),
+                    Text("${Globals.userData!.data!.mobileNumber ?? ""}",
                         style: TextStyle(
                           color: Color(0xFFAD801D9E),
                           fontSize: 20,
@@ -83,8 +85,9 @@ class _MainDrawerState extends State<MainDrawer> {
                 ),
               ),
             ),
-            SizedBox(height: 20,),
-
+            SizedBox(
+              height: 20,
+            ),
             ListTile(
               leading: Icon(
                 Icons.home,
@@ -93,7 +96,8 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               title: Text(
                 "Home",
-                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
+                style:
+                    TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -107,11 +111,12 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               title: Text(
                 "Complaint",
-                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
+                style:
+                    TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {
-                Navigator.push(context,MaterialPageRoute(builder: (context)=>ComplainScreen()));
-
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ComplainScreen()));
               },
             ),
             ListTile(
@@ -122,30 +127,32 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               title: Text(
                 "Geo Tagging",
-                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
+                style:
+                    TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {},
             ),
-            if(Globals.userData!.data!.departmentId=="3" || Globals.userData!.data!.departmentId=="4")
-            ListTile(
-              leading: Icon(
-                Icons.library_books,
-                color: Colors.white,
-                size: 25,
+            if (Globals.userData!.data!.departmentId == "3" ||
+                Globals.userData!.data!.departmentId == "4")
+              ListTile(
+                leading: Icon(
+                  Icons.library_books,
+                  color: Colors.white,
+                  size: 25,
+                ),
+                title: Text(
+                  "Data Entry",
+                  style: TextStyle(
+                      fontSize: drawer_item_text, color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => (AddDataPage()),
+                      ));
+                },
               ),
-              title: Text(
-                "Data Entry",
-                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => (AddDataPage()),
-                    ));
-              },
-            ),
-
             ListTile(
               leading: Icon(
                 Icons.directions_car_rounded,
@@ -154,7 +161,8 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               title: Text(
                 "Add GVP/BEP",
-                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
+                style:
+                    TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {
                 Navigator.push(
@@ -172,7 +180,8 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               title: Text(
                 "Change Password",
-                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
+                style:
+                    TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {
                 Navigator.push(
@@ -182,8 +191,6 @@ class _MainDrawerState extends State<MainDrawer> {
                     ));
               },
             ),
-
-
             ListTile(
               leading: Icon(
                 Icons.power_settings_new,
@@ -192,32 +199,28 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               title: Text(
                 "LogOut",
-                style: TextStyle(fontSize: drawer_item_text, color: Colors.white),
+                style:
+                    TextStyle(fontSize: drawer_item_text, color: Colors.white),
               ),
               onTap: () {
-
-
-                 dialog=   AwesomeDialog(
-                    context: context,
-                    dialogType: DialogType.INFO,
-                    animType: AnimType.BOTTOMSLIDE,
-                    title: 'Logout',
-                    desc: 'Do you really like to logout?',
-                    btnCancelOnPress: () {
-                      Navigator.of(context,rootNavigator: true).pop();
-                    },
-                  btnOkOnPress: () async{
-                  await  LoginProvider.getInstance(context).logout(context);
-
-
-                    },
+                dialog = AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.INFO,
+                  animType: AnimType.BOTTOMSLIDE,
+                  title: 'Logout',
+                  desc: 'Do you really like to logout?',
+                  btnCancelOnPress: () {
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                  btnOkOnPress: () async {
+                    await LoginProvider.getInstance(context).logout(context);
+                  },
                 )..show();
-
-
               },
             ),
           ],
         ),
       ),
     );
-  }}
+  }
+}

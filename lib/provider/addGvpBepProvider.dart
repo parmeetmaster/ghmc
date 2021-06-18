@@ -54,9 +54,10 @@ class AddGvpBepProvider extends ChangeNotifier {
       Access? selected_circle,
       Access? selected_zone,
       GeoHolder? geo_data,
-      TextEditingController? landmark_controller, TextEditingController? area}) async {
+      TextEditingController? landmark_controller,
+      TextEditingController? area}) async {
     ApiResponse response;
-    selected_type=selected_type!.toLowerCase();// to lower cases
+    selected_type = selected_type!.toLowerCase(); // to lower cases
 
     response = await ApiBase().baseFunction(
       () => ApiBase().getInstance()!.post('/add_new_gvp_bep', data: {

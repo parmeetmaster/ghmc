@@ -1,12 +1,10 @@
-
-
 import 'package:flutter/material.dart';
 
 class GradientButton extends StatelessWidget {
   Function? onclick;
   String? title;
 
-   GradientButton({this.title="",this.onclick});
+  GradientButton({this.title = "", this.onclick});
 
   @override
   Widget build(BuildContext context) {
@@ -16,20 +14,15 @@ class GradientButton extends StatelessWidget {
         child: FlatButton(
             height: 30,
             onPressed: () {
-              if(onclick!=null)
-               onclick!();
+              if (onclick != null) onclick!();
             },
             child: Text(
               '${title!}',
-              style: TextStyle(
-                  color: Colors.white, fontSize: 20),
+              style: TextStyle(color: Colors.white, fontSize: 20),
             )),
         decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                Color(0xFFAD1457),
-                Color(0xFFAD801D9E)
-              ],
+              colors: [Color(0xFFAD1457), Color(0xFFAD801D9E)],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),

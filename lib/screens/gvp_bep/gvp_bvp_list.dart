@@ -47,18 +47,16 @@ class _GvpBepScreenState extends State<GvpBepScreen> {
           children: [
             Text(
               "GVP / BEP",
-
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: SizedBox(
                 width: 2,
-                  child: Container(
-                    color: Colors.white,
-                  ),
+                child: Container(
+                  color: Colors.white,
+                ),
               ),
             ),
-
             IconButton(
                 icon: Icon(
                   Icons.add,
@@ -71,13 +69,12 @@ class _GvpBepScreenState extends State<GvpBepScreen> {
                       builder: (context) => SelectGvpBepScreen(),
                     ),
                   );
-
                 })
           ],
         ),
       ),
 
-    /*  appBar: AppBar(
+      /*  appBar: AppBar(
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -163,7 +160,7 @@ class _GvpBepScreenState extends State<GvpBepScreen> {
                         ),
                         ...element.geoTagButtons!.map((val) {
                           if (val.id == "1")
-                           return Padding(
+                            return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
                                 child: FlatButton(
@@ -202,7 +199,6 @@ class _GvpBepScreenState extends State<GvpBepScreen> {
                               width: 0,
                             );
                         }),
-
 
                         /*Container(
                           decoration: BoxDecoration(

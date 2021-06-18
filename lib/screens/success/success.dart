@@ -11,8 +11,13 @@ class _SuccessScreenState extends State<SuccessScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      body: Center(child: Icon(Icons.check_circle,color: Colors.green,size: 80,),),
+      body: Center(
+        child: Icon(
+          Icons.check_circle,
+          color: Colors.green,
+          size: 80,
+        ),
+      ),
     );
   }
 }

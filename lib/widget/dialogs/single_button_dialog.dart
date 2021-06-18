@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-enum Imagetype{png,svg}
+enum Imagetype { png, svg }
 
 class SingleButtonDialog extends StatefulWidget {
   final String? message;
   final Function? onOk, onCancel;
   final String? imageurl;
   final Imagetype type;
-  String okbtntext ;
+  String okbtntext;
 
-   SingleButtonDialog(
-      {Key? key,
-      this.message,
-      this.onOk,
-      this.onCancel,
-      this.imageurl,
-      this.type=Imagetype.svg,
-      this.okbtntext= "OK",})
-      : super(key: key);
+  SingleButtonDialog({
+    Key? key,
+    this.message,
+    this.onOk,
+    this.onCancel,
+    this.imageurl,
+    this.type = Imagetype.svg,
+    this.okbtntext = "OK",
+  }) : super(key: key);
 
   @override
   _SingleButtonDialogState createState() => _SingleButtonDialogState();
@@ -31,7 +31,7 @@ class _SingleButtonDialogState extends State<SingleButtonDialog> {
       backgroundColor: Colors.transparent,
       body: Center(
         child: Container(
-          width: MediaQuery.of(context).size.width*0.9,
+          width: MediaQuery.of(context).size.width * 0.9,
           height: 290,
           padding: EdgeInsets.only(top: 30, bottom: 30, right: 10, left: 10),
           decoration: BoxDecoration(
@@ -42,7 +42,7 @@ class _SingleButtonDialogState extends State<SingleButtonDialog> {
             children: [
               Text("${widget.message}",
                   style: const TextStyle(
-                      color:  Colors.black,
+                      color: Colors.black,
                       fontWeight: FontWeight.w600,
                       fontStyle: FontStyle.normal,
                       fontSize: 24.0),
@@ -50,18 +50,16 @@ class _SingleButtonDialogState extends State<SingleButtonDialog> {
               SizedBox(
                 height: 30,
               ),
-
-              if(widget.type==Imagetype.svg)
-              SvgPicture.asset(
-                "${widget.imageurl}",
-                height: 50,
-              ),
-              if(widget.type==Imagetype.png)
+              if (widget.type == Imagetype.svg)
+                SvgPicture.asset(
+                  "${widget.imageurl}",
+                  height: 50,
+                ),
+              if (widget.type == Imagetype.png)
                 Image.asset(
                   "${widget.imageurl}",
                   height: 50,
                 ),
-
               SizedBox(
                 height: 30,
               ),
@@ -76,10 +74,11 @@ class _SingleButtonDialogState extends State<SingleButtonDialog> {
                       },
                       child: Center(
                         child: Container(
-                          width: MediaQuery.of(context).size.width*0.7,
+                          width: MediaQuery.of(context).size.width * 0.7,
                           height: 55,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
                               color: const Color(0xff2cb742)),
                           child: Center(
                             child: Text("${widget.okbtntext}",
@@ -93,7 +92,6 @@ class _SingleButtonDialogState extends State<SingleButtonDialog> {
                         ),
                       ),
                     ),
-
                   ],
                 ),
               )

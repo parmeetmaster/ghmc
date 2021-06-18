@@ -5,16 +5,16 @@ class DialogPoPUp extends StatefulWidget {
   final String? message;
   final Function? onOk, onCancel;
   final String? imageurl;
-  String okbtntext, cancelbtntext ;
+  String okbtntext, cancelbtntext;
 
-   DialogPoPUp(
+  DialogPoPUp(
       {Key? key,
       this.message,
       this.onOk,
       this.onCancel,
       this.imageurl,
-      this.okbtntext= "OK",
-      this.cancelbtntext= "Cancel"})
+      this.okbtntext = "OK",
+      this.cancelbtntext = "Cancel"})
       : super(key: key);
 
   @override
@@ -28,7 +28,7 @@ class _DialogPoPUpState extends State<DialogPoPUp> {
       backgroundColor: Colors.transparent,
       body: Center(
         child: Container(
-          width: MediaQuery.of(context).size.width*0.9,
+          width: MediaQuery.of(context).size.width * 0.9,
           height: 275,
           padding: EdgeInsets.only(top: 30, bottom: 30, right: 10, left: 10),
           decoration: BoxDecoration(

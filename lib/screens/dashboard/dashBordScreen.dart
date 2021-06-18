@@ -171,13 +171,12 @@ class _DashBordScreenState extends State<DashBordScreen>
   }
 
   _scan() async {
-    if(PermissionUtils().isCameraEnable()==false){
-     await "Please give Camera Permission".showSnackbar(context);
-     Future.delayed(Duration(seconds: 5)).then((value) async =>   await PermissionUtils().initialisationPermission());
+    if (PermissionUtils().isCameraEnable() == false) {
+      await "Please give Camera Permission".showSnackbar(context);
+      Future.delayed(Duration(seconds: 5)).then(
+          (value) async => await PermissionUtils().initialisationPermission());
       return;
     }
-
-
 
     String qrdata = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => QRScreen()));

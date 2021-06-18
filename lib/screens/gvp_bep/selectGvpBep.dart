@@ -133,7 +133,9 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
 
                 hint: Center(
                   child: Text(
-                    selected_type == null ? "Select GVP/BEP" : "${selected_type}",
+                    selected_type == null
+                        ? "Select GVP/BEP"
+                        : "${selected_type}",
                     style: TextStyle(color: Colors.black, fontSize: textsize),
                   ),
                 ),
@@ -154,7 +156,7 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
               SizedBox(
                 height: 20.0,
               ),
-             //area
+              //area
               Padding(
                 padding: const EdgeInsets.all(0.0),
                 child: TextFormField(
@@ -163,15 +165,15 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
                       enabledBorder: const OutlineInputBorder(
                         // width: 0.0 produces a thin "hairline" border
                         borderSide:
-                        const BorderSide(color: Colors.grey, width: 0.0),
+                            const BorderSide(color: Colors.grey, width: 0.0),
                       ),
                       focusColor: Colors.black45,
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                        const BorderSide(color: Colors.grey, width: 2.0),
+                            const BorderSide(color: Colors.grey, width: 2.0),
                       ),
                       contentPadding:
-                      EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                          EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                       border: OutlineInputBorder(),
                       labelText: ' Area/ Colony',
                       labelStyle: TextStyle(color: Colors.black)),
@@ -186,8 +188,6 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
               SizedBox(
                 height: 20.0,
               ),
-
-
 
               //zone
               _getDropDownParent(
@@ -228,75 +228,77 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
               //circle
               _getDropDownParent(
                   child: DropdownButton(
-                    isExpanded: true,
-                    //value: selectedOwnerType,
-                    onChanged: (value) {
-                      selected_circle = value as Access?;
-                      setState(() {});
-                    },
-                    items: avaiable_circle_list
-                        .toList()
-                        .map((e) => DropdownMenuItem<Access>(
-                      value: e,
-                      child: Text("${e.circle}"),
-                    ))
-                        .toList(),
-                    underline: Container(
-                      color: Colors.transparent,
-                    ),
-                    icon: Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.black,
-                      size: 40,
-                    ),
+                isExpanded: true,
+                //value: selectedOwnerType,
+                onChanged: (value) {
+                  selected_circle = value as Access?;
+                  setState(() {});
+                },
+                items: avaiable_circle_list
+                    .toList()
+                    .map((e) => DropdownMenuItem<Access>(
+                          value: e,
+                          child: Text("${e.circle}"),
+                        ))
+                    .toList(),
+                underline: Container(
+                  color: Colors.transparent,
+                ),
+                icon: Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.black,
+                  size: 40,
+                ),
 
-                    hint: Center(
-                      child: Text(
-                        selected_circle == null
-                            ? "Select Circle"
-                            : "${selected_circle!.circle}",
-                        style: TextStyle(color: Colors.black, fontSize: textsize),
-                      ),
-                    ),
-                    onTap: () {},
-                  )), //end circle
+                hint: Center(
+                  child: Text(
+                    selected_circle == null
+                        ? "Select Circle"
+                        : "${selected_circle!.circle}",
+                    style: TextStyle(color: Colors.black, fontSize: textsize),
+                  ),
+                ),
+                onTap: () {},
+              )), //end circle
 
               //ward
               _getDropDownParent(
                   child: DropdownButton(
-                    isExpanded: true,
-                    //value: selectedOwnerType,
-                    onChanged: (value) {
-                      selected_ward = value as Access?;
-                      setState(() {});
-                    },
-                    items: Globals.userData!.data!.access!
-                        .toList()
-                        .map((e) => DropdownMenuItem<Access>(
-                      value: e,
-                      child: Text("${e.ward}"),
-                    ))
-                        .toList(),
-                    underline: Container(
-                      color: Colors.transparent,
-                    ),
-                    icon: Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.black,
-                      size: 40,
-                    ),
+                isExpanded: true,
+                //value: selectedOwnerType,
+                onChanged: (value) {
+                  selected_ward = value as Access?;
+                  setState(() {});
+                },
+                items: Globals.userData!.data!.access!
+                    .toList()
+                    .map((e) => DropdownMenuItem<Access>(
+                          value: e,
+                          child: Text("${e.ward}"),
+                        ))
+                    .toList(),
+                underline: Container(
+                  color: Colors.transparent,
+                ),
+                icon: Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.black,
+                  size: 40,
+                ),
 
-                    hint: Center(
-                      child: Text(
-                        selected_ward == null //change here
-                            ? "Select Ward"
-                            : "${selected_ward!.ward}",
-                        style: TextStyle(color: Colors.black, fontSize: textsize),
-                      ),
-                    ),
-                    onTap: () {},
-                  )), //end ward
-             SizedBox(height: 10,),
+                hint: Center(
+                  child: Text(
+                    selected_ward == null //change here
+                        ? "Select Ward"
+                        : "${selected_ward!.ward}",
+                    style: TextStyle(color: Colors.black, fontSize: textsize),
+                  ),
+                ),
+                onTap: () {},
+              )), //end ward
+              SizedBox(
+                height: 10,
+              ),
               // landmark
               Padding(
                 padding: const EdgeInsets.all(0.0),
@@ -306,15 +308,15 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
                       enabledBorder: const OutlineInputBorder(
                         // width: 0.0 produces a thin "hairline" border
                         borderSide:
-                        const BorderSide(color: Colors.grey, width: 0.0),
+                            const BorderSide(color: Colors.grey, width: 0.0),
                       ),
                       focusColor: Colors.black45,
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                        const BorderSide(color: Colors.grey, width: 2.0),
+                            const BorderSide(color: Colors.grey, width: 2.0),
                       ),
                       contentPadding:
-                      EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                          EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                       border: OutlineInputBorder(),
                       labelText: 'Land Mark',
                       labelStyle: TextStyle(color: Colors.black)),
@@ -327,7 +329,9 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
                 ),
               ),
 
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
 
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 50),
@@ -381,7 +385,7 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
                           selected_type: this.selected_type,
                           selected_ward: this.selected_ward,
                           selected_circle: this.selected_circle,
-                          area:this._areaController,
+                          area: this._areaController,
                           selected_zone: this.selected_zone);
                       if (response.status != 200)
                         SingleButtonDialog(

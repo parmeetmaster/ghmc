@@ -7,10 +7,7 @@ class SupportTypes {
   String? message;
   List<SupportItems>? data;
 
-  SupportTypes({
-      this.success, 
-      this.message, 
-      this.data});
+  SupportTypes({this.success, this.message, this.data});
 
   SupportTypes.fromJson(dynamic json) {
     success = json["success"];
@@ -32,7 +29,6 @@ class SupportTypes {
     }
     return map;
   }
-
 }
 
 /// id : "1"
@@ -42,9 +38,7 @@ class SupportItems {
   String? id;
   String? name;
 
-  SupportItems({
-      this.id, 
-      this.name});
+  SupportItems({this.id, this.name});
 
   SupportItems.fromJson(dynamic json) {
     id = json["id"];
@@ -57,5 +51,4 @@ class SupportItems {
     map["name"] = name;
     return map;
   }
-
 }

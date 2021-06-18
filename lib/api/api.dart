@@ -14,7 +14,7 @@ abstract class Status {
 
 // [Description("false")]
       Failed = 400,
-      Dead=0,
+      Dead = 0,
       EmptyModel = 202,
       Unauthorized = 401,
       Duplicate = 409,
@@ -29,11 +29,10 @@ class ApiBase {
       _initialize();
     }
 
-    if(Globals.userData!=null){
+    if (Globals.userData != null) {
       print("TOKEN IS : ${Globals.userData!.data!.token!}");
-     dio!.options.headers.addAll({
-       "Authorization":"Bearer " +  Globals.userData!.data!.token!
-     });
+      dio!.options.headers.addAll(
+          {"Authorization": "Bearer " + Globals.userData!.data!.token!});
     }
 
     return dio;
@@ -41,11 +40,9 @@ class ApiBase {
 
   _initialize() {
     dio = new Dio(BaseOptions(
-
         baseUrl: base_url,
         receiveTimeout: 30000,
         connectTimeout: 30000,
-
         contentType: "application/x-www-form-urlencoded"))
       ..interceptors.add(PrettyDioLogger(
         requestHeader: true,
@@ -83,7 +80,8 @@ class ApiBase {
           message: (error.response?.data ?? {})['message']?.toString() ??
               error.message,
           result: (error.response?.data ?? {})['result'] ?? {},
-          status: error.response?.statusCode ?? Status.Failed,completeResponse: error.response?.data );
+          status: error.response?.statusCode ?? Status.Failed,
+          completeResponse: error.response?.data);
     } catch (error) {
       print(error);
       // rethrow;

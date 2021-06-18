@@ -20,9 +20,9 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   checkuserLoggedIn() async {
-   bool isrooted= await Security().check_is_device_rooted();
+    bool isrooted = await Security().check_is_device_rooted();
 
-    if (isrooted==true) {
+    if (isrooted == true) {
       "Your Device is root we unable to allow to use Application"
           .showSnackbar(context);
       return;

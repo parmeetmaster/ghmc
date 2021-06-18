@@ -140,13 +140,11 @@ class _AddTransferStationState extends State<AddTransferStation> {
                         backgroundColor:
                             this.islocationgrab ? Colors.green : Colors.black,
                         onPressed: () async {
-                          await  GoogleMapScreen().push(context);
+                          await GoogleMapScreen().push(context);
 
                           CustomLocation customlocation = new CustomLocation();
                           location = await customlocation.getLocation();
                           setState(() {
-
-
                             if (location != null &&
                                 (location!.latitude!.isNaN == false))
                               this.islocationgrab = true;
@@ -238,7 +236,7 @@ class _AddTransferStationState extends State<AddTransferStation> {
                         this.location,
                         this.photo);
 
-                 await   SingleButtonDialog(
+                    await SingleButtonDialog(
                       message: response.message,
                       onOk: (context) {
                         Navigator.of(context).pop();

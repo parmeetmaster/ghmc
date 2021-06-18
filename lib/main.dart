@@ -19,7 +19,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (ctx) => LoginProvider()),
@@ -29,7 +28,6 @@ void main() async {
       ChangeNotifierProvider(create: (ctx) => LocationProvider()),
       ChangeNotifierProvider(create: (ctx) => AddGvpBepProvider()),
       ChangeNotifierProvider(create: (ctx) => SupportProvider()),
-
     ],
     child: Phoenix(child: MyApp()),
   ));

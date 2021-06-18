@@ -43,7 +43,7 @@ class _AddDataPageState extends State<AddDataPage> {
             Text(
               "Add Data",
             ),
-        /*    IconButton(
+            /*    IconButton(
                 icon: Icon(
                   Icons.qr_code_scanner,
                   size: 35,
@@ -76,7 +76,7 @@ class _AddDataPageState extends State<AddDataPage> {
                         SizedBox(
                           height: 10,
                         ),
-                      //see if user have authority 3
+                        //see if user have authority 3
                         ...element.geoTagButtons!.map((val) {
                           if (val.id == "3")
                             return Padding(
@@ -116,7 +116,7 @@ class _AddDataPageState extends State<AddDataPage> {
                               width: 0,
                             );
                         }),
-   //see if user have authority 4
+                        //see if user have authority 4
                         ...element.geoTagButtons!.map((val) {
                           if (val.id == "4")
                             return Padding(

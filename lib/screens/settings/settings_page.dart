@@ -57,11 +57,13 @@ class _SettingPageState extends State<SettingPage> {
                 color: Colors.black,
                 size: 25,
               ),
-              onTap: () { Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => (TermsAndConditions()),
-                  ));},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => (TermsAndConditions()),
+                    ));
+              },
             ),
             Divider(
               color: Colors.black,
@@ -82,11 +84,13 @@ class _SettingPageState extends State<SettingPage> {
                 color: Colors.black,
                 size: 25,
               ),
-              onTap: () { Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => (TermsAndConditions()),
-                  ));},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => (TermsAndConditions()),
+                    ));
+              },
             ),
             Divider(
               color: Colors.black,

@@ -17,23 +17,24 @@ class QrDataModel {
   String? message;
   Data? data;
 
-  factory QrDataModel.fromRawJson(String str) => QrDataModel.fromJson(json.decode(str));
+  factory QrDataModel.fromRawJson(String str) =>
+      QrDataModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory QrDataModel.fromJson(Map<String, dynamic> json) => QrDataModel(
-    success: json["success"],
-    login: json["login"],
-    message: json["message"],
-    data: Data.fromJson(json["data"]),
-  );
+        success: json["success"],
+        login: json["login"],
+        message: json["message"],
+        data: Data.fromJson(json["data"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "success": success,
-    "login": login,
-    "message": message,
-    "data": data!.toJson(),
-  };
+        "success": success,
+        "login": login,
+        "message": message,
+        "data": data!.toJson(),
+      };
 }
 
 class Data {
@@ -68,30 +69,30 @@ class Data {
   String toRawJson() => json.encode(toJson());
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    vechileType: json["vechile_type"],
-    vechileNo: json["vechile_no"],
-    driverName: json["driver_name"],
-    driverNo: json["driver_no"],
-    address: json["address"],
-    landmark: json["landmark"],
-    ward: json["ward"],
-    circle: json["circle"],
-    zone: json["zone"],
-    owner_type: json["owner_type"],
-    createdDate: json["created_date"],
-  );
+        vechileType: json["vechile_type"],
+        vechileNo: json["vechile_no"],
+        driverName: json["driver_name"],
+        driverNo: json["driver_no"],
+        address: json["address"],
+        landmark: json["landmark"],
+        ward: json["ward"],
+        circle: json["circle"],
+        zone: json["zone"],
+        owner_type: json["owner_type"],
+        createdDate: json["created_date"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "vechile_type": vechileType,
-    "vechile_no": vechileNo,
-    "driver_name": driverName,
-    "driver_no": driverNo,
-    "address": address,
-    "landmark": landmark,
-    "ward": ward,
-    "circle": circle,
-    "zone": zone,
-    "owner_type": owner_type,
-    "created_date": createdDate,
-  };
+        "vechile_type": vechileType,
+        "vechile_no": vechileNo,
+        "driver_name": driverName,
+        "driver_no": driverNo,
+        "address": address,
+        "landmark": landmark,
+        "ward": ward,
+        "circle": circle,
+        "zone": zone,
+        "owner_type": owner_type,
+        "created_date": createdDate,
+      };
 }

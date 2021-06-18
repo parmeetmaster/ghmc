@@ -9,7 +9,6 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class GoogleMapScreen extends StatefulWidget {
-
   const GoogleMapScreen({Key? key}) : super(key: key);
 
   @override
@@ -27,7 +26,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-setUpLocation();
+    setUpLocation();
   }
 
   @override
@@ -41,14 +40,13 @@ setUpLocation();
     );
   }
 
-    CameraPosition camera_location = CameraPosition(
+  CameraPosition camera_location = CameraPosition(
       bearing: 192.8334901395799,
       target: LatLng(20.5937, 78.9629),
       zoom: 10.151926040649414);
 
   Widget googleMap(BuildContext context) {
-
-    if (position!=null) {
+    if (position != null) {
       return Stack(
         children: [
           GoogleMap(
@@ -69,14 +67,16 @@ setUpLocation();
                       minWidth: 100,
                       onPressed: () async {
                         MProgressIndicator.show(context);
-                        GeoHolder? data=await  GeoUtils().getGeoDatafromLocation(
-                            await CustomLocation().getLocation(), context);
+                        GeoHolder? data = await GeoUtils()
+                            .getGeoDatafromLocation(
+                                await CustomLocation().getLocation(), context);
                         MProgressIndicator.hide();
                         showDialog(
                           context: context,
                           builder: (ctx) => AlertDialog(
                             title: Text('Your location'),
-                            content: Text('${data!.fulldata!.results!.first.formattedAddress}'),
+                            content: Text(
+                                '${data!.fulldata!.results!.first.formattedAddress}'),
                             actions: <Widget>[
                               Center(
                                 child: ElevatedButton(
@@ -106,28 +106,22 @@ setUpLocation();
               )),
         ],
       );
-    }else
+    } else
       return Container(
         child: Center(
           child: CircularProgressIndicator(),
         ),
       );
-
-
-
   }
 
-  void setUpLocation() async{
-
-   position= await CustomLocation().getLocation();
-   if(position!.latitude!.isNaN==false){
-     camera_location= CameraPosition(
-         bearing: 192.8334901395799,
-         target: LatLng(position!.latitude!, position!.longitude!),
-         zoom: 40.151926040649414);
-   }
-setState(() {
-
-});
+  void setUpLocation() async {
+    position = await CustomLocation().getLocation();
+    if (position!.latitude!.isNaN == false) {
+      camera_location = CameraPosition(
+          bearing: 192.8334901395799,
+          target: LatLng(position!.latitude!, position!.longitude!),
+          zoom: 40.151926040649414);
+    }
+    setState(() {});
   }
 }

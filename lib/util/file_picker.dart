@@ -11,7 +11,8 @@ class FilePick {
   }
 
   Future<File?> takecameraPic() async {
-    PickedFile? result = await ImagePicker.platform.pickImage(source: ImageSource.camera);
+    PickedFile? result =
+        await ImagePicker.platform.pickImage(source: ImageSource.camera);
     return File((result!.path));
   }
 }

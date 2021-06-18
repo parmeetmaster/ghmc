@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class UserDataScreen extends StatefulWidget {
-
   @override
   _UserDataScreenState createState() => _UserDataScreenState();
 }

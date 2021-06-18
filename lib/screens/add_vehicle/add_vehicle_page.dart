@@ -21,6 +21,7 @@ import 'package:provider/provider.dart';
 import 'package:ghmc/util/utils.dart';
 import '../dashboard/dashBordScreen.dart';
 import 'package:ghmc/util/utils.dart';
+
 class AddVehiclePage extends StatefulWidget {
   Access access;
 
@@ -46,7 +47,6 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   double textsize = 18;
   TextEditingController incharge_name = new TextEditingController();
   TextEditingController incharge_phone_number = new TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,6 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             children: [
               Text(
                 "Add Vehicle",
-
               ),
               IconButton(
                   icon: Icon(
@@ -298,7 +297,6 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                         ),
                       ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Container(
@@ -311,10 +309,10 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                               focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black12),
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(8.0))),
+                                      BorderRadius.all(Radius.circular(8.0))),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
+                                    BorderRadius.all(Radius.circular(8.0)),
                                 borderSide: BorderSide(
                                   color: Colors.black12,
                                 ),
@@ -338,10 +336,10 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                               focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black12),
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(8.0))),
+                                      BorderRadius.all(Radius.circular(8.0))),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
+                                    BorderRadius.all(Radius.circular(8.0)),
                                 borderSide: BorderSide(
                                   color: Colors.black12,
                                 ),
@@ -352,7 +350,6 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                         ),
                       ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Container(
@@ -477,20 +474,20 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                               MProgressIndicator.show(context);
                               ApiResponse? response =
                                   await value.uploadVehicleData(
-                                selectedOwnerType,
-                                selectedTransferType,
-                                selectedVehicle,
-                                vehicleImageFile,
-                                widget.access,
-                                this.registration_number,
-                                this.driver_name,
-                                context,
-                                phone_number,
-                                    this.incharge_name,this.incharge_phone_number
-                              );
+                                      selectedOwnerType,
+                                      selectedTransferType,
+                                      selectedVehicle,
+                                      vehicleImageFile,
+                                      widget.access,
+                                      this.registration_number,
+                                      this.driver_name,
+                                      context,
+                                      phone_number,
+                                      this.incharge_name,
+                                      this.incharge_phone_number);
 
                               MProgressIndicator.hide();
-                              if(response==null)return;
+                              if (response == null) return;
                               await SingleButtonDialog(
                                 message: response.message,
                                 imageurl: "assets/svgs/garbage-truck.svg",
@@ -499,7 +496,6 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                                   DashBordScreen().pushAndPopTillFirst(context);
                                 },
                               ).pushDialog(context);
-
                             },
                             child: Text(
                               'Submit',

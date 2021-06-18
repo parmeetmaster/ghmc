@@ -67,13 +67,15 @@ class _VehicleTabState extends State<VehicleTab> {
                   ],
                 ),
               ),
-            SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 8.0,vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
                   child: Row(
                     children: [
                       SizedBox(
@@ -87,17 +89,20 @@ class _VehicleTabState extends State<VehicleTab> {
                         ),
                       ),
                       Spacer(),
-                      Icon(Icons.circle,color: Colors.green[400],),
+                      Icon(
+                        Icons.circle,
+                        color: Colors.green[400],
+                      ),
                       SizedBox(
                         width: 10,
                       ),
-                    Text(
-                    "Realtime",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),),
-
+                      Text(
+                        "Realtime",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       SizedBox(
                         width: 10,
                       )
@@ -105,7 +110,7 @@ class _VehicleTabState extends State<VehicleTab> {
                   ),
                 ),
               ),
-     /*     Container(
+              /*     Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -133,11 +138,12 @@ class _VehicleTabState extends State<VehicleTab> {
                     border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 8.0,vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 14.0,top: 5,bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 14.0, top: 5, bottom: 10),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
@@ -149,7 +155,6 @@ class _VehicleTabState extends State<VehicleTab> {
                           ),
                         ),
                       ),
-
                       Wrap(
                         alignment: WrapAlignment.start,
                         children: [
@@ -168,11 +173,12 @@ class _VehicleTabState extends State<VehicleTab> {
                     border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 8.0,vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 14.0,top: 5,bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 14.0, top: 5, bottom: 10),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
@@ -184,7 +190,6 @@ class _VehicleTabState extends State<VehicleTab> {
                           ),
                         ),
                       ),
-
                       Wrap(
                         alignment: WrapAlignment.start,
                         children: [
@@ -203,11 +208,12 @@ class _VehicleTabState extends State<VehicleTab> {
                     border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 8.0,vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 14.0,top: 5,bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 14.0, top: 5, bottom: 10),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
@@ -219,7 +225,6 @@ class _VehicleTabState extends State<VehicleTab> {
                           ),
                         ),
                       ),
-
                       Wrap(
                         alignment: WrapAlignment.start,
                         children: [
@@ -240,11 +245,12 @@ class _VehicleTabState extends State<VehicleTab> {
                     border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 8.0,vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 14.0,top: 5,bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 14.0, top: 5, bottom: 10),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
@@ -256,7 +262,6 @@ class _VehicleTabState extends State<VehicleTab> {
                           ),
                         ),
                       ),
-
                       Wrap(
                         alignment: WrapAlignment.start,
                         children: [
@@ -270,10 +275,12 @@ class _VehicleTabState extends State<VehicleTab> {
                   ),
                 ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
 
               // the tab bar with two items
-        /*      DefaultTabController(
+              /*      DefaultTabController(
                 length: 2,
                 child: Container(
                   color: Colors.red,
@@ -313,7 +320,7 @@ class _VehicleTabState extends State<VehicleTab> {
                     border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 8.0,vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
                   child: Column(
                     children: [
                       Row(
@@ -329,7 +336,10 @@ class _VehicleTabState extends State<VehicleTab> {
                             ),
                           ),
                           Spacer(),
-                          Icon(Icons.circle,color: Colors.green[400],),
+                          Icon(
+                            Icons.circle,
+                            color: Colors.green[400],
+                          ),
                           SizedBox(
                             width: 10,
                           ),
@@ -338,49 +348,59 @@ class _VehicleTabState extends State<VehicleTab> {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
-                            ),),
-
+                            ),
+                          ),
                           SizedBox(
                             width: 10,
                           )
                         ],
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Container(
                         child: Flex(
                           //mainAxisAlignment: MainAxisAlignment.center,
                           direction: Axis.vertical,
                           children: [
-                          Align(alignment:Alignment.topLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Text("Total Collection"),
-                              )),
-                          Expanded(
-                            child: Align(
-                                alignment: Alignment.center,
+                            Align(
+                                alignment: Alignment.topLeft,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 20.0),
-                                  child: Center(child: Text("0",style: TextStyle(fontSize: 30,),),),
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text("Total Collection"),
                                 )),
-                          )
-                        ],),
-                        decoration: BoxDecoration(
-                          color: Colors.green[200],
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          border: Border.all(color: Colors.transparent)
+                            Expanded(
+                              child: Align(
+                                  alignment: Alignment.center,
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 20.0),
+                                    child: Center(
+                                      child: Text(
+                                        "0",
+                                        style: TextStyle(
+                                          fontSize: 30,
+                                        ),
+                                      ),
+                                    ),
+                                  )),
+                            )
+                          ],
                         ),
+                        decoration: BoxDecoration(
+                            color: Colors.green[200],
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            border: Border.all(color: Colors.transparent)),
                         height: 130,
-
                       )
-
                     ],
                   ),
                 ),
               ),
 
-              SizedBox(height: 80,),
-
+              SizedBox(
+                height: 80,
+              ),
             ],
           ),
           Container(
@@ -395,10 +415,8 @@ class _VehicleTabState extends State<VehicleTab> {
                     height: 10,
                   ),
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       _pickDateDialog();
-
-
                     },
                     child: Row(
                       children: [
@@ -408,11 +426,17 @@ class _VehicleTabState extends State<VehicleTab> {
                         ),
                         Text("Jun 7, 2021 - Jun 7,2021"),
                         Spacer(),
-                        Icon(Icons.arrow_back_ios,size:20 ,),
+                        Icon(
+                          Icons.arrow_back_ios,
+                          size: 20,
+                        ),
                         SizedBox(
                           width: 30,
                         ),
-                        Icon(Icons.arrow_forward_ios,size:20 ,),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                        ),
                         SizedBox(
                           width: 15,
                         ),
@@ -431,13 +455,13 @@ class _VehicleTabState extends State<VehicleTab> {
   //Method for showing the date picker
   void _pickDateDialog() {
     showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        //which date will display when user open the picker
-        firstDate: DateTime(1950),
-        //what will be the previous supported year in picker
-        lastDate: DateTime
-            .now()) //what will be the up to supported date in picker
+            context: context,
+            initialDate: DateTime.now(),
+            //which date will display when user open the picker
+            firstDate: DateTime(1950),
+            //what will be the previous supported year in picker
+            lastDate: DateTime
+                .now()) //what will be the up to supported date in picker
         .then((pickedDate) {
       //then usually do the future job
       if (pickedDate == null) {
@@ -451,37 +475,48 @@ class _VehicleTabState extends State<VehicleTab> {
     });
   }
 
-  Widget _getBlock(){
+  Widget _getBlock() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       height: 70,
       width: 70,
-      child: Column(children: [
-        SizedBox(height: 5,),
-        Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 5),
-              child: Text("Total",style: TextStyle(fontSize: 12),),
-            )),
-        SizedBox(height: 5,),
-        Center(child: Text("550",style: TextStyle(fontSize: 16),),),
-        Spacer(),
-        Align(alignment: Alignment.bottomRight,
-        child: Icon(Icons.download,size: 16,),
-        )
-
-
-      ],),
-
+      child: Column(
+        children: [
+          SizedBox(
+            height: 5,
+          ),
+          Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: Text(
+                  "Total",
+                  style: TextStyle(fontSize: 12),
+                ),
+              )),
+          SizedBox(
+            height: 5,
+          ),
+          Center(
+            child: Text(
+              "550",
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+          Spacer(),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Icon(
+              Icons.download,
+              size: 16,
+            ),
+          )
+        ],
+      ),
       decoration: BoxDecoration(
           color: Colors.green[200],
           border: Border.all(color: Colors.transparent),
           borderRadius: BorderRadius.all(Radius.circular(5))),
-
     );
-
   }
-
-
 }

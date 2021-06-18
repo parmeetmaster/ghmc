@@ -38,8 +38,8 @@ class _SearchPageState extends State<SearchPage> {
           style: TextStyle(fontSize: 25),
         ),
       ),
-      body: ListView(
-        children: [Column(
+      body: ListView(children: [
+        Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(4.0),
@@ -69,10 +69,10 @@ class _SearchPageState extends State<SearchPage> {
                 height: 40,
                 width: 350,
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black12,
-                  ),borderRadius: BorderRadius.circular(8.0)
-                ),
+                    border: Border.all(
+                      color: Colors.black12,
+                    ),
+                    borderRadius: BorderRadius.circular(8.0)),
                 child: DropdownButton(
                   isExpanded: true,
                   items: [],
@@ -100,10 +100,10 @@ class _SearchPageState extends State<SearchPage> {
                 height: 40,
                 width: 350,
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black12,
-                  ),borderRadius: BorderRadius.circular(8.0)
-                ),
+                    border: Border.all(
+                      color: Colors.black12,
+                    ),
+                    borderRadius: BorderRadius.circular(8.0)),
                 child: DropdownButton(
                   isExpanded: true,
                   items: [],
@@ -197,10 +197,10 @@ class _SearchPageState extends State<SearchPage> {
                 height: 40,
                 width: 350,
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black12,
-                  ),borderRadius: BorderRadius.circular(8.0)
-                ),
+                    border: Border.all(
+                      color: Colors.black12,
+                    ),
+                    borderRadius: BorderRadius.circular(8.0)),
                 child: DropdownButton(
                   isExpanded: true,
                   items: [],
@@ -243,7 +243,8 @@ class _SearchPageState extends State<SearchPage> {
                       hintStyle: TextStyle(fontSize: 20, color: Colors.black)),
                 ),
               ),
-            ),Padding(
+            ),
+            Padding(
               padding: const EdgeInsets.all(4.0),
               child: Container(
                 height: 40,
@@ -264,7 +265,8 @@ class _SearchPageState extends State<SearchPage> {
                       hintStyle: TextStyle(fontSize: 20, color: Colors.black)),
                 ),
               ),
-            ),Padding(
+            ),
+            Padding(
               padding: const EdgeInsets.all(4.0),
               child: Container(
                 height: 40,
@@ -282,8 +284,7 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                       ),
                       hintText: 'Zone',
-                      hintStyle: TextStyle(fontSize: 20, color: Colors.black)
-                  ),
+                      hintStyle: TextStyle(fontSize: 20, color: Colors.black)),
                 ),
               ),
             ),
@@ -293,8 +294,8 @@ class _SearchPageState extends State<SearchPage> {
                 height: 40,
                 width: 350,
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black12),borderRadius: BorderRadius.circular(8.0)
-                ),
+                    border: Border.all(color: Colors.black12),
+                    borderRadius: BorderRadius.circular(8.0)),
                 child: DropdownButton(
                   isExpanded: true,
                   items: [],
@@ -320,10 +321,10 @@ class _SearchPageState extends State<SearchPage> {
               padding: const EdgeInsets.all(4.0),
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black12,
-                  ),borderRadius: BorderRadius.circular(15.0)
-                ),
+                    border: Border.all(
+                      color: Colors.black12,
+                    ),
+                    borderRadius: BorderRadius.circular(15.0)),
                 height: 120,
                 width: 340,
                 child: Row(

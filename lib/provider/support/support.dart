@@ -23,14 +23,12 @@ class SupportProvider extends ChangeNotifier {
       File? photo,
       File? recording,
       BuildContext? context}) async {
-
     if (photo != null) photo = await photo.compressfile;
 
     Map<String, dynamic> map = {
       'user_id': '${Globals.userData!.data!.userId}',
       'support_list_id': '${item!.id}',
       'description': '${controller!.text}',
-
     };
     if (photo != null) {
       map.addAll({

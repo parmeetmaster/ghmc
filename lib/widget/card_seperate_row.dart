@@ -24,13 +24,11 @@ class CardSeperateRow extends StatelessWidget {
         Expanded(
           flex: 5,
           child: Text(
-            "${value??""}",
+            "${value ?? ""}",
             style: TextStyle(fontSize: 18),
           ),
         ),
       ],
     );
   }
-
-
 }

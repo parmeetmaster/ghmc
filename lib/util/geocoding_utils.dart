@@ -29,12 +29,10 @@ class GeoUtils {
 
   Future<GeoHolder?> getGeoDatafromLocation(
       LocationData? position, BuildContext context) async {
-
-
     //MProgressIndicator.show(context);
     GoogleMapsModel? model = await getLocationDetails(position!);
-    GeoHolder holder=new GeoHolder();
-    holder.fulldata=model!;
+    GeoHolder holder = new GeoHolder();
+    holder.fulldata = model!;
     if (model == null) {
       "Unable to get location details".showSnackbar(context);
       return null;
@@ -44,18 +42,18 @@ class GeoUtils {
         in model.results![0].addressComponents!) {
       addressComponent.types!.forEach((element) {
         if (element.contains("postal_code")) {
-          holder.pincode=addressComponent.longName;
+          holder.pincode = addressComponent.longName;
           //   this.zip_code.text = addressComponent.longName;
         } else if (element.contains("administrative_area_level_2")) {
           //this.city.text = addressComponent.longName;
         } else if (element.contains("administrative_area_level_1")) {
-          holder.statename=addressComponent.longName;
+          holder.statename = addressComponent.longName;
         }
       });
     }
 
     MProgressIndicator.hide();
-    holder.position=position;
+    holder.position = position;
     return holder;
   }
 
@@ -67,10 +65,6 @@ class GeoUtils {
     }
     return await getGeoDatafromLocation(locationData, context).then((value) {
       return value!.statename;
-
     });
   }
-
-
 }
-

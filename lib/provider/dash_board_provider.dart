@@ -78,12 +78,5 @@ class DashBoardProvider extends ChangeNotifier {
   void updatePassword(
       {TextEditingController? old_password,
       TextEditingController? new_password,
-      TextEditingController? new_confirm_password}) {
-
-
-
-
-
-
-  }
+      TextEditingController? new_confirm_password}) {}
 }

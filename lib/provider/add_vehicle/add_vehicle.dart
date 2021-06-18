@@ -59,7 +59,9 @@ class AddVehicleProvider with ChangeNotifier {
       TextEditingController registration_number,
       TextEditingController driver_name,
       BuildContext context,
-      TextEditingController phone_number, TextEditingController incharge_name, TextEditingController incharge_phone_number) async {
+      TextEditingController phone_number,
+      TextEditingController incharge_name,
+      TextEditingController incharge_phone_number) async {
     if (selectedOwnerType == null) {
       "Select Owner Type".showSnackbar(context);
       return null;
@@ -78,45 +80,43 @@ class AddVehicleProvider with ChangeNotifier {
     } else if (phone_number.text == null) {
       "Please fill phone number".showSnackbar(context);
       return null;
-    }else if (incharge_name.text == null) {
+    } else if (incharge_name.text == null) {
       "Please fill Incharge name".showSnackbar(context);
       return null;
-    }else if (incharge_phone_number.text == null) {
+    } else if (incharge_phone_number.text == null) {
       "Please fill Incharge phone number".showSnackbar(context);
       return null;
     }
 
     print("is numeric val ${isNumeric(phone_number.text)}");
 
-    if (isNumeric(phone_number.text)==false) {
+    if (isNumeric(phone_number.text) == false) {
       "Phone number may contain alphablets".showSnackbar(context);
       return null;
     }
 
-    if (isNumeric(incharge_phone_number.text)==false) {
+    if (isNumeric(incharge_phone_number.text) == false) {
       "Phone number may contain alphablets".showSnackbar(context);
       return null;
     }
-
 
     if (phone_number.text.length > 10 || phone_number.text.length < 10) {
       "Check Phone number length".showSnackbar(context);
       return null;
     }
 
-    if (incharge_phone_number.text.length > 10 || phone_number.text.length < 10) {
+    if (incharge_phone_number.text.length > 10 ||
+        phone_number.text.length < 10) {
       "Check Phone number length".showSnackbar(context);
       return null;
     }
 
-      FileSupport().getFileSize(file: vehicle_image!)!.printinfo;
-   vehicle_image=await    vehicle_image.compressfile;
     FileSupport().getFileSize(file: vehicle_image!)!.printinfo;
-
+    vehicle_image = await vehicle_image.compressfile;
+    FileSupport().getFileSize(file: vehicle_image!)!.printinfo;
 
     MultipartFile? file =
         await FileSupport().getMultiPartFromFile(vehicle_image);
-
 
     var map = {
       'user_id': Globals.userData!.data!.userId,
@@ -129,10 +129,8 @@ class AddVehicleProvider with ChangeNotifier {
       'reg_no': registration_number.text,
       'driver_name': driver_name.text,
       'driver_mobile': phone_number.text,
-
       'sfa_name': incharge_name.text,
       'sfa_mobile': incharge_phone_number.text,
-
       'transfer_station_id': selectedVehicle.id,
       'image': file
     };
@@ -152,7 +150,7 @@ class AddVehicleProvider with ChangeNotifier {
   // post
 
   bool isNumeric(String str) {
-    if(str == null) {
+    if (str == null) {
       return false;
     }
     return double.tryParse(str) != null;

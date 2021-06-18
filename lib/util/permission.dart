@@ -14,12 +14,11 @@ class PermissionUtils {
     is_location_enable = statuses[Permission.location]!.isGranted;
   }
 
- bool isCameraEnable(){
-    return is_camera_enable;
-}
-
-  bool isLocationEnable(){
+  bool isCameraEnable() {
     return is_camera_enable;
   }
 
+  bool isLocationEnable() {
+    return is_camera_enable;
+  }
 }

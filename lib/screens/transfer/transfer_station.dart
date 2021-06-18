@@ -17,7 +17,6 @@ import 'package:ghmc/widget/drawer.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 
-
 class TransferStation extends StatefulWidget {
   QrDataModel? model;
   String? scanid;

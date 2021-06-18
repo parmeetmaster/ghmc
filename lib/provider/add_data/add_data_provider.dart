@@ -26,7 +26,7 @@ class AddDataProvider extends ChangeNotifier {
       return;
     }
 
-    photo=await photo!.compressfile; // compression added
+    photo = await photo!.compressfile; // compression added
 
     MultipartFile? file = await FileSupport().getMultiPartFromFile(photo!);
 
@@ -44,7 +44,7 @@ class AddDataProvider extends ChangeNotifier {
         .getInstance()!
         .post("/add_transfer_station", data: FormData.fromMap(map)));
     if (response.status == 200) {
-    //  response.message!.showSnackbar(context);
+      //  response.message!.showSnackbar(context);
       return response;
     } else {
       //response.message!.showSnackbar(context);

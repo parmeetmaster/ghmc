@@ -9,14 +9,12 @@ class SPreference {
 
   getString(String key) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    String? string =await preferences.getString(key);
+    String? string = await preferences.getString(key);
     return string;
   }
 
-  clear()async{
+  clear() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.clear();
   }
-
-
 }
