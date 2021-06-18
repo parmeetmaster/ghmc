@@ -12,6 +12,7 @@ import 'package:ghmc/model/credentials.dart';
 import 'package:ghmc/model/driver_data_model.dart';
 import 'package:ghmc/provider/dash_board_provider.dart';
 import 'package:ghmc/screens/add_vehicle/add_vehicle_page.dart';
+import 'package:ghmc/screens/dashboard/dashbaord/user1.dart';
 import 'package:ghmc/screens/dashboard/vehicle_tab.dart';
 import 'package:ghmc/screens/errors/14_no_result_found.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
@@ -132,28 +133,6 @@ class _DashBordScreenState extends State<DashBordScreen>
                 onPressed: _scan,
               ),
             ],
-            bottom: TabBar(
-              indicator: BoxDecoration(
-                  border: Border(
-                left: BorderSide(color: Colors.white),
-                // provides to left side
-                right: BorderSide(color: Colors.white), // for right side
-              )),
-              tabs: [
-                Tab(
-                  icon: Text(
-                    "VEHICLES",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                ),
-                Tab(
-                  icon: Text(
-                    "GVP / BEP",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                ),
-              ],
-            ),
           ),
           body: _buildBody(),
         ),
@@ -162,12 +141,10 @@ class _DashBordScreenState extends State<DashBordScreen>
   }
 
   Widget _buildBody() {
-    return TabBarView(
-      children: [
-        VehicleTab(),
-        TestScreen(),
-      ],
-    );
+    // we need to apply condition to display qr or not
+
+return User1DashBoard();
+
   }
 
   _scan() async {
