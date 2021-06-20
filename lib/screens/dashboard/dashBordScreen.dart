@@ -16,7 +16,6 @@ import 'package:ghmc/screens/dashboard/dashbaord/user1.dart';
 import 'package:ghmc/screens/dashboard/vehicle_tab.dart';
 import 'package:ghmc/screens/errors/14_no_result_found.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
-import 'package:ghmc/userDataScreen.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:ghmc/util/permission.dart';
 import 'package:ghmc/util/qrcode_screen.dart';
@@ -25,6 +24,7 @@ import 'package:ghmc/util/utils.dart';
 
 import '../../globals/globals.dart';
 import '../Testscreens/test_screen.dart';
+import 'dashbaord/user2.dart';
 
 enum WhatToDo { qrscan }
 
@@ -143,9 +143,11 @@ class _DashBordScreenState extends State<DashBordScreen>
   Widget _buildBody() {
     // we need to apply condition to display qr or not
 
-return User1DashBoard();
+return User2DashBoard();
 
   }
+
+  // code to invoke scan in flutter
 
   _scan() async {
     if (PermissionUtils().isCameraEnable() == false) {

@@ -79,4 +79,15 @@ class DashBoardProvider extends ChangeNotifier {
       {TextEditingController? old_password,
       TextEditingController? new_password,
       TextEditingController? new_confirm_password}) {}
+
+  Future<ApiResponse?> getVehicesInfo(
+      {required String userid,required String dateString}) async {
+    ApiResponse response = await ApiBase().baseFunction(() => ApiBase()
+        .getInstance()!
+        .post("/vechile_dashboard", data: {"user_id": userid, "date": dateString}));
+    MProgressIndicator.hide();
+    return response;
+  }
+
+
 }

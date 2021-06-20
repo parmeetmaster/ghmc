@@ -15,7 +15,7 @@ class QrDataModel {
   bool? success;
   bool? login;
   String? message;
-  Data? data;
+  QrData? data;
 
   factory QrDataModel.fromRawJson(String str) =>
       QrDataModel.fromJson(json.decode(str));
@@ -26,7 +26,7 @@ class QrDataModel {
         success: json["success"],
         login: json["login"],
         message: json["message"],
-        data: Data.fromJson(json["data"]),
+        data: QrData.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -37,8 +37,8 @@ class QrDataModel {
       };
 }
 
-class Data {
-  Data({
+class QrData {
+  QrData({
     this.vechileType,
     this.vechileNo,
     this.driverName,
@@ -64,11 +64,11 @@ class Data {
   String? createdDate;
   String? owner_type;
 
-  factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
+  factory QrData.fromRawJson(String str) => QrData.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory QrData.fromJson(Map<String, dynamic> json) => QrData(
         vechileType: json["vechile_type"],
         vechileNo: json["vechile_no"],
         driverName: json["driver_name"],

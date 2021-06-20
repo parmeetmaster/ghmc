@@ -11,6 +11,7 @@ import 'package:ghmc/splashScreen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ghmc/util/share_preferences.dart';
+import 'package:ghmc/util/utils.dart';
 import 'package:provider/provider.dart';
 
 import 'provider/support/support.dart';
@@ -18,6 +19,7 @@ import 'provider/support/support.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await HiveUtils.initalised();
 
   runApp(MultiProvider(
     providers: [
@@ -36,6 +38,9 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    HiveUtils utils = new HiveUtils();
+    // utils.addRecord(DownloadModel(id: "14",download_link: "www.google.com",download_path: "storage", file_type: 'mp4', file_name: 'dad.com',));
+    utils.getRecordsById("14");
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'GHMC',

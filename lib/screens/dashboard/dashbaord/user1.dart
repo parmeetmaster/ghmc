@@ -69,8 +69,9 @@ class _User1DashBoardState extends State<User1DashBoard> {
         ),
         // adding condition to show
         Expanded(
-          child: ListView(
-            shrinkWrap: true,
+          child: Column(
+            /*     shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),*/
             children: [
               GridView.count(
                 physics: NeverScrollableScrollPhysics(),
@@ -200,215 +201,224 @@ class _User1DashBoardState extends State<User1DashBoard> {
                   ),
                 ],
               ),
+              // vehicle
               if (tab_index == 0)
-                ListView(
-                  physics: NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.all(10),
-                  shrinkWrap: true,
-                  children: [
-                    Text(
-                      "Total Vehicles",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black87),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    GridView.count(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      crossAxisCount: 4,
-                      childAspectRatio: (1.5 / 1),
-                      crossAxisSpacing: 4,
-                      mainAxisSpacing: 2,
-                      //physics:BouncingScrollPhysics(),
-                      children: [
-                        DashBoardItemButton(color_grid: [
-                          Color(0xffF24169),
-                          Color(0xffF4754C),
-                        ], header: "Total", amount: "1000"),
-                        DashBoardItemButton(color_grid: [
-                          Color(0xff67C7E3),
-                          Color(0xff5AAADC),
-                        ], header: "Attend", amount: "1000"),
-                        DashBoardItemButton(color_grid: [
-                          Color(0xffEF788D),
-                          Color(0xffF078A8),
-                        ], header: "Not Attend", amount: "1000"),
-                        DashBoardItemButton(color_grid: [
-                          Color(0xff3AB370),
-                          Color(0xff6CC06B),
-                        ], header: "Trips", amount: "1000"),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Swach Auto",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black87),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    GridView.count(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      crossAxisCount: 4,
-                      childAspectRatio: (1.5 / 1),
-                      crossAxisSpacing: 4,
-                      mainAxisSpacing: 2,
-                      //physics:BouncingScrollPhysics(),
-                      children: [
-                        DashBoardItemButton(color_grid: [
-                          Color(0xffF24169),
-                          Color(0xffF4754C),
-                        ], header: "Total", amount: "1000"),
-                        DashBoardItemButton(color_grid: [
-                          Color(0xff67C7E3),
-                          Color(0xff5AAADC),
-                        ], header: "Attend", amount: "1000"),
-                        DashBoardItemButton(color_grid: [
-                          Color(0xffEF788D),
-                          Color(0xffF078A8),
-                        ], header: "Not Attend", amount: "1000"),
-                        DashBoardItemButton(color_grid: [
-                          Color(0xff3AB370),
-                          Color(0xff6CC06B),
-                        ], header: "Trips", amount: "1000"),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Secondary Vehicles",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black87),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    GridView.count(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      crossAxisCount: 4,
-                      childAspectRatio: (1.5 / 1),
-                      crossAxisSpacing: 4,
-                      mainAxisSpacing: 2,
-                      //physics:BouncingScrollPhysics(),
-                      children: [
-                        DashBoardItemButton(color_grid: [
-                          Color(0xffF24169),
-                          Color(0xffF4754C),
-                        ], header: "Total", amount: "1000"),
-                        DashBoardItemButton(color_grid: [
-                          Color(0xff67C7E3),
-                          Color(0xff5AAADC),
-                        ], header: "Attend", amount: "1000"),
-                        DashBoardItemButton(color_grid: [
-                          Color(0xffEF788D),
-                          Color(0xffF078A8),
-                        ], header: "Not Attend", amount: "1000"),
-                        DashBoardItemButton(color_grid: [
-                          Color(0xff3AB370),
-                          Color(0xff6CC06B),
-                        ], header: "Trips", amount: "1000"),
-                      ],
-                    ),
-                  ],
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.all(10),
+                    shrinkWrap: true,
+                    children: [
+                      Text(
+                        "Total Vehicles",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      GridView.count(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        crossAxisCount: 4,
+                        childAspectRatio: (1.5 / 1),
+                        crossAxisSpacing: 4,
+                        mainAxisSpacing: 2,
+                        //physics:BouncingScrollPhysics(),
+                        children: [
+                          DashBoardItemButton(color_grid: [
+                            Color(0xffF24169),
+                            Color(0xffF4754C),
+                          ], header: "Total", amount: "1000"),
+                          DashBoardItemButton(color_grid: [
+                            Color(0xff67C7E3),
+                            Color(0xff5AAADC),
+                          ], header: "Attend", amount: "1000"),
+                          DashBoardItemButton(color_grid: [
+                            Color(0xffEF788D),
+                            Color(0xffF078A8),
+                          ], header: "Not Attend", amount: "1000"),
+                          DashBoardItemButton(color_grid: [
+                            Color(0xff3AB370),
+                            Color(0xff6CC06B),
+                          ], header: "Trips", amount: "1000"),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Swach Auto",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      GridView.count(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        crossAxisCount: 4,
+                        childAspectRatio: (1.5 / 1),
+                        crossAxisSpacing: 4,
+                        mainAxisSpacing: 2,
+                        //physics:BouncingScrollPhysics(),
+                        children: [
+                          DashBoardItemButton(color_grid: [
+                            Color(0xffF24169),
+                            Color(0xffF4754C),
+                          ], header: "Total", amount: "1000"),
+                          DashBoardItemButton(color_grid: [
+                            Color(0xff67C7E3),
+                            Color(0xff5AAADC),
+                          ], header: "Attend", amount: "1000"),
+                          DashBoardItemButton(color_grid: [
+                            Color(0xffEF788D),
+                            Color(0xffF078A8),
+                          ], header: "Not Attend", amount: "1000"),
+                          DashBoardItemButton(color_grid: [
+                            Color(0xff3AB370),
+                            Color(0xff6CC06B),
+                          ], header: "Trips", amount: "1000"),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Secondary Vehicles",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      GridView.count(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        crossAxisCount: 4,
+                        childAspectRatio: (1.5 / 1),
+                        crossAxisSpacing: 4,
+                        mainAxisSpacing: 2,
+                        //physics:BouncingScrollPhysics(),
+                        children: [
+                          DashBoardItemButton(color_grid: [
+                            Color(0xffF24169),
+                            Color(0xffF4754C),
+                          ], header: "Total", amount: "1000"),
+                          DashBoardItemButton(color_grid: [
+                            Color(0xff67C7E3),
+                            Color(0xff5AAADC),
+                          ], header: "Attend", amount: "1000"),
+                          DashBoardItemButton(color_grid: [
+                            Color(0xffEF788D),
+                            Color(0xffF078A8),
+                          ], header: "Not Attend", amount: "1000"),
+                          DashBoardItemButton(color_grid: [
+                            Color(0xff3AB370),
+                            Color(0xff6CC06B),
+                          ], header: "Trips", amount: "1000"),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
+              // add gvp bvp
               if (tab_index == 1)
-                ListView(
-                  physics: NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.all(10),
-                  shrinkWrap: true,
-                  children: [
-                    Text(
-                      "Gvp",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black87),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    GridView.count(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      crossAxisCount: 4,
-                      childAspectRatio: (1.5 / 1),
-                      crossAxisSpacing: 4,
-                      mainAxisSpacing: 2,
-                      //physics:BouncingScrollPhysics(),
-                      children: [
-                        DashBoardItemButton(color_grid: [
-                          Color(0xffF24169),
-                          Color(0xffF4754C),
-                        ], header: "Total", amount: "1000"),
-                        DashBoardItemButton(color_grid: [
-                          Color(0xff67C7E3),
-                          Color(0xff5AAADC),
-                        ], header: "Attend", amount: "1000"),
-                        DashBoardItemButton(color_grid: [
-                          Color(0xffEF788D),
-                          Color(0xffF078A8),
-                        ], header: "Not Attend", amount: "1000"),
-                        DashBoardItemButton(color_grid: [
-                          Color(0xff3AB370),
-                          Color(0xff6CC06B),
-                        ], header: "Trips", amount: "1000"),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "BEP",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black87),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    GridView.count(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      crossAxisCount: 4,
-                      childAspectRatio: (1.5 / 1),
-                      crossAxisSpacing: 4,
-                      mainAxisSpacing: 2,
-                      //physics:BouncingScrollPhysics(),
-                      children: [
-                        DashBoardItemButton(color_grid: [
-                          Color(0xffF24169),
-                          Color(0xffF4754C),
-                        ], header: "Total", amount: "1000"),
-                        DashBoardItemButton(color_grid: [
-                          Color(0xff67C7E3),
-                          Color(0xff5AAADC),
-                        ], header: "Attend", amount: "1000"),
-                        DashBoardItemButton(color_grid: [
-                          Color(0xffEF788D),
-                          Color(0xffF078A8),
-                        ], header: "Not Attend", amount: "1000"),
-                        DashBoardItemButton(color_grid: [
-                          Color(0xff3AB370),
-                          Color(0xff6CC06B),
-                        ], header: "Trips", amount: "1000"),
-                      ],
-                    ),
-                  ],
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.all(10),
+                    shrinkWrap: true,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Gvp",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black87),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          GridView.count(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            crossAxisCount: 4,
+                            childAspectRatio: (1.5 / 1),
+                            crossAxisSpacing: 4,
+                            mainAxisSpacing: 2,
+                            //physics:BouncingScrollPhysics(),
+                            children: [
+                              DashBoardItemButton(color_grid: [
+                                Color(0xffF24169),
+                                Color(0xffF4754C),
+                              ], header: "Total", amount: "1000"),
+                              DashBoardItemButton(color_grid: [
+                                Color(0xff67C7E3),
+                                Color(0xff5AAADC),
+                              ], header: "Attend", amount: "1000"),
+                              DashBoardItemButton(color_grid: [
+                                Color(0xffEF788D),
+                                Color(0xffF078A8),
+                              ], header: "Not Attend", amount: "1000"),
+                              DashBoardItemButton(color_grid: [
+                                Color(0xff3AB370),
+                                Color(0xff6CC06B),
+                              ], header: "Trips", amount: "1000"),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "BEP",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      GridView.count(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        crossAxisCount: 4,
+                        childAspectRatio: (1.5 / 1),
+                        crossAxisSpacing: 4,
+                        mainAxisSpacing: 2,
+                        //physics:BouncingScrollPhysics(),
+                        children: [
+                          DashBoardItemButton(color_grid: [
+                            Color(0xffF24169),
+                            Color(0xffF4754C),
+                          ], header: "Total", amount: "1000"),
+                          DashBoardItemButton(color_grid: [
+                            Color(0xff67C7E3),
+                            Color(0xff5AAADC),
+                          ], header: "Attend", amount: "1000"),
+                          DashBoardItemButton(color_grid: [
+                            Color(0xffEF788D),
+                            Color(0xffF078A8),
+                          ], header: "Not Attend", amount: "1000"),
+                          DashBoardItemButton(color_grid: [
+                            Color(0xff3AB370),
+                            Color(0xff6CC06B),
+                          ], header: "Trips", amount: "1000"),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
             ],
           ),
