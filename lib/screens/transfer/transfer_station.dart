@@ -11,7 +11,7 @@ import 'package:ghmc/model/driver_data_model.dart';
 import 'dart:io';
 import 'package:ghmc/util/utils.dart';
 import 'package:dio/dio.dart';
-import 'package:ghmc/provider/dash_board_provider.dart';
+import 'package:ghmc/provider/dashboard_provider/dash_board_provider.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:ghmc/widget/drawer.dart';
 import 'package:http_parser/http_parser.dart';
@@ -408,7 +408,7 @@ class _TransferStationState extends State<TransferStation> {
 
               MProgressIndicator.show(context);
 
-              await DashBoardProvider.getInstance(context).uploadData(
+              await DashBoardProvider.getReference(context).uploadData(
                   active_percent,
                   type_of_waste,
                   widget.model,

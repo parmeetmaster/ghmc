@@ -10,9 +10,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ghmc/api/api.dart';
 import 'package:ghmc/model/credentials.dart';
 import 'package:ghmc/model/driver_data_model.dart';
-import 'package:ghmc/provider/dash_board_provider.dart';
+import 'package:ghmc/provider/dashboard_provider/dash_board_provider.dart';
 import 'package:ghmc/screens/add_vehicle/add_vehicle_page.dart';
-import 'package:ghmc/screens/dashboard/dashbaord/user1.dart';
 import 'package:ghmc/screens/dashboard/vehicle_tab.dart';
 import 'package:ghmc/screens/errors/14_no_result_found.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
@@ -164,11 +163,11 @@ return User2DashBoard();
     ApiResponse? model;
     if (Globals.userData!.data!.departmentId == "3") {
       //see if user is admin
-      model = await DashBoardProvider.getInstance(context)
+      model = await DashBoardProvider.getReference(context)
           .getDriverData(widget.credentialsModel!.data!.userId!, qrdata);
     } else if (Globals.userData!.data!.departmentId == "4") {
       //see if user is transfer manager
-      model = await DashBoardProvider.getInstance(context)
+      model = await DashBoardProvider.getReference(context)
           .getTransferStationManager(
               widget.credentialsModel!.data!.userId!, qrdata);
     }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghmc/globals/constants.dart';
-import 'package:ghmc/provider/location_provider.dart';
+import 'package:ghmc/provider/location_provider/location_provider.dart';
 import 'package:ghmc/util/geocoding_utils.dart';
 import 'package:ghmc/util/location.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';

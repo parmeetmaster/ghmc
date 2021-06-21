@@ -5,7 +5,7 @@ import 'package:ghmc/api/api.dart';
 import 'package:ghmc/globals/constants.dart';
 import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/model/credentials.dart';
-import 'package:ghmc/provider/addGvpBepProvider.dart';
+import 'package:ghmc/provider/add_gvp_bep_provider/addGvpBepProvider.dart';
 import 'package:ghmc/screens/dashboard/dashBordScreen.dart';
 import 'package:ghmc/util/geocoding_utils.dart';
 import 'package:ghmc/util/location.dart';

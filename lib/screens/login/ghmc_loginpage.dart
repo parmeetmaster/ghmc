@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ghmc/globals/constants.dart';
-import 'package:ghmc/provider/login_provider.dart';
+import 'package:ghmc/provider/login_provider/login_provider.dart';
 import 'package:ghmc/util/utils.dart';
 
 class LoginPage extends StatefulWidget {

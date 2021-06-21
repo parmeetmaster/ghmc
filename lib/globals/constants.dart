@@ -12,6 +12,8 @@ List<Color> btn_grid = [
   Color(0xFFC11E63),
 ];
 
+const Color primary_color=  Color(0xFFAD1457);
+
 List<Color> main_color = [
   Color(0xFFAD1457),
   Color(0xFFAD801D9E),

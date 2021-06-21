@@ -3,19 +3,19 @@
 /// message : "Successfully completed"
 /// data : [{"tag":"Total Summary","total":3862,"attend":0,"not_attend":3911,"ts_trips":0,"total_url":"https://digitalraiz.com/projects/geo_tagginging_ghmc/api/TotalExcel?user_id=\\\"1\\\"&date=1970-01-01&action=total","attend_url":"https://digitalraiz.com/projects/geo_tagginging_ghmc/api/TotalExcel?user_id=\\\"1\\\"&date=1970-01-01&action=attend","not_attend_url":"https://digitalraiz.com/projects/geo_tagginging_ghmc/api/TotalExcel?user_id=\\\"1\\\"&date=1970-01-01&action=not_attend","ts_trips_url":"https://digitalraiz.com/projects/geo_tagginging_ghmc/api/TotalExcel?user_id=\\\"1\\\"&date=1970-01-01&action=total_trips"},{"tag":"Swatch Summary","total":3510,"attend":0,"not_attend":3510,"ts_trips":0,"total_url":"https://digitalraiz.com/projects/geo_tagginging_ghmc/api/TotalswatchExcel?user_id=\\\"1\\\"&date=1970-01-01&action=total","attend_url":"https://digitalraiz.com/projects/geo_tagginging_ghmc/api/TotalswatchExcel?user_id=\\\"1\\\"&date=1970-01-01&action=attend","not_attend_url":"https://digitalraiz.com/projects/geo_tagginging_ghmc/api/TotalswatchExcel?user_id=\\\"1\\\"&date=1970-01-01&action=not_attend","ts_trips_url":"https://digitalraiz.com/projects/geo_tagginging_ghmc/api/TotalswatchExcel?user_id=\\\"1\\\"&date=1970-01-01&action=total_trips"},{"tag":"Non Swatch Summary","total":401,"attend":0,"not_attend":401,"ts_trips":0,"total_url":"https://digitalraiz.com/projects/geo_tagginging_ghmc/api/TotalnotswatchExcel?user_id=\\\"1\\\"&date=1970-01-01&action=total","attend_url":"https://digitalraiz.com/projects/geo_tagginging_ghmc/api/TotalnotswatchExcel?user_id=\\\"1\\\"&date=1970-01-01&action=attend","not_attend_url":"https://digitalraiz.com/projects/geo_tagginging_ghmc/api/TotalnotswatchExcel?user_id=\\\"1\\\"&date=1970-01-01&action=not_attend","ts_trips_url":"https://digitalraiz.com/projects/geo_tagginging_ghmc/api/TotalnotswatchExcel?user_id=\\\"1\\\"&date=1970-01-01&action=total_trips"}]
 
-class DashboardVehicle {
+class DashboardVehicleModel {
   bool? success;
   bool? login;
   String? message;
   List<Data>? data;
 
-  DashboardVehicle({
+  DashboardVehicleModel({
       this.success, 
       this.login, 
       this.message, 
       this.data});
 
-  DashboardVehicle.fromJson(dynamic json) {
+  DashboardVehicleModel.fromJson(dynamic json) {
     success = json["success"];
     login = json["login"];
     message = json["message"];

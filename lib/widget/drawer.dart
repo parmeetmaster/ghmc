@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ghmc/globals/globals.dart';
-import 'package:ghmc/provider/login_provider.dart';
+import 'package:ghmc/provider/login_provider/login_provider.dart';
 import 'package:ghmc/screens/add_data/add_data_page.dart';
 import 'package:ghmc/screens/add_vehicle/add_vehicle_page.dart';
 import 'package:ghmc/screens/complaint_box/complain_screen.dart';

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:ghmc/provider/addGvpBepProvider.dart';
+import 'package:ghmc/provider/add_gvp_bep_provider/addGvpBepProvider.dart';
 import 'package:ghmc/provider/add_data/add_data_provider.dart';
 import 'package:ghmc/provider/add_vehicle/add_vehicle.dart';
-import 'package:ghmc/provider/dash_board_provider.dart';
-import 'package:ghmc/provider/location_provider.dart';
-import 'package:ghmc/provider/login_provider.dart';
+import 'package:ghmc/provider/dashboard_provider/dash_board_provider.dart';
+import 'package:ghmc/provider/location_provider/location_provider.dart';
+import 'package:ghmc/provider/login_provider/login_provider.dart';
+import 'package:ghmc/provider/splash_provider/splash_provider.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
 import 'package:ghmc/splashScreen.dart';
 
@@ -30,6 +31,7 @@ void main() async {
       ChangeNotifierProvider(create: (ctx) => LocationProvider()),
       ChangeNotifierProvider(create: (ctx) => AddGvpBepProvider()),
       ChangeNotifierProvider(create: (ctx) => SupportProvider()),
+      ChangeNotifierProvider(create: (ctx) => SplashProvider()),
     ],
     child: Phoenix(child: MyApp()),
   ));

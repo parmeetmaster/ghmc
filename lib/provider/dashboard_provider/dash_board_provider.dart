@@ -4,7 +4,9 @@ import 'package:dio/src/multipart_file.dart';
 import 'package:flutter/material.dart';
 import 'package:ghmc/api/api.dart';
 import 'package:ghmc/globals/globals.dart';
+import 'package:ghmc/model/dashboard/zone_model.dart';
 import 'package:ghmc/model/driver_data_model.dart';
+import 'package:ghmc/provider/login_provider/login_provider.dart';
 import 'package:ghmc/screens/success/success.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:provider/provider.dart';
@@ -12,12 +14,26 @@ import 'package:ghmc/util/utils.dart';
 
 class DashBoardProvider extends ChangeNotifier {
   AwesomeDialog? dialog;
+  DashBoardProvider? _instance;
+  String demo ="00";
+ZoneModel? zones;
+  getProviderObject(){
+    _instance= _instance??new DashBoardProvider();
+    return _instance;
+  }
 
-  static DashBoardProvider getInstance(BuildContext context) {
+  static DashBoardProvider getReference(BuildContext context) {
     return Provider.of<DashBoardProvider>(context, listen: false);
   }
 
   verifyQrData(String qrString) {}
+
+  setZones() async {
+   ApiResponse response=await getZones();
+   zones=ZoneModel.fromJson(response.completeResponse);
+  }
+
+
 
   Future<ApiResponse?> getDriverData(String id, String qrdata) async {
     ApiResponse response = await ApiBase().baseFunction(() => ApiBase()
@@ -88,6 +104,27 @@ class DashBoardProvider extends ChangeNotifier {
     MProgressIndicator.hide();
     return response;
   }
+
+  Future<ApiResponse> getZones() async{
+    ApiResponse response =await ApiBase().baseFunction(() => ApiBase().getInstance()!.get("/zones"));
+     MProgressIndicator.hide(); // close indicator
+   return response;
+  }
+
+ Future <ApiResponse?> getReport()async {
+   ApiResponse response =await ApiBase().baseFunction(() => ApiBase().getInstance()!.post("/search_view",data:
+   {
+     'user_id': '1',
+     'zone_id': '1',
+     'start_date': '10-06-2021',
+     'end_date': '20-06-2021',
+     'vehicle_type': '0'
+   }
+   ));
+   MProgressIndicator.hide(); // close indicator
+   return response;
+
+ }
 
 
 }

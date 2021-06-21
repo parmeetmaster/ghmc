@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ghmc/api/api.dart';
 import 'package:ghmc/globals/constants.dart';
-import 'package:ghmc/provider/dash_board_provider.dart';
-import 'package:ghmc/provider/login_provider.dart';
+import 'package:ghmc/provider/dashboard_provider/dash_board_provider.dart';
+import 'package:ghmc/provider/login_provider/login_provider.dart';
 import 'package:ghmc/screens/dashboard/dashBordScreen.dart';
 import 'package:ghmc/widget/buttons/gradeint_button.dart';
 import 'package:ghmc/util/utils.dart';
