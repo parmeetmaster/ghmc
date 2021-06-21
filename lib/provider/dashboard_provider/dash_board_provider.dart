@@ -116,7 +116,7 @@ ZoneModel? zones;
    {
      'user_id': '1',
      'zone_id': '1',
-     'start_date': '10-06-2021',
+     'start_date': '20-06-2021',
      'end_date': '20-06-2021',
      'vehicle_type': '0'
    }
