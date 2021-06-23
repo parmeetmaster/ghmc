@@ -2,23 +2,23 @@
 /// message : "Successfully completed"
 /// data : [{"id":"1","name":"Charminar"},{"id":"3","name":"Kukatpally"},{"id":"4","name":"Secunderabad"},{"id":"7","name":"Serilingampally"},{"id":"8","name":"Khairatabad"},{"id":"9","name":"L B Nagar"}]
 
-class ZoneModel {
+class MenuItemModel {
   bool? success;
   String? message;
-  List<ZoneItem>? data;
+  List<MenuItem>? data;
 
-  ZoneModel({
+  MenuItemModel({
       this.success, 
       this.message, 
       this.data});
 
-  ZoneModel.fromJson(dynamic json) {
+  MenuItemModel.fromJson(dynamic json) {
     success = json["success"];
     message = json["message"];
     if (json["data"] != null) {
       data = [];
       json["data"].forEach((v) {
-        data?.add(ZoneItem.fromJson(v));
+        data?.add(MenuItem.fromJson(v));
       });
     }
   }
@@ -38,15 +38,15 @@ class ZoneModel {
 /// id : "1"
 /// name : "Charminar"
 
-class ZoneItem {
+class MenuItem {
   String? id;
   String? name;
 
-  ZoneItem({
+  MenuItem({
       this.id, 
       this.name});
 
-  ZoneItem.fromJson(dynamic json) {
+  MenuItem.fromJson(dynamic json) {
     id = json["id"];
     name = json["name"];
   }

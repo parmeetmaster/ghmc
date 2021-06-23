@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/src/multipart_file.dart';
+import 'package:file_support/file_support.dart';
 import 'package:flutter/material.dart';
 import 'package:ghmc/api/api.dart';
 import 'package:ghmc/globals/globals.dart';
@@ -15,10 +18,12 @@ import 'package:ghmc/util/utils.dart';
 class DashBoardProvider extends ChangeNotifier {
   AwesomeDialog? dialog;
   DashBoardProvider? _instance;
-  String demo ="00";
-ZoneModel? zones;
-  getProviderObject(){
-    _instance= _instance??new DashBoardProvider();
+  String demo = "00";
+  MenuItemModel? zones;
+  MenuItemModel? vehicle_type;
+
+  getProviderObject() {
+    _instance = _instance ?? new DashBoardProvider();
     return _instance;
   }
 
@@ -29,11 +34,14 @@ ZoneModel? zones;
   verifyQrData(String qrString) {}
 
   setZones() async {
-   ApiResponse response=await getZones();
-   zones=ZoneModel.fromJson(response.completeResponse);
+    ApiResponse response = await getZones();
+    zones = MenuItemModel.fromJson(response.completeResponse);
   }
 
-
+  setVehicleType() async {
+    ApiResponse response = await getVehicleType();
+    vehicle_type = MenuItemModel.fromJson(response.completeResponse);
+  }
 
   Future<ApiResponse?> getDriverData(String id, String qrdata) async {
     ApiResponse response = await ApiBase().baseFunction(() => ApiBase()
@@ -97,34 +105,101 @@ ZoneModel? zones;
       TextEditingController? new_confirm_password}) {}
 
   Future<ApiResponse?> getVehicesInfo(
-      {required String userid,required String dateString}) async {
+      {required String userid, required String dateString}) async {
     ApiResponse response = await ApiBase().baseFunction(() => ApiBase()
         .getInstance()!
-        .post("/vechile_dashboard", data: {"user_id": userid, "date": dateString}));
+        .post("/vechile_dashboard",
+            data: {"user_id": userid, "date": dateString}));
     MProgressIndicator.hide();
     return response;
   }
 
-  Future<ApiResponse> getZones() async{
-    ApiResponse response =await ApiBase().baseFunction(() => ApiBase().getInstance()!.get("/zones"));
-     MProgressIndicator.hide(); // close indicator
-   return response;
+  Future<ApiResponse> getZones() async {
+    ApiResponse response = await ApiBase()
+        .baseFunction(() => ApiBase().getInstance()!.get("/zones"));
+    MProgressIndicator.hide(); // close indicator
+    return response;
   }
 
- Future <ApiResponse?> getReport()async {
-   ApiResponse response =await ApiBase().baseFunction(() => ApiBase().getInstance()!.post("/search_view",data:
-   {
-     'user_id': '1',
-     'zone_id': '1',
-     'start_date': '20-06-2021',
-     'end_date': '20-06-2021',
-     'vehicle_type': '0'
-   }
-   ));
-   MProgressIndicator.hide(); // close indicator
-   return response;
+  Future<ApiResponse> getVehicleType() async {
+    ApiResponse response = await ApiBase().baseFunction(
+        () => ApiBase().getInstance()!.get("/dash_vechiles_type"));
+    MProgressIndicator.hide(); // close indicator
+    return response;
+  }
 
- }
+  Future<ApiResponse?> getReport( {String? startdate, String? enddate, MenuItem? zone, MenuItem? vehicle,}) async {
+    ApiResponse response = await ApiBase().baseFunction(
+        () => ApiBase().getInstance()!.post("/search_view", data: {
+              'user_id': Globals.userData!.data!.userId,
+              'zone_id': zone!.id,
+              'start_date': startdate,
+              'end_date': enddate,
+              'vehicle_type': vehicle!.id
+            }));
+    MProgressIndicator.hide(); // close indicator
+    return response;
+  }
+
+  void downloadFile(
+      {required BuildContext context,
+      required String filename,
+    required  String url}) async {
+
+    showDialog(
+        context: context,
+        builder: (c) {
+          return AlertDialog(
+            content: Container(
+              constraints: BoxConstraints(
+                  maxHeight:
+                  MediaQuery.of(context).size.height *
+                      .8),
+              width:
+              MediaQuery.of(context).size.width * 0.8,
+              child: ListView(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                children: [
+                  Text(
+                    "Select Zone",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  ListView(
+                    shrinkWrap: true,
+                    children: [
+                  /*    LinearProgressIndicator(
+                        backgroundColor: Colors.cyanAccent,
+                        valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
+                        value: _progressValue,
+                      ),*/
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+
+
+
+    String? android_path = "${await FileSupport().getRootFolderPath()}/GHMC/";
+    File? file = await FileSupport().downloadCustomLocation(
+        url: "https://www.rmp-streaming.com/media/big-buck-bunny-360p.mp4",
+        path: android_path,
+        filename: "Progress",
+        extension: ".xls",
+        progress: (p) {
+          p.printinfo;
+        });
+
+    print("download file size ${FileSupport().getFileSize(file: file!)}");
+  }
 
 
 }
