@@ -12,5 +12,6 @@ class SplashProvider extends ChangeNotifier {
   initialisation(BuildContext context) async {
    await DashBoardProvider.getReference(context).setZones();
    await DashBoardProvider.getReference(context).setVehicleType();
+   await DashBoardProvider.getReference(context).setTransferStation();
   }
 }

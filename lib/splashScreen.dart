@@ -21,7 +21,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
-
   checkuserLoggedIn() async {
     // initalise all provider global data
    await SplashProvider.getReference(context).initialisation(context);
@@ -60,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Timer(
-      Duration(seconds: 2),
+      Duration(seconds: 1),
       () async => checkuserLoggedIn(),
     );
   }

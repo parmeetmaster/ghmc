@@ -91,7 +91,7 @@ class _DownloadViewScreenDashboardState
                                   : MaterialStateProperty.all(
                                       Colors.transparent),
                               cells: [
-                                ...e.map((e) => DataCell(Text("${e??""}"))),
+                                ...e.map((e) => DataCell(Text("${e}"))),
                               ]))
                   ],
 

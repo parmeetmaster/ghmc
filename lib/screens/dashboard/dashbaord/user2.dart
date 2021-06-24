@@ -28,7 +28,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
   DashboardVehicleModel? _dashboardVehicleModel;
   MenuItem? _selected_zone;
   MenuItem? _selected_vehicle;
-
+  MenuItem? _selected_transfer_station;
   @override
   void initState() {
     super.initState();
@@ -39,11 +39,11 @@ class _UserDashBoard2State extends State<User2DashBoard> {
   @override
   Widget build(BuildContext context) {
     return Consumer<DashBoardProvider>(builder: (context, value, child) {
-      Widget tab = Padding(
+      Widget master_tab = Padding(
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           // show above tabs shifters as per index and true condition shows 2 tabs and 3 show while false
           child: /*userindex == "1" ?*/
-              Card(
+          Card(
             child: IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -118,7 +118,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10))),
           )
-          /* : Card(
+        /* : Card(
                     child: IntrinsicHeight(
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -167,7 +167,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                   ),*/
-          );
+      );
       Widget button_with_options = GridView.count(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -187,8 +187,14 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                     return AlertDialog(
                       content: Container(
                         constraints: BoxConstraints(
-                            maxHeight: MediaQuery.of(context).size.height * .8),
-                        width: MediaQuery.of(context).size.width * 0.8,
+                            maxHeight: MediaQuery
+                                .of(context)
+                                .size
+                                .height * .8),
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.8,
                         child: ListView(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -204,7 +210,8 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                             ListView(
                               shrinkWrap: true,
                               children: [
-                                ...value.zones!.data!.map((e) => InkWell(
+                                ...value.zones!.data!.map((e) =>
+                                    InkWell(
                                       child: DropdownMenuItem(
                                         child: Text("${e.name}"),
                                         onTap: () {},
@@ -265,8 +272,14 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                     return AlertDialog(
                       content: Container(
                         constraints: BoxConstraints(
-                            maxHeight: MediaQuery.of(context).size.height * .8),
-                        width: MediaQuery.of(context).size.width * 0.8,
+                            maxHeight: MediaQuery
+                                .of(context)
+                                .size
+                                .height * .8),
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.8,
                         child: ListView(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -282,7 +295,8 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                             ListView(
                               shrinkWrap: true,
                               children: [
-                                ...value.vehicle_type!.data!.map((e) => InkWell(
+                                ...value.vehicle_type!.data!.map((e) =>
+                                    InkWell(
                                       child: DropdownMenuItem(
                                         child: Text("${e.name!.camelCase}"),
                                         onTap: () {},
@@ -308,8 +322,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                   Text(
                     _selected_vehicle == null
                         ? "Vehicle Type"
-                        : _selected_vehicle!.name!.camelCase ??
-                            "Vehicle Undefined",
+                        : _selected_vehicle!.name!.camelCase ,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -344,7 +357,10 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                     return AlertDialog(
                       content: Container(
                         height: 350,
-                        width: MediaQuery.of(ctx).size.width * 0.8,
+                        width: MediaQuery
+                            .of(ctx)
+                            .size
+                            .width * 0.8,
                         color: Colors.white,
                         child: ListView(
                           shrinkWrap: true,
@@ -401,11 +417,11 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                     Text(
                       startDate != null
                           ? "Start Date : " +
-                              DateFormat.yMMMMd().format(startDate!) +
-                              "\n" +
-                              "End Date : " +
-                              DateFormat.yMMMMd()
-                                  .format(endDate ?? DateTime.now())
+                          DateFormat.yMMMMd().format(startDate!) +
+                          "\n" +
+                          "End Date : " +
+                          DateFormat.yMMMMd()
+                              .format(endDate ?? DateTime.now())
                           : "Select Date",
                       style: TextStyle(
                           color: Colors.white,
@@ -446,10 +462,10 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                 return;
               }
               DownloadViewScreenDashboard(
-                      startDate: startDate,
-                      endDate: endDate,
-                      selected_vehicle: _selected_vehicle,
-                      selected_zone: _selected_zone)
+                  startDate: startDate,
+                  endDate: endDate,
+                  selected_vehicle: _selected_vehicle,
+                  selected_zone: _selected_zone)
                   .push(context);
             },
             child: Container(
@@ -499,7 +515,8 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                   shrinkWrap: true,
                   children: [
                     if (_dashboardVehicleModel != null)
-                      ..._dashboardVehicleModel!.data!.map((item) => Column(
+                      ..._dashboardVehicleModel!.data!.map((item) =>
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
@@ -571,10 +588,10 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                     if (_dashboardVehicleModel == null)
                       Container(
                           child: Center(
-                        child: CircularProgressIndicator(
-                          color: primary_color,
-                        ),
-                      ))
+                            child: CircularProgressIndicator(
+                              color: primary_color,
+                            ),
+                          ))
                   ],
                 ),
               ),
@@ -674,276 +691,471 @@ class _UserDashBoard2State extends State<User2DashBoard> {
         ),
       );
 
+      Widget button_with_options_transfer_station=    GridView.count(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        crossAxisCount: 2,
+        childAspectRatio: (2.8 / 1),
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 5,
+        //physics:BouncingScrollPhysics(),
+        padding: EdgeInsets.all(10.0),
+        children: [
+          // zone container
+          InkWell(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (c) {
+                    return AlertDialog(
+                      content: Container(
+                        constraints: BoxConstraints(
+                            maxHeight: MediaQuery
+                                .of(context)
+                                .size
+                                .height * .8),
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.8,
+                        child: ListView(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          children: [
+                            Text(
+                              "Select Zone",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            ListView(
+                              shrinkWrap: true,
+                              children: [
+                                ...value.zones!.data!.map((e) =>
+                                    InkWell(
+                                      child: DropdownMenuItem(
+                                        child: Text("${e.name}"),
+                                        onTap: () {},
+                                      ),
+                                      onTap: () {
+                                        print("Clicked");
+                                        _selected_zone = e;
+                                        Navigator.pop(c);
+                                        setState(() {});
+                                      },
+                                    ))
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  });
+            },
+            child: Container(
+              child: Row(
+                children: [
+                  Text(
+                    _selected_zone == null
+                        ? "Zones"
+                        : _selected_zone!.name ?? "Zone Undefined",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    width: 7,
+                  ),
+                  Icon(
+                    Icons.arrow_drop_down_circle,
+                    color: Colors.white,
+                    size: 25,
+                  )
+                ],
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+              ),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(10)),
+                  gradient: LinearGradient(colors: [
+                    Color(0xffF24169),
+                    Color(0xffF4754C),
+                  ])),
+            ),
+          ),
+          //vehicle type
+          InkWell(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (c) {
+                    return AlertDialog(
+                      content: Container(
+                        constraints: BoxConstraints(
+                            maxHeight: MediaQuery
+                                .of(context)
+                                .size
+                                .height * .8),
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.8,
+                        child: ListView(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          children: [
+                            Text(
+                              "Select Vehicle Type",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            ListView(
+                              shrinkWrap: true,
+                              children: [
+                                ...value.vehicle_type!.data!.map((
+                                    e) =>
+                                    InkWell(
+                                      child: DropdownMenuItem(
+                                        child: Text(
+                                            "${e.name!.camelCase}"),
+                                        onTap: () {},
+                                      ),
+                                      onTap: () {
+                                        print("Clicked");
+                                        _selected_vehicle = e;
+                                        Navigator.pop(c);
+                                        setState(() {});
+                                      },
+                                    ))
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  });
+            },
+            child: Container(
+              child: Row(
+                children: [
+                  Text(
+                    _selected_vehicle == null
+                        ? "Vehicle Type"
+                        : _selected_vehicle!.name!.camelCase,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    width: 7,
+                  ),
+                  Icon(
+                    Icons.arrow_drop_down_circle,
+                    color: Colors.white,
+                    size: 25,
+                  )
+                ],
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+              ),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(10)),
+                  gradient: LinearGradient(colors: [
+                    Color(0xff6CC06B),
+                    Color(0xff3AB370),
+                  ])),
+            ),
+          ),
+          // view downloads
+          InkWell(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (c) {
+                    return AlertDialog(
+                      content: Container(
+                        constraints: BoxConstraints(
+                            maxHeight: MediaQuery
+                                .of(context)
+                                .size
+                                .height * .8),
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.8,
+                        child: ListView(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          children: [
+                            Text(
+                              "Select Transfer Station",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            ListView(
+                              shrinkWrap: true,
+                              children: [
+                                ...value.transfer_station!.data!.map((
+                                    e) =>
+                                    InkWell(
+                                      child: DropdownMenuItem(
+                                        child: Text(
+                                            "${e.name!.camelCase}",
+                                        overflow: TextOverflow.ellipsis,
+                                        ),
+                                        onTap: () {},
+                                      ),
+                                      onTap: () {
+                                        print("Clicked");
+                                        _selected_transfer_station = e;
+                                        Navigator.pop(c);
+                                        setState(() {});
+                                      },
+                                    ))
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  });
+            },
+            child: Container(
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  return Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 5,right: 5),
+                        width:constraints.maxWidth*0.8,
+                        child: Text(
+                          _selected_transfer_station == null
+                              ? "Transfer Station"
+                              : _selected_transfer_station!.name!.camelCase ,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600),
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 7,
+                      ),
+                      Icon(
+                        Icons.arrow_drop_down_circle,
+                        color: Colors.white,
+                        size: 25,
+                      )
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                  );
+                }
+              ),
+
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(10)),
+                  gradient: LinearGradient(colors: [
+                    Color(0xff58B9EC),
+                    Color(0xff4065AC),
+                  ])),
+
+
+            ),
+          ),
+          // date selection
+          InkWell(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (ctx) {
+                    return AlertDialog(
+                      content: Container(
+                        height: 350,
+                        width: MediaQuery
+                            .of(ctx)
+                            .size
+                            .width * 0.8,
+                        color: Colors.white,
+                        child: ListView(
+                          shrinkWrap: true,
+                          children: [
+                            SfDateRangePicker(
+                              onSelectionChanged: (s) {
+                                DateRangePickerSelectionChangedArgs dateargs =
+                                    s;
+                                startDate =
+                                    dateargs.value.startDate;
+                                endDate = dateargs.value.endDate;
+                                //   setState(() {});
+                              },
+                              maxDate: DateTime.now(),
+                              startRangeSelectionColor: Colors
+                                  .green[500],
+                              endRangeSelectionColor: Colors
+                                  .red[500],
+                              selectionColor: Colors.pink,
+
+                              // todayHighlightColor: Colors.pink,
+                              selectionMode: DateRangePickerSelectionMode
+                                  .range,
+                            ),
+                            GradientButton(
+                              onclick: () {
+                                Navigator.pop(ctx);
+                                setState(() {});
+                                if (startDate == null ||
+                                    endDate == null) {
+                                  "Please choose Start Date and End Date"
+                                      .showSnackbar(context);
+                                }
+                              },
+                              title: "Done",
+                              height: 15,
+                              fontsize: 14,
+                              padding: 4,
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  });
+            },
+            child: Container(
+              child: Row(
+                children: [
+                  if (startDate == null || endDate == null)
+                    Text(
+                      "Select Date",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600),
+                    ),
+
+                  if (startDate != null && endDate != null)
+                    Text(
+                      startDate != null
+                          ? "Start Date : " +
+                          DateFormat.yMMMMd().format(startDate!) +
+                          "\n" +
+                          "End Date : " +
+                          DateFormat.yMMMMd()
+                              .format(endDate ?? DateTime.now())
+                          : "Select Date",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  SizedBox(
+                    width: 7,
+                  ),
+                  // icon not display while date is avaiable
+                  if (startDate == null)
+                    Icon(
+                      Icons.arrow_drop_down_circle,
+                      color: Colors.white,
+                      size: 25,
+                    )
+                ],
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+              ),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(10)),
+                  gradient: LinearGradient(colors: [
+                    Color(0xff935498),
+                    Color(0xff6D58A3),
+                  ])),
+            ),
+          ),
+        ],
+      );
+
+
       return Column(
         children: [
           // top tab
-          tab,
+          master_tab,
           // only for gvp bep and vehicles
-          if (tab_index == 0 || tab_index == 1) vehicles_and_gvp_bep,
-
+          if (tab_index == 0 || tab_index == 1)
+            vehicles_and_gvp_bep,
           if (tab_index == 2)
             Expanded(
               child: Column(
                 /*     shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),*/
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      height: 40,
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            "assets/images/calendar.png",
-                            height: 50,
-                          ),
-                          Text(
-                            "Vehicle Type",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          SizedBox(
-                            width: 7,
-                          ),
-                          Icon(
-                            Icons.arrow_drop_down_circle,
-                            color: Colors.white,
-                            size: 25,
-                          )
-                        ],
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                  button_with_options_transfer_station,
+                  Center(
+                    child: InkWell(
+                      onTap: () {
+                        if (this._selected_zone == null ||
+                            this.startDate == null ||
+                            this.endDate == null ||
+                            this._selected_vehicle == null) {
+                          "Please Select all options before download"
+                              .showSnackbar(context);
+                          return;
+                        }
+                        DownloadViewScreenDashboard(
+                            startDate: startDate,
+                            endDate: endDate,
+                            selected_vehicle: _selected_vehicle,
+                            selected_zone: _selected_zone)
+                            .push(context);
+                      },
+                      child: Container(
+                        width: 200,
+                        height: 60,
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.download,
+                              color: Colors.white,
+                              size: 25,
+                            ),
+                            SizedBox(
+                              width: 7,
+                            ),
+                            Text(
+                              "View Downloads",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                        ),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            gradient: LinearGradient(colors: main_color)),
                       ),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
-                          gradient: LinearGradient(colors: [
-                            Color(0xff6CC06B),
-                            Color(0xff3AB370),
-                          ])),
                     ),
                   ),
 
-                  // vehicle
-                  if (tab_index == 0)
-                    Expanded(
-                      child: ListView(
-                        padding: EdgeInsets.all(10),
-                        shrinkWrap: true,
-                        children: [
-                          Text(
-                            "Total Vehicles",
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black87),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          GridView.count(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            crossAxisCount: 4,
-                            childAspectRatio: (1.5 / 1),
-                            crossAxisSpacing: 4,
-                            mainAxisSpacing: 2,
-                            //physics:BouncingScrollPhysics(),
-                            children: [
-                              DashBoardItemButton(color_grid: [
-                                Color(0xffF24169),
-                                Color(0xffF4754C),
-                              ], header: "Total", amount: "1000"),
-                              DashBoardItemButton(color_grid: [
-                                Color(0xff67C7E3),
-                                Color(0xff5AAADC),
-                              ], header: "Attend", amount: "1000"),
-                              DashBoardItemButton(color_grid: [
-                                Color(0xffEF788D),
-                                Color(0xffF078A8),
-                              ], header: "Not Attend", amount: "1000"),
-                              DashBoardItemButton(color_grid: [
-                                Color(0xff3AB370),
-                                Color(0xff6CC06B),
-                              ], header: "Trips", amount: "1000"),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Swach Auto",
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black87),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          GridView.count(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            crossAxisCount: 4,
-                            childAspectRatio: (1.5 / 1),
-                            crossAxisSpacing: 4,
-                            mainAxisSpacing: 2,
-                            //physics:BouncingScrollPhysics(),
-                            children: [
-                              DashBoardItemButton(color_grid: [
-                                Color(0xffF24169),
-                                Color(0xffF4754C),
-                              ], header: "Total", amount: "1000"),
-                              DashBoardItemButton(color_grid: [
-                                Color(0xff67C7E3),
-                                Color(0xff5AAADC),
-                              ], header: "Attend", amount: "1000"),
-                              DashBoardItemButton(color_grid: [
-                                Color(0xffEF788D),
-                                Color(0xffF078A8),
-                              ], header: "Not Attend", amount: "1000"),
-                              DashBoardItemButton(color_grid: [
-                                Color(0xff3AB370),
-                                Color(0xff6CC06B),
-                              ], header: "Trips", amount: "1000"),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Secondary Vehicles",
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black87),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          GridView.count(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            crossAxisCount: 4,
-                            childAspectRatio: (1.5 / 1),
-                            crossAxisSpacing: 4,
-                            mainAxisSpacing: 2,
-                            //physics:BouncingScrollPhysics(),
-                            children: [
-                              DashBoardItemButton(color_grid: [
-                                Color(0xffF24169),
-                                Color(0xffF4754C),
-                              ], header: "Total", amount: "1000"),
-                              DashBoardItemButton(color_grid: [
-                                Color(0xff67C7E3),
-                                Color(0xff5AAADC),
-                              ], header: "Attend", amount: "1000"),
-                              DashBoardItemButton(color_grid: [
-                                Color(0xffEF788D),
-                                Color(0xffF078A8),
-                              ], header: "Not Attend", amount: "1000"),
-                              DashBoardItemButton(color_grid: [
-                                Color(0xff3AB370),
-                                Color(0xff6CC06B),
-                              ], header: "Trips", amount: "1000"),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  // add gvp bvp
-                  if (tab_index == 1)
-                    Expanded(
-                      child: ListView(
-                        padding: EdgeInsets.all(10),
-                        shrinkWrap: true,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Gvp",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black87),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              GridView.count(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                crossAxisCount: 4,
-                                childAspectRatio: (1.5 / 1),
-                                crossAxisSpacing: 4,
-                                mainAxisSpacing: 2,
-                                //physics:BouncingScrollPhysics(),
-                                children: [
-                                  DashBoardItemButton(color_grid: [
-                                    Color(0xffF24169),
-                                    Color(0xffF4754C),
-                                  ], header: "Total", amount: "1000"),
-                                  DashBoardItemButton(color_grid: [
-                                    Color(0xff67C7E3),
-                                    Color(0xff5AAADC),
-                                  ], header: "Attend", amount: "1000"),
-                                  DashBoardItemButton(color_grid: [
-                                    Color(0xffEF788D),
-                                    Color(0xffF078A8),
-                                  ], header: "Not Attend", amount: "1000"),
-                                  DashBoardItemButton(color_grid: [
-                                    Color(0xff3AB370),
-                                    Color(0xff6CC06B),
-                                  ], header: "Trips", amount: "1000"),
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "BEP",
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black87),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          GridView.count(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            crossAxisCount: 4,
-                            childAspectRatio: (1.5 / 1),
-                            crossAxisSpacing: 4,
-                            mainAxisSpacing: 2,
-                            //physics:BouncingScrollPhysics(),
-                            children: [
-                              DashBoardItemButton(color_grid: [
-                                Color(0xffF24169),
-                                Color(0xffF4754C),
-                              ], header: "Total", amount: "1000"),
-                              DashBoardItemButton(color_grid: [
-                                Color(0xff67C7E3),
-                                Color(0xff5AAADC),
-                              ], header: "Attend", amount: "1000"),
-                              DashBoardItemButton(color_grid: [
-                                Color(0xffEF788D),
-                                Color(0xffF078A8),
-                              ], header: "Not Attend", amount: "1000"),
-                              DashBoardItemButton(color_grid: [
-                                Color(0xff3AB370),
-                                Color(0xff6CC06B),
-                              ], header: "Trips", amount: "1000"),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
                 ],
               ),
             ),

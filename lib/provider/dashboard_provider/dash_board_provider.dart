@@ -21,6 +21,9 @@ class DashBoardProvider extends ChangeNotifier {
   String demo = "00";
   MenuItemModel? zones;
   MenuItemModel? vehicle_type;
+  MenuItemModel? transfer_station;
+
+
 
   getProviderObject() {
     _instance = _instance ?? new DashBoardProvider();
@@ -36,6 +39,11 @@ class DashBoardProvider extends ChangeNotifier {
   setZones() async {
     ApiResponse response = await getZones();
     zones = MenuItemModel.fromJson(response.completeResponse);
+  }
+
+  setTransferStation() async {
+    ApiResponse response = await getTransferStation();
+    transfer_station = MenuItemModel.fromJson(response.completeResponse);
   }
 
   setVehicleType() async {
@@ -120,6 +128,14 @@ class DashBoardProvider extends ChangeNotifier {
     MProgressIndicator.hide(); // close indicator
     return response;
   }
+
+  Future<ApiResponse> getTransferStation() async {
+    ApiResponse response = await ApiBase()
+        .baseFunction(() => ApiBase().getInstance()!.get("/transfer"));
+    MProgressIndicator.hide(); // close indicator
+    return response;
+  }
+
 
   Future<ApiResponse> getVehicleType() async {
     ApiResponse response = await ApiBase().baseFunction(
