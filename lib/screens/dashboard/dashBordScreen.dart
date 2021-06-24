@@ -23,7 +23,7 @@ import 'package:ghmc/util/utils.dart';
 
 import '../../globals/globals.dart';
 import '../Testscreens/test_screen.dart';
-import 'dashbaord/user2.dart';
+import 'dashbaord/dashboard_body.dart';
 
 enum WhatToDo { qrscan }
 
@@ -142,7 +142,7 @@ class _DashBordScreenState extends State<DashBordScreen>
   Widget _buildBody() {
     // we need to apply condition to display qr or not
 
-return User2DashBoard();
+return DashBoardBody();
 
   }
 

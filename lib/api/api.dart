@@ -46,12 +46,12 @@ class ApiBase {
         contentType: "application/x-www-form-urlencoded"))
       ..interceptors.add(PrettyDioLogger(
        request : true,
-       requestHeader : false,
-       requestBody : false,
-       responseHeader : false,
+       requestHeader : true,
+       requestBody : true,
+    //   responseHeader : true,
        responseBody : true,
         error : true,
-        maxWidth : 90,
+
         compact : true,
        
      

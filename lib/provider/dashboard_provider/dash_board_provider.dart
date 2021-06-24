@@ -23,8 +23,6 @@ class DashBoardProvider extends ChangeNotifier {
   MenuItemModel? vehicle_type;
   MenuItemModel? transfer_station;
 
-
-
   getProviderObject() {
     _instance = _instance ?? new DashBoardProvider();
     return _instance;
@@ -136,6 +134,15 @@ class DashBoardProvider extends ChangeNotifier {
     return response;
   }
 
+  Future<ApiResponse> getTransferStationTabData(
+      {String? dateString, String? userid}) async {
+    ApiResponse response = await ApiBase().baseFunction(() => ApiBase()
+        .getInstance()!
+        .post("/transfer_station_dashboard",
+            data: {"date": dateString!, "user_id": userid}));
+    MProgressIndicator.hide(); // close indicator
+    return response;
+  }
 
   Future<ApiResponse> getVehicleType() async {
     ApiResponse response = await ApiBase().baseFunction(
@@ -144,7 +151,12 @@ class DashBoardProvider extends ChangeNotifier {
     return response;
   }
 
-  Future<ApiResponse?> getReport( {String? startdate, String? enddate, MenuItem? zone, MenuItem? vehicle,}) async {
+  Future<ApiResponse?> getReport({
+    String? startdate,
+    String? enddate,
+    MenuItem? zone,
+    MenuItem? vehicle,
+  }) async {
     ApiResponse response = await ApiBase().baseFunction(
         () => ApiBase().getInstance()!.post("/search_view", data: {
               'user_id': Globals.userData!.data!.userId,
@@ -160,28 +172,22 @@ class DashBoardProvider extends ChangeNotifier {
   void downloadFile(
       {required BuildContext context,
       required String filename,
-    required  String url}) async {
-
+      required String url}) async {
     showDialog(
         context: context,
         builder: (c) {
           return AlertDialog(
             content: Container(
               constraints: BoxConstraints(
-                  maxHeight:
-                  MediaQuery.of(context).size.height *
-                      .8),
-              width:
-              MediaQuery.of(context).size.width * 0.8,
+                  maxHeight: MediaQuery.of(context).size.height * .8),
+              width: MediaQuery.of(context).size.width * 0.8,
               child: ListView(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: [
                   Text(
                     "Select Zone",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
                     height: 15,
@@ -189,7 +195,7 @@ class DashBoardProvider extends ChangeNotifier {
                   ListView(
                     shrinkWrap: true,
                     children: [
-                  /*    LinearProgressIndicator(
+                      /*    LinearProgressIndicator(
                         backgroundColor: Colors.cyanAccent,
                         valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
                         value: _progressValue,
@@ -201,8 +207,6 @@ class DashBoardProvider extends ChangeNotifier {
             ),
           );
         });
-
-
 
     String? android_path = "${await FileSupport().getRootFolderPath()}/GHMC/";
     File? file = await FileSupport().downloadCustomLocation(
@@ -216,6 +220,4 @@ class DashBoardProvider extends ChangeNotifier {
 
     print("download file size ${FileSupport().getFileSize(file: file!)}");
   }
-
-
 }

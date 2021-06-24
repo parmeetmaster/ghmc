@@ -3,6 +3,7 @@ import 'package:ghmc/api/api.dart';
 import 'package:ghmc/globals/constants.dart';
 import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/model/dashboard/dashboard_vehicle.dart';
+import 'package:ghmc/model/dashboard/tab/transfer_station/transfer_station_tab_model.dart';
 import 'package:ghmc/model/dashboard/zone_model.dart';
 import 'package:ghmc/provider/dashboard_provider/dash_board_provider.dart';
 import 'package:ghmc/screens/dashboard/download_screen/download_screen.dart';
@@ -13,14 +14,14 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class User2DashBoard extends StatefulWidget {
-  const User2DashBoard({Key? key}) : super(key: key);
+class DashBoardBody extends StatefulWidget {
+  const DashBoardBody({Key? key}) : super(key: key);
 
   @override
   _UserDashBoard2State createState() => _UserDashBoard2State();
 }
 
-class _UserDashBoard2State extends State<User2DashBoard> {
+class _UserDashBoard2State extends State<DashBoardBody> {
   int tab_index = 0;
 
   DateTime? startDate;
@@ -29,21 +30,27 @@ class _UserDashBoard2State extends State<User2DashBoard> {
   MenuItem? _selected_zone;
   MenuItem? _selected_vehicle;
   MenuItem? _selected_transfer_station;
+
+  TransferStationTabModel? _dashboardTransferStationTabModel;
+
   @override
   void initState() {
     super.initState();
     Globals.userData!.data!.token!.toString().printwtf;
-    updateVehicleData(DateTime.now());
+    /*  updateVehicleData(DateTime.now());
+    getTransferStationData();*/
+    Future.wait([updateVehicleData(), getTransferStationData()]);
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<DashBoardProvider>(builder: (context, value, child) {
+      // 📑 tabs at top
       Widget master_tab = Padding(
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           // show above tabs shifters as per index and true condition shows 2 tabs and 3 show while false
           child: /*userindex == "1" ?*/
-          Card(
+              Card(
             child: IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -118,7 +125,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10))),
           )
-        /* : Card(
+          /* : Card(
                     child: IntrinsicHeight(
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -167,7 +174,8 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                   ),*/
-      );
+          );
+
       Widget button_with_options = GridView.count(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -187,14 +195,8 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                     return AlertDialog(
                       content: Container(
                         constraints: BoxConstraints(
-                            maxHeight: MediaQuery
-                                .of(context)
-                                .size
-                                .height * .8),
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.8,
+                            maxHeight: MediaQuery.of(context).size.height * .8),
+                        width: MediaQuery.of(context).size.width * 0.8,
                         child: ListView(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -210,8 +212,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                             ListView(
                               shrinkWrap: true,
                               children: [
-                                ...value.zones!.data!.map((e) =>
-                                    InkWell(
+                                ...value.zones!.data!.map((e) => InkWell(
                                       child: DropdownMenuItem(
                                         child: Text("${e.name}"),
                                         onTap: () {},
@@ -272,14 +273,8 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                     return AlertDialog(
                       content: Container(
                         constraints: BoxConstraints(
-                            maxHeight: MediaQuery
-                                .of(context)
-                                .size
-                                .height * .8),
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.8,
+                            maxHeight: MediaQuery.of(context).size.height * .8),
+                        width: MediaQuery.of(context).size.width * 0.8,
                         child: ListView(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -295,8 +290,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                             ListView(
                               shrinkWrap: true,
                               children: [
-                                ...value.vehicle_type!.data!.map((e) =>
-                                    InkWell(
+                                ...value.vehicle_type!.data!.map((e) => InkWell(
                                       child: DropdownMenuItem(
                                         child: Text("${e.name!.camelCase}"),
                                         onTap: () {},
@@ -322,7 +316,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                   Text(
                     _selected_vehicle == null
                         ? "Vehicle Type"
-                        : _selected_vehicle!.name!.camelCase ,
+                        : _selected_vehicle!.name!.camelCase,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -357,10 +351,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                     return AlertDialog(
                       content: Container(
                         height: 350,
-                        width: MediaQuery
-                            .of(ctx)
-                            .size
-                            .width * 0.8,
+                        width: MediaQuery.of(ctx).size.width * 0.8,
                         color: Colors.white,
                         child: ListView(
                           shrinkWrap: true,
@@ -417,11 +408,11 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                     Text(
                       startDate != null
                           ? "Start Date : " +
-                          DateFormat.yMMMMd().format(startDate!) +
-                          "\n" +
-                          "End Date : " +
-                          DateFormat.yMMMMd()
-                              .format(endDate ?? DateTime.now())
+                              DateFormat.yMMMMd().format(startDate!) +
+                              "\n" +
+                              "End Date : " +
+                              DateFormat.yMMMMd()
+                                  .format(endDate ?? DateTime.now())
                           : "Select Date",
                       style: TextStyle(
                           color: Colors.white,
@@ -462,10 +453,10 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                 return;
               }
               DownloadViewScreenDashboard(
-                  startDate: startDate,
-                  endDate: endDate,
-                  selected_vehicle: _selected_vehicle,
-                  selected_zone: _selected_zone)
+                      startDate: startDate,
+                      endDate: endDate,
+                      selected_vehicle: _selected_vehicle,
+                      selected_zone: _selected_zone)
                   .push(context);
             },
             child: Container(
@@ -501,7 +492,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
         ],
       );
 
-      // only vehicles and gvp bep with 2 tabs
+      // 🚌 only vehicles and gvp bep with 2 tabs
       Widget vehicles_and_gvp_bep = Expanded(
         child: Column(
           children: [
@@ -515,8 +506,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                   shrinkWrap: true,
                   children: [
                     if (_dashboardVehicleModel != null)
-                      ..._dashboardVehicleModel!.data!.map((item) =>
-                          Column(
+                      ..._dashboardVehicleModel!.data!.map((item) => Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
@@ -588,10 +578,10 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                     if (_dashboardVehicleModel == null)
                       Container(
                           child: Center(
-                            child: CircularProgressIndicator(
-                              color: primary_color,
-                            ),
-                          ))
+                        child: CircularProgressIndicator(
+                          color: primary_color,
+                        ),
+                      ))
                   ],
                 ),
               ),
@@ -691,7 +681,8 @@ class _UserDashBoard2State extends State<User2DashBoard> {
         ),
       );
 
-      Widget button_with_options_transfer_station=    GridView.count(
+      // 🚉 transfer station
+      Widget button_with_options_transfer_station = GridView.count(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         crossAxisCount: 2,
@@ -710,14 +701,8 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                     return AlertDialog(
                       content: Container(
                         constraints: BoxConstraints(
-                            maxHeight: MediaQuery
-                                .of(context)
-                                .size
-                                .height * .8),
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.8,
+                            maxHeight: MediaQuery.of(context).size.height * .8),
+                        width: MediaQuery.of(context).size.width * 0.8,
                         child: ListView(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -725,8 +710,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                             Text(
                               "Select Zone",
                               style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600),
+                                  fontSize: 20, fontWeight: FontWeight.w600),
                             ),
                             SizedBox(
                               height: 15,
@@ -734,8 +718,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                             ListView(
                               shrinkWrap: true,
                               children: [
-                                ...value.zones!.data!.map((e) =>
-                                    InkWell(
+                                ...value.zones!.data!.map((e) => InkWell(
                                       child: DropdownMenuItem(
                                         child: Text("${e.name}"),
                                         onTap: () {},
@@ -780,8 +763,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                 crossAxisAlignment: CrossAxisAlignment.center,
               ),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(10)),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                   gradient: LinearGradient(colors: [
                     Color(0xffF24169),
                     Color(0xffF4754C),
@@ -797,14 +779,8 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                     return AlertDialog(
                       content: Container(
                         constraints: BoxConstraints(
-                            maxHeight: MediaQuery
-                                .of(context)
-                                .size
-                                .height * .8),
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.8,
+                            maxHeight: MediaQuery.of(context).size.height * .8),
+                        width: MediaQuery.of(context).size.width * 0.8,
                         child: ListView(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -812,8 +788,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                             Text(
                               "Select Vehicle Type",
                               style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600),
+                                  fontSize: 20, fontWeight: FontWeight.w600),
                             ),
                             SizedBox(
                               height: 15,
@@ -821,12 +796,9 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                             ListView(
                               shrinkWrap: true,
                               children: [
-                                ...value.vehicle_type!.data!.map((
-                                    e) =>
-                                    InkWell(
+                                ...value.vehicle_type!.data!.map((e) => InkWell(
                                       child: DropdownMenuItem(
-                                        child: Text(
-                                            "${e.name!.camelCase}"),
+                                        child: Text("${e.name!.camelCase}"),
                                         onTap: () {},
                                       ),
                                       onTap: () {
@@ -869,8 +841,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                 crossAxisAlignment: CrossAxisAlignment.center,
               ),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(10)),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                   gradient: LinearGradient(colors: [
                     Color(0xff6CC06B),
                     Color(0xff3AB370),
@@ -886,14 +857,8 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                     return AlertDialog(
                       content: Container(
                         constraints: BoxConstraints(
-                            maxHeight: MediaQuery
-                                .of(context)
-                                .size
-                                .height * .8),
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.8,
+                            maxHeight: MediaQuery.of(context).size.height * .8),
+                        width: MediaQuery.of(context).size.width * 0.8,
                         child: ListView(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -901,8 +866,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                             Text(
                               "Select Transfer Station",
                               style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600),
+                                  fontSize: 20, fontWeight: FontWeight.w600),
                             ),
                             SizedBox(
                               height: 15,
@@ -910,23 +874,22 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                             ListView(
                               shrinkWrap: true,
                               children: [
-                                ...value.transfer_station!.data!.map((
-                                    e) =>
-                                    InkWell(
-                                      child: DropdownMenuItem(
-                                        child: Text(
-                                            "${e.name!.camelCase}",
-                                        overflow: TextOverflow.ellipsis,
-                                        ),
-                                        onTap: () {},
-                                      ),
-                                      onTap: () {
-                                        print("Clicked");
-                                        _selected_transfer_station = e;
-                                        Navigator.pop(c);
-                                        setState(() {});
-                                      },
-                                    ))
+                                ...value.transfer_station!.data!
+                                    .map((e) => InkWell(
+                                          child: DropdownMenuItem(
+                                            child: Text(
+                                              "${e.name!.camelCase}",
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            onTap: () {},
+                                          ),
+                                          onTap: () {
+                                            print("Clicked");
+                                            _selected_transfer_station = e;
+                                            Navigator.pop(c);
+                                            setState(() {});
+                                          },
+                                        ))
                               ],
                             ),
                           ],
@@ -937,48 +900,43 @@ class _UserDashBoard2State extends State<User2DashBoard> {
             },
             child: Container(
               child: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  return Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(left: 5,right: 5),
-                        width:constraints.maxWidth*0.8,
-                        child: Text(
-                          _selected_transfer_station == null
-                              ? "Transfer Station"
-                              : _selected_transfer_station!.name!.camelCase ,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600),
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                return Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 5, right: 5),
+                      width: constraints.maxWidth * 0.8,
+                      child: Text(
+                        _selected_transfer_station == null
+                            ? "Transfer Station"
+                            : _selected_transfer_station!.name!.camelCase,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(
-                        width: 7,
-                      ),
-                      Icon(
-                        Icons.arrow_drop_down_circle,
-                        color: Colors.white,
-                        size: 25,
-                      )
-                    ],
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                  );
-                }
-              ),
-
+                    ),
+                    SizedBox(
+                      width: 7,
+                    ),
+                    Icon(
+                      Icons.arrow_drop_down_circle,
+                      color: Colors.white,
+                      size: 25,
+                    )
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                );
+              }),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(10)),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                   gradient: LinearGradient(colors: [
                     Color(0xff58B9EC),
                     Color(0xff4065AC),
                   ])),
-
-
             ),
           ),
           // date selection
@@ -990,10 +948,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                     return AlertDialog(
                       content: Container(
                         height: 350,
-                        width: MediaQuery
-                            .of(ctx)
-                            .size
-                            .width * 0.8,
+                        width: MediaQuery.of(ctx).size.width * 0.8,
                         color: Colors.white,
                         child: ListView(
                           shrinkWrap: true,
@@ -1002,28 +957,23 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                               onSelectionChanged: (s) {
                                 DateRangePickerSelectionChangedArgs dateargs =
                                     s;
-                                startDate =
-                                    dateargs.value.startDate;
+                                startDate = dateargs.value.startDate;
                                 endDate = dateargs.value.endDate;
                                 //   setState(() {});
                               },
                               maxDate: DateTime.now(),
-                              startRangeSelectionColor: Colors
-                                  .green[500],
-                              endRangeSelectionColor: Colors
-                                  .red[500],
+                              startRangeSelectionColor: Colors.green[500],
+                              endRangeSelectionColor: Colors.red[500],
                               selectionColor: Colors.pink,
 
                               // todayHighlightColor: Colors.pink,
-                              selectionMode: DateRangePickerSelectionMode
-                                  .range,
+                              selectionMode: DateRangePickerSelectionMode.range,
                             ),
                             GradientButton(
                               onclick: () {
                                 Navigator.pop(ctx);
                                 setState(() {});
-                                if (startDate == null ||
-                                    endDate == null) {
+                                if (startDate == null || endDate == null) {
                                   "Please choose Start Date and End Date"
                                       .showSnackbar(context);
                                 }
@@ -1055,11 +1005,11 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                     Text(
                       startDate != null
                           ? "Start Date : " +
-                          DateFormat.yMMMMd().format(startDate!) +
-                          "\n" +
-                          "End Date : " +
-                          DateFormat.yMMMMd()
-                              .format(endDate ?? DateTime.now())
+                              DateFormat.yMMMMd().format(startDate!) +
+                              "\n" +
+                              "End Date : " +
+                              DateFormat.yMMMMd()
+                                  .format(endDate ?? DateTime.now())
                           : "Select Date",
                       style: TextStyle(
                           color: Colors.white,
@@ -1081,8 +1031,7 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                 crossAxisAlignment: CrossAxisAlignment.center,
               ),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(10)),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                   gradient: LinearGradient(colors: [
                     Color(0xff935498),
                     Color(0xff6D58A3),
@@ -1092,14 +1041,191 @@ class _UserDashBoard2State extends State<User2DashBoard> {
         ],
       );
 
+      // 🚉 transfer station 3 button with garbage collector and all
+      Widget button_with_3_details = GridView.count(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        crossAxisCount: 3,
+        childAspectRatio: (2.0 / 1),
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 5,
+        //physics:BouncingScrollPhysics(),
+        padding: EdgeInsets.all(10.0),
+        children: [
+          // zone container
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "Vehicle Count \n 500",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+            ),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                gradient: LinearGradient(colors: [
+                  Color(0xffF24169),
+                  Color(0xffF4754C),
+                ])),
+          ),
+          //vehicle type
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "Trip Count \n 2000 ",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+            ),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                gradient: LinearGradient(colors: [
+                  Color(0xff6CC06B),
+                  Color(0xff3AB370),
+                ])),
+          ),
+          // garabage collection
+          Container(
+            child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+              return Row(
+                children: [
+                  Container(
+                    width: constraints.maxWidth * 0.8,
+                    child: Text(
+                      "Garbage Collection \n 2000",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600),
+                      textAlign: TextAlign.center,
+                      // overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+              );
+            }),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                gradient: LinearGradient(colors: [
+                  Color(0xff58B9EC),
+                  Color(0xff4065AC),
+                ])),
+          ),
+        ],
+      );
 
+      // 🚉 transfer station all item with download options
+      Widget transfer_station_scroll_items = Expanded(
+        child: ListView(
+          padding: EdgeInsets.all(10),
+          shrinkWrap: true,
+          children: [
+            if (_dashboardTransferStationTabModel != null)
+              ..._dashboardTransferStationTabModel!.data!.mapIndexed((item,index) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 60,
+                        child: Stack(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                                  gradient: LinearGradient(
+                                      colors: main_color)),
+                            ),
+                            Flex(direction: Axis.horizontal,
+                         crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(width: 5,),
+                              Expanded(
+                                  flex:3,
+                                  child: Center(
+                                    child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: Text("${index}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+
+                              ),
+                                  )),
+                              VerticalDivider(color: Colors.white,thickness: 1,),
+                              Expanded(
+                                  flex:4,
+                                  child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: Center(child: Text("Jiyaguda",style: TextStyle(color: Colors.white),)),
+                              )),
+                              VerticalDivider(color: Colors.white,thickness: 1,),
+                              Expanded(
+                                  flex:6,
+                                  child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: Text("Vehicle Count \n 500 ",style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
+                              )),
+                              VerticalDivider(color: Colors.white,thickness: 1,),
+                              Expanded(
+                                  flex:5,
+                                  child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: Text("Trip Count \n 500 ",textAlign: TextAlign.center,style: TextStyle(color: Colors.white),),
+                              )),
+                              VerticalDivider(color: Colors.white,thickness: 1,),
+                              Expanded(
+                                  flex:6,
+                                  child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: Text("Garbage Weight\n 500 kg ",textAlign: TextAlign.center,style: TextStyle(color: Colors.white),),
+                              )),
+                              VerticalDivider(color: Colors.white,thickness: 1,),
+                              Expanded(
+                                  flex:2,
+                                  child: Container(
+                                child: Icon(Icons.download,color: Colors.white,),
+                              )),
+                              SizedBox(width: 10,),
+                            ],),
+
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 5,)
+                    ],
+                  )),
+            if (_dashboardVehicleModel == null)
+              Container(
+                  child: Center(
+                child: CircularProgressIndicator(
+                  color: primary_color,
+                ),
+              ))
+          ],
+        ),
+      );
+      // 💡 here is logic
       return Column(
         children: [
           // top tab
           master_tab,
-          // only for gvp bep and vehicles
-          if (tab_index == 0 || tab_index == 1)
-            vehicles_and_gvp_bep,
+          // tab  0️⃣ & 1️⃣  only for gvp bep and vehicles🚌
+          if (tab_index == 0 || tab_index == 1) vehicles_and_gvp_bep,
+          // tab 2️⃣ station 🚉
           if (tab_index == 2)
             Expanded(
               child: Column(
@@ -1119,10 +1245,10 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                           return;
                         }
                         DownloadViewScreenDashboard(
-                            startDate: startDate,
-                            endDate: endDate,
-                            selected_vehicle: _selected_vehicle,
-                            selected_zone: _selected_zone)
+                                startDate: startDate,
+                                endDate: endDate,
+                                selected_vehicle: _selected_vehicle,
+                                selected_zone: _selected_zone)
                             .push(context);
                       },
                       child: Container(
@@ -1155,7 +1281,8 @@ class _UserDashBoard2State extends State<User2DashBoard> {
                       ),
                     ),
                   ),
-
+                  button_with_3_details,
+                  transfer_station_scroll_items
                 ],
               ),
             ),
@@ -1165,11 +1292,11 @@ class _UserDashBoard2State extends State<User2DashBoard> {
   }
 
   // Vehicles list with download options
-  void updateVehicleData(DateTime? vehicle_date) async {
+  Future<void> updateVehicleData() async {
     final provider = Provider.of<DashBoardProvider>(context, listen: false);
 
-    String str = DateFormat("dd-MM-yyyy").format(vehicle_date!);
-    print(str);
+    String str = DateFormat("dd-MM-yyyy").format(DateTime.now());
+
     ApiResponse? response = await provider.getVehicesInfo(
         userid: Globals.userData!.data!.userId!, dateString: str);
     if (response!.status != 200) {
@@ -1178,6 +1305,21 @@ class _UserDashBoard2State extends State<User2DashBoard> {
     }
     _dashboardVehicleModel =
         DashboardVehicleModel.fromJson(response.completeResponse);
+    setState(() {});
+  }
+
+  Future<void> getTransferStationData() async {
+    final provider = Provider.of<DashBoardProvider>(context, listen: false);
+    String str = DateFormat("dd-MM-yyyy").format(DateTime.now());
+
+    ApiResponse? response = await provider.getTransferStationTabData(
+        userid: Globals.userData!.data!.userId!, dateString: str);
+    if (response.status != 200) {
+      response.message!.showSnackbar(context);
+      return;
+    }
+    _dashboardTransferStationTabModel =
+        TransferStationTabModel.fromJson(response.completeResponse);
     setState(() {});
   }
 }
