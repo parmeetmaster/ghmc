@@ -25,6 +25,7 @@ class DashBoardProvider extends ChangeNotifier {
   MenuItemModel? zones;
   MenuItemModel? vehicle_type;
   MenuItemModel? transfer_station;
+  StateSetter? setState;
 
   getProviderObject() {
     _instance = _instance ?? new DashBoardProvider();
@@ -235,30 +236,6 @@ class DashBoardProvider extends ChangeNotifier {
     );
   }
 
-
-  double percentage=0.0;
-  _performDownload(StateSetter setState) async{
-
-    String? android_path = "${await FileSupport().getRootFolderPath()}/GHMC/";
-    File? file = await FileSupport().downloadCustomLocation(
-        url: "https://www.rmp-streaming.com/media/big-buck-bunny-360p.mp4",
-        path: android_path,
-        filename: "Progress",
-        extension: ".xls",
-        progress: (p) {
-          p.printinfo;
-          setState((){
-
-          });
-        });
-
-    print("download file size ${FileSupport().getFileSize(file: file!)}");
-
-
-
-
-  }
-
   _showDownloadProgress(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -267,6 +244,14 @@ class DashBoardProvider extends ChangeNotifier {
       builder: (ctx) {
         return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
+          this.setState = setState;
+
+          // 🔴 sheeet Dismiss here
+          if(percentage=="100"){
+            Navigator.pop(ctx);
+          }
+
+
           return Container(
             height: MediaQuery.of(context).size.height * 0.25,
             decoration: new BoxDecoration(
@@ -305,16 +290,15 @@ class DashBoardProvider extends ChangeNotifier {
                   ),
                 ),
                 SizedBox(
-                  height: 50,
+                  height: 30,
                 ),
                 new CircularPercentIndicator(
                   radius: 60.0,
                   lineWidth: 5.0,
-                  percent: 0.7,
-                  center: new Text("100%"),
+                  percent: double.tryParse(percentage)! / 100,
+                  center: new Text("${this.percentage}%"),
                   progressColor: Colors.green,
                 ),
-
               ],
             ),
           );
@@ -323,15 +307,61 @@ class DashBoardProvider extends ChangeNotifier {
     );
   }
 
+  String percentage = "0";
+
+  _performDownload(
+      {String? url,
+      String? filename,
+      String? extension,
+      Function(String)? downloadProgress,BuildContext? context}) async {
+
+    String? android_path = "${await FileSupport().getRootFolderPath()}/GHMC/";
+    try {
+      File? file = await FileSupport().downloadCustomLocation(
+          url: url,
+          path: android_path,
+          filename: filename!,
+          extension: extension!,
+          progress: (p) {
+            p.printinfo;
+            if (downloadProgress != null) downloadProgress(p);
+          });
+      print("download file size ${FileSupport().getFileSize(file: file!)}");
+    } catch (e) {
+      "${e.toString()}".showSnackbar(context!);
+
+    }
+
+
+  }
+
   void downloadFile(
       {required BuildContext context,
       required String filename,
       required String url}) async {
-    percentage=0;
-    _showConfirmDownloadBottomSheet(context, () {
-      _showDownloadProgress(context);
+     percentage="0"; //◀ reset percentage here
+
+    _showConfirmDownloadBottomSheet(context, () async {
+      await _showDownloadProgress(context);
+
+      _performDownload(
+          url: url,
+          filename: filename,
+          extension: ".xls",
+          context: context,
+          downloadProgress: (String progress) async {
+        setState!(() {
+          percentage = progress;
+        });
+
+        String? android_path = "${await FileSupport().getRootFolderPath()}/GHMC/";
+
+        if(percentage=="100"){
+          "${android_path+filename+".xls"}".showSnackbar(context);
+        }
+
+
+      });
     });
-
-
   }
 }

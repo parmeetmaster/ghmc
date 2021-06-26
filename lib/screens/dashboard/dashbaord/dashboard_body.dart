@@ -533,7 +533,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                    value.downloadFile(context: context, filename: "Vehicle", url: "");
+                                    value.downloadFile(context: context, filename: "Vehicle", url: item.totalUrl!);
 
                                     },
                                     child: DashBoardItemButton(
