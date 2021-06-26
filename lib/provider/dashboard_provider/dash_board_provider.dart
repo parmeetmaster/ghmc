@@ -6,12 +6,15 @@ import 'package:dio/src/multipart_file.dart';
 import 'package:file_support/file_support.dart';
 import 'package:flutter/material.dart';
 import 'package:ghmc/api/api.dart';
+import 'package:ghmc/globals/constants.dart';
 import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/model/dashboard/zone_model.dart';
 import 'package:ghmc/model/driver_data_model.dart';
 import 'package:ghmc/provider/login_provider/login_provider.dart';
 import 'package:ghmc/screens/success/success.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
+import 'package:ghmc/widget/buttons/gradeint_button.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:ghmc/util/utils.dart';
 
@@ -169,44 +172,72 @@ class DashBoardProvider extends ChangeNotifier {
     return response;
   }
 
-  void downloadFile(
-      {required BuildContext context,
-      required String filename,
-      required String url}) async {
-    showDialog(
-        context: context,
-        builder: (c) {
-          return AlertDialog(
-            content: Container(
-              constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * .8),
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: ListView(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                children: [
-                  Text(
-                    "Select Zone",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  ListView(
-                    shrinkWrap: true,
-                    children: [
-                      /*    LinearProgressIndicator(
-                        backgroundColor: Colors.cyanAccent,
-                        valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
-                        value: _progressValue,
-                      ),*/
-                    ],
-                  ),
-                ],
+  _showConfirmDownloadBottomSheet(
+      BuildContext context, Function performDownload) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => Container(
+        height: MediaQuery.of(context).size.height * 0.25,
+        decoration: new BoxDecoration(
+          color: Colors.white,
+          borderRadius: new BorderRadius.only(
+            topLeft: const Radius.circular(25.0),
+            topRight: const Radius.circular(25.0),
+          ),
+        ),
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.clear,
+                        color: Colors.red,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                      },
+                    )),
+              ],
+            ),
+            Center(
+              child: Text(
+                "Do you like to download ?",
+                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
               ),
             ),
-          );
-        });
+            SizedBox(
+              height: 50,
+            ),
+            Center(
+              child: GradientButton(
+                title: "Download File",
+                height: 20,
+                fontsize: 14,
+                onclick: () async {
+                  Navigator.pop(ctx);
+                  performDownload();
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  double percentage=0.0;
+  _performDownload(StateSetter setState) async{
 
     String? android_path = "${await FileSupport().getRootFolderPath()}/GHMC/";
     File? file = await FileSupport().downloadCustomLocation(
@@ -216,8 +247,91 @@ class DashBoardProvider extends ChangeNotifier {
         extension: ".xls",
         progress: (p) {
           p.printinfo;
+          setState((){
+
+          });
         });
 
     print("download file size ${FileSupport().getFileSize(file: file!)}");
+
+
+
+
+  }
+
+  _showDownloadProgress(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.25,
+            decoration: new BoxDecoration(
+              color: Colors.white,
+              borderRadius: new BorderRadius.only(
+                topLeft: const Radius.circular(25.0),
+                topRight: const Radius.circular(25.0),
+              ),
+            ),
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Align(
+                        alignment: Alignment.topRight,
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.clear,
+                            color: Colors.red,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(ctx);
+                          },
+                        )),
+                  ],
+                ),
+                Center(
+                  child: Text(
+                    "Downlaod Progress",
+                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+                  ),
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                new CircularPercentIndicator(
+                  radius: 60.0,
+                  lineWidth: 5.0,
+                  percent: 0.7,
+                  center: new Text("100%"),
+                  progressColor: Colors.green,
+                ),
+
+              ],
+            ),
+          );
+        });
+      },
+    );
+  }
+
+  void downloadFile(
+      {required BuildContext context,
+      required String filename,
+      required String url}) async {
+    percentage=0;
+    _showConfirmDownloadBottomSheet(context, () {
+      _showDownloadProgress(context);
+    });
+
+
   }
 }

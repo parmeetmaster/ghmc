@@ -44,6 +44,8 @@ class _UserDashBoard2State extends State<DashBoardBody> {
 
   @override
   Widget build(BuildContext context) {
+
+    if(_dashboardTransferStationTabModel!=null || _dashboardVehicleModel!=null)
     return Consumer<DashBoardProvider>(builder: (context, value, child) {
       // 📑 tabs at top
       Widget master_tab = Padding(
@@ -67,7 +69,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                           child: Text(
                             "Vehicles",
                             style: TextStyle(
-                                color: Color(0xffE33535), fontSize: 16),
+                                color: tab_index==0? Color(0xffE33535):Color(0xff2796B7), fontSize: 16),
                           ),
                         ),
                       )),
@@ -91,7 +93,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                           child: Text(
                             "GVP / BEP",
                             style: TextStyle(
-                                color: Color(0xff2796B7), fontSize: 16),
+                                color: tab_index==1? Color(0xffE33535):Color(0xff2796B7), fontSize: 16),
                           ),
                         ),
                       )),
@@ -115,7 +117,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                           child: Text(
                             "Transfer Station",
                             style: TextStyle(
-                                color: Color(0xff2796B7), fontSize: 16),
+                                color: tab_index==2? Color(0xffE33535):Color(0xff2796B7), fontSize: 16),
                           ),
                         ),
                       )),
@@ -176,6 +178,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                   ),*/
           );
 
+      // 🚌 this is above 4 button set of gvp and bep
       Widget button_with_options = GridView.count(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -529,7 +532,10 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                                 //physics:BouncingScrollPhysics(),
                                 children: [
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                    value.downloadFile(context: context, filename: "Vehicle", url: "");
+
+                                    },
                                     child: DashBoardItemButton(
                                         color_grid: [
                                           Color(0xffF24169),
@@ -1057,7 +1063,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
             child: Row(
               children: [
                 Text(
-                  "Vehicle Count \n 500",
+                  "Vehicle Count \n ${_dashboardTransferStationTabModel?.totalVehicles??0}",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 10,
@@ -1080,7 +1086,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
             child: Row(
               children: [
                 Text(
-                  "Trip Count \n 2000 ",
+                  "Trip Count \n ${_dashboardTransferStationTabModel?.trips??0} ",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 10,
@@ -1107,7 +1113,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                   Container(
                     width: constraints.maxWidth * 0.8,
                     child: Text(
-                      "Garbage Collection \n 2000",
+                      "Garbage Collection \n ${_dashboardTransferStationTabModel?.garbageCollection??0}",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 10,
@@ -1138,74 +1144,135 @@ class _UserDashBoard2State extends State<DashBoardBody> {
           shrinkWrap: true,
           children: [
             if (_dashboardTransferStationTabModel != null)
-              ..._dashboardTransferStationTabModel!.data!.mapIndexed((item,index) => Column(
+              ..._dashboardTransferStationTabModel!.data!.mapIndexed((item,
+                      index) =>
+                  Column(
+                 //  shrinkWrap: true,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: 60,
+                        height:90,
                         child: Stack(
                           children: [
                             Container(
                               decoration: BoxDecoration(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
+                                      BorderRadius.all(Radius.circular(15)),
                                   gradient: LinearGradient(
-                                      colors: main_color)),
+                                      colors: ++index % 2 == 0
+                                          ? [
+                                              Color(0xff58B9EC),
+                                              Color(0xff4065AC),
+                                            ]
+                                          : [
+                                              Color(0xff6CC06B),
+                                              Color(0xff3AB370),
+                                            ])),
                             ),
-                            Flex(direction: Axis.horizontal,
-                         crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SizedBox(width: 5,),
-                              Expanded(
-                                  flex:3,
-                                  child: Center(
+                            Flex(
+                              direction: Axis.horizontal,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Expanded(
+                                    flex: 8,
+                                    child: Center(
+                                      child: Container(
+                                        padding:
+                                            EdgeInsets.symmetric(horizontal: 5),
+                                        child: Text(
+                                          "${index}",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    )),
+                                VerticalDivider(
+                                  color: Colors.white,
+                                  thickness: 1,
+                                ),
+                                Expanded(
+                                    flex: 14,
                                     child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                child: Text("${index}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
-
-                              ),
-                                  )),
-                              VerticalDivider(color: Colors.white,thickness: 1,),
-                              Expanded(
-                                  flex:4,
-                                  child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                child: Center(child: Text("Jiyaguda",style: TextStyle(color: Colors.white),)),
-                              )),
-                              VerticalDivider(color: Colors.white,thickness: 1,),
-                              Expanded(
-                                  flex:6,
-                                  child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                child: Text("Vehicle Count \n 500 ",style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
-                              )),
-                              VerticalDivider(color: Colors.white,thickness: 1,),
-                              Expanded(
-                                  flex:5,
-                                  child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                child: Text("Trip Count \n 500 ",textAlign: TextAlign.center,style: TextStyle(color: Colors.white),),
-                              )),
-                              VerticalDivider(color: Colors.white,thickness: 1,),
-                              Expanded(
-                                  flex:6,
-                                  child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                child: Text("Garbage Weight\n 500 kg ",textAlign: TextAlign.center,style: TextStyle(color: Colors.white),),
-                              )),
-                              VerticalDivider(color: Colors.white,thickness: 1,),
-                              Expanded(
-                                  flex:2,
-                                  child: Container(
-                                child: Icon(Icons.download,color: Colors.white,),
-                              )),
-                              SizedBox(width: 10,),
-                            ],),
-
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      child: Center(
+                                          child: Text(
+                                        "${item.tsName ?? ""}",
+                                        style: TextStyle(color: Colors.white),
+                                      )),
+                                    )),
+                                VerticalDivider(
+                                  color: Colors.white,
+                                  thickness: 1,
+                                ),
+                                Expanded(
+                                    flex: 16,
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      child: Text(
+                                        "Vehicle Count \n ${item.vehiclesCount} ",
+                                        style: TextStyle(color: Colors.white),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )),
+                                VerticalDivider(
+                                  color: Colors.white,
+                                  thickness: 1,
+                                ),
+                                Expanded(
+                                    flex: 15,
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      child: Text(
+                                        "Trip Count \n ${item.tripsCount} ",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    )),
+                                VerticalDivider(
+                                  color: Colors.white,
+                                  thickness: 1,
+                                ),
+                                Expanded(
+                                    flex: 19,
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      child: Text(
+                                        "Garbage Weight\n${item.garbageCollection} kg ",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    )),
+                                VerticalDivider(
+                                  color: Colors.white,
+                                  thickness: 1,
+                                ),
+                                Expanded(
+                                    flex: 5,
+                                    child: Container(
+                                      child: Icon(
+                                        Icons.download,
+                                        color: Colors.white,
+                                      ),
+                                    )),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
-                      SizedBox(height: 5,)
+                      SizedBox(
+                        height: 5,
+                      )
                     ],
                   )),
             if (_dashboardVehicleModel == null)
@@ -1227,68 +1294,78 @@ class _UserDashBoard2State extends State<DashBoardBody> {
           if (tab_index == 0 || tab_index == 1) vehicles_and_gvp_bep,
           // tab 2️⃣ station 🚉
           if (tab_index == 2)
-            Expanded(
-              child: Column(
-                /*     shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),*/
-                children: [
-                  button_with_options_transfer_station,
-                  Center(
-                    child: InkWell(
-                      onTap: () {
-                        if (this._selected_zone == null ||
-                            this.startDate == null ||
-                            this.endDate == null ||
-                            this._selected_vehicle == null) {
-                          "Please Select all options before download"
-                              .showSnackbar(context);
-                          return;
-                        }
-                        DownloadViewScreenDashboard(
-                                startDate: startDate,
-                                endDate: endDate,
-                                selected_vehicle: _selected_vehicle,
-                                selected_zone: _selected_zone)
-                            .push(context);
-                      },
-                      child: Container(
-                        width: 200,
-                        height: 60,
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.download,
-                              color: Colors.white,
-                              size: 25,
-                            ),
-                            SizedBox(
-                              width: 7,
-                            ),
-                            Text(
-                              "View Downloads",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ],
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+            if (_dashboardTransferStationTabModel == null)
+              Container(
+                child: Container(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            else
+              Expanded(
+                child: Column(
+                  children: [
+                    button_with_options_transfer_station,
+                    Center(
+                      child: InkWell(
+                        onTap: () {
+                          if (this._selected_zone == null ||
+                              this.startDate == null ||
+                              this.endDate == null ||
+                              this._selected_vehicle == null) {
+                            "Please Select all options before download"
+                                .showSnackbar(context);
+                            return;
+                          }
+                          DownloadViewScreenDashboard(
+                                  startDate: startDate,
+                                  endDate: endDate,
+                                  selected_vehicle: _selected_vehicle,
+                                  selected_zone: _selected_zone)
+                              .push(context);
+                        },
+                        child: Container(
+                          width: 200,
+                          height: 60,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.download,
+                                color: Colors.white,
+                                size: 25,
+                              ),
+                              SizedBox(
+                                width: 7,
+                              ),
+                              Text(
+                                "View Downloads",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                          ),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              gradient: LinearGradient(colors: main_color)),
                         ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            gradient: LinearGradient(colors: main_color)),
                       ),
                     ),
-                  ),
-                  button_with_3_details,
-                  transfer_station_scroll_items
-                ],
+                    if(_dashboardTransferStationTabModel!=null)
+                    button_with_3_details,
+
+                    transfer_station_scroll_items
+                  ],
+                ),
               ),
-            ),
         ],
       );
     });
+    else
+     return Container(child: Center(child: CircularProgressIndicator(),),);
   }
 
   // Vehicles list with download options
