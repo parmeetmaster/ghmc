@@ -247,10 +247,12 @@ class DashBoardProvider extends ChangeNotifier {
           this.setState = setState;
 
           // 🔴 sheeet Dismiss here
-          if(percentage=="100"){
+          if (double.tryParse(percentage)! >= 100) {
+            this.setState=null;
+          Future.delayed(Duration(seconds: 2)).then((value) {
             Navigator.pop(ctx);
+          });
           }
-
 
           return Container(
             height: MediaQuery.of(context).size.height * 0.25,
@@ -295,7 +297,26 @@ class DashBoardProvider extends ChangeNotifier {
                 new CircularPercentIndicator(
                   radius: 60.0,
                   lineWidth: 5.0,
-                  percent: double.tryParse(percentage)! / 100,
+                  percent: ((){
+                    if(double.tryParse(percentage)!>100){
+                      percentage="100";
+                      if(this.setState!=null)
+                     this.setState!((){});
+                      return 1.0;
+
+
+                    }else if(double.tryParse(percentage)!<0){
+                      percentage="100";
+                      if(this.setState!=null)
+                      setState((){});
+                      return 0.0;
+                    }
+
+                    else{
+                      return double.tryParse(percentage)! / 100;
+                    }
+
+                  }()),
                   center: new Text("${this.percentage}%"),
                   progressColor: Colors.green,
                 ),
@@ -309,59 +330,27 @@ class DashBoardProvider extends ChangeNotifier {
 
   String percentage = "0";
 
-  _performDownload(
-      {String? url,
-      String? filename,
-      String? extension,
-      Function(String)? downloadProgress,BuildContext? context}) async {
-
-    String? android_path = "${await FileSupport().getRootFolderPath()}/GHMC/";
-    try {
-      File? file = await FileSupport().downloadCustomLocation(
-          url: url,
-          path: android_path,
-          filename: filename!,
-          extension: extension!,
-          progress: (p) {
-            p.printinfo;
-            if (downloadProgress != null) downloadProgress(p);
-          });
-      print("download file size ${FileSupport().getFileSize(file: file!)}");
-    } catch (e) {
-      "${e.toString()}".showSnackbar(context!);
-
-    }
-
-
-  }
-
   void downloadFile(
       {required BuildContext context,
       required String filename,
       required String url}) async {
-     percentage="0"; //◀ reset percentage here
+    percentage = "0"; //◀ reset percentage here
+
 
     _showConfirmDownloadBottomSheet(context, () async {
-      await _showDownloadProgress(context);
-
-      _performDownload(
+      _showDownloadProgress(context);
+      String? android_path = "${await FileSupport().getRootFolderPath()}/Download/";
+      File? file = await FileSupport().downloadFileInDownloadFolderAndroid(
           url: url,
-          filename: filename,
+          //  path: android_path,
+          filename: "${filename}",
           extension: ".xls",
-          context: context,
-          downloadProgress: (String progress) async {
-        setState!(() {
-          percentage = progress;
-        });
-
-        String? android_path = "${await FileSupport().getRootFolderPath()}/GHMC/";
-
-        if(percentage=="100"){
-          "${android_path+filename+".xls"}".showSnackbar(context);
-        }
-
-
-      });
+          progress: (p) {
+            p.printinfo;
+            percentage=p;
+            if(setState!=null)
+            this.setState!((){});
+          });
     });
   }
 }

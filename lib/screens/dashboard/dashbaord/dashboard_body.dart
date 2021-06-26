@@ -533,8 +533,8 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                    value.downloadFile(context: context, filename: "Vehicle", url: item.totalUrl!);
-
+                                     
+                                    value.downloadFile(context: context, filename: "Vehicle-total-${DateFormat("dd-MM-yyyy").format(DateTime.now())}", url: item.totalUrl!);
                                     },
                                     child: DashBoardItemButton(
                                         color_grid: [
@@ -545,7 +545,9 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                                         amount: "${item.total}"),
                                   ),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      value.downloadFile(context: context, filename: "Vehicle-Attend-${DateTime.now().toString()}", url: item.attendUrl!);
+                                    },
                                     child: DashBoardItemButton(
                                         color_grid: [
                                           Color(0xff67C7E3),
@@ -555,7 +557,9 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                                         amount: "${item.attend}"),
                                   ),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      value.downloadFile(context: context, filename: "Vehicle-Not-Attend-${DateTime.now().toString()}", url: item.notAttendUrl!);
+                                    },
                                     child: DashBoardItemButton(
                                         color_grid: [
                                           Color(0xffEF788D),
@@ -565,7 +569,9 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                                         amount: "${item.notAttend}"),
                                   ),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      value.downloadFile(context: context, filename: "Vehicle-Trips-${DateTime.now().toString()}", url: item.tsTripsUrl!);
+                                    },
                                     child: DashBoardItemButton(
                                         color_grid: [
                                           Color(0xff3AB370),
