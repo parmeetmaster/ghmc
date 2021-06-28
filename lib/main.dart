@@ -13,6 +13,7 @@ import 'package:ghmc/splashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ghmc/util/share_preferences.dart';
 import 'package:ghmc/util/utils.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'provider/support/support.dart';
@@ -44,6 +45,10 @@ class MyApp extends StatelessWidget {
     // utils.addRecord(DownloadModel(id: "14",download_link: "www.google.com",download_path: "storage", file_type: 'mp4', file_name: 'dad.com',));
     utils.getRecordsById("14");
     return MaterialApp(
+    /*  theme: ThemeData.light().copyWith(
+        textTheme: GoogleFonts.montserratTextTheme(Theme.of(context).textTheme,
+        )
+      ),*/
       debugShowCheckedModeBanner: false,
       title: 'GHMC',
       initialRoute: '/',

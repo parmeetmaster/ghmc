@@ -14,18 +14,21 @@ import 'package:ghmc/provider/login_provider/login_provider.dart';
 import 'package:ghmc/screens/success/success.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:ghmc/widget/buttons/gradeint_button.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:ghmc/util/utils.dart';
+
+enum downloadType{gvp_bep,transfer_station,vehicle_type}
 
 class DashBoardProvider extends ChangeNotifier {
   AwesomeDialog? dialog;
   DashBoardProvider? _instance;
   String demo = "00";
-  MenuItemModel? zones;
-  MenuItemModel? vehicle_type;
-  MenuItemModel? transfer_station;
-  StateSetter? setState;
+  MenuItemModel? zones; // used to show dialog with item on dashboard
+  MenuItemModel? vehicle_type; // used to show dialog with item on dashboard
+  MenuItemModel? transfer_station; // used to show dialog with item on dashboard
+  StateSetter? setState; // this used to manage download bottom sheet
 
   getProviderObject() {
     _instance = _instance ?? new DashBoardProvider();
@@ -120,6 +123,16 @@ class DashBoardProvider extends ChangeNotifier {
         .getInstance()!
         .post("/vechile_dashboard",
             data: {"user_id": userid, "date": dateString}));
+    MProgressIndicator.hide();
+    return response;
+  }
+
+  Future<ApiResponse?> getGepBepInfo(
+      {required String userid, required String dateString}) async {
+    ApiResponse response = await ApiBase().baseFunction(() => ApiBase()
+        .getInstance()!
+        .post("/dashboard_gvp_bep",
+        data: {"user_id": userid, "date": dateString}));
     MProgressIndicator.hide();
     return response;
   }
@@ -353,4 +366,75 @@ class DashBoardProvider extends ChangeNotifier {
           });
     });
   }
+
+  // download master gvp bep file
+
+  void downloadMasterFile(
+      {required BuildContext context,
+        required String filename, DateTime? startDate, DateTime? endDate, MenuItem? selected_transfer_station, MenuItem? selected_vehicle, MenuItem? selected_zone,required dynamic? operation}) async {
+    percentage = "0"; //◀ reset percentage here
+    String url="";
+    Dio dio = new Dio();
+    String? android_path = "${await FileSupport().getDownloadFolderPath()}/";
+    android_path.printwarn;
+
+    Directory directory = await new Directory(android_path);
+    // create directory if not exist
+    if (!await directory.exists()) {
+      await directory.create(recursive: true);
+    }
+    directory;
+
+    String fullPath = android_path + filename + ".xls";
+    fullPath.printinfo;
+    File file = new File("");
+
+  Map<String,dynamic> map= {
+    'user_id': '${Globals.userData!.data!.userId}',
+    'start_date': '${DateFormat("dd-MM-yyyy").format(startDate!)}',
+    'end_date': '${DateFormat("dd-MM-yyyy").format(endDate!)}',
+    'zone_id': '${selected_zone!.id}',
+    'vehicle_type': '${selected_vehicle!.id}'
+    };
+
+  if(operation==downloadType.transfer_station)
+  map.addAll({"transfer_station":'${selected_transfer_station!.id}'});
+
+
+
+  if(operation==downloadType.gvp_bep){
+    url="https://digitalraiz.com/projects/geo_tagginging_ghmc/api/dashboard_gvp_bep_download";
+  }else if(operation==downloadType.transfer_station){
+    url="https://digitalraiz.com/projects/geo_tagginging_ghmc/api/transfer_search";
+  }
+    try {
+      Response response = await dio.get(
+        url,
+        queryParameters:map,
+        options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            validateStatus: (status) {
+              return status! < 500;
+            }),
+        onReceiveProgress: (received, total) {
+          "Download Started".showSnackbar(context);
+          if (total != -1) {
+           if(int.parse((received / total * 100).toStringAsFixed(0))>=100){
+             "Download Complete".showSnackbar(context);
+          }
+        }}
+      );
+      print(response.headers);
+      file = File(fullPath);
+      var raf = file.openSync(mode: FileMode.write);
+      // response.data is List<int> type
+      raf.writeFromSync(response.data);
+      await raf.close();
+    } catch (e) {
+      print(e);
+    }
+
+}
+
 }

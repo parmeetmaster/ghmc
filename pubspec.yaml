@@ -51,9 +51,10 @@ dependencies:
   path_provider: ^2.0.2
   syncfusion_flutter_datepicker: ^19.1.69-beta
   intl: ^0.17.0
-  data_table_2: ^2.0.3
+  data_table_2: ^2.0.4
   intent: ^1.4.0
   percent_indicator: ^3.0.1
+  google_fonts: ^2.1.0
 # firebase_crashlytics: ^2.0.5
 
 

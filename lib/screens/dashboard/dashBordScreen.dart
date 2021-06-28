@@ -76,7 +76,7 @@ class _DashBordScreenState extends State<DashBordScreen>
       print("WidgetsBinding");
     });
 
-    // it call function when build is complete
+    //🎰 it call function when build is complete
     SchedulerBinding.instance!.addPostFrameCallback((_) {
       if (widget.operation != null) {
         if (widget.operation == WhatToDo.qrscan) {
@@ -95,8 +95,8 @@ class _DashBordScreenState extends State<DashBordScreen>
     int activetab;
 
 /*    final scanResult = this.scanResult;*/
-    return MaterialApp(
-      home: DefaultTabController(
+    return Scaffold(
+      body: DefaultTabController(
         length: 2,
         child: Scaffold(
           drawer: Drawer(
@@ -121,30 +121,28 @@ class _DashBordScreenState extends State<DashBordScreen>
             ),*/
             title: const Text('Dash Board'),
             actions: [
+
               IconButton(
                 icon: const Icon(Icons.map),
-                tooltip: 'map',
-                onPressed: () {},
+                tooltip: 'Map',
+                onPressed: () {
+
+
+                },
               ),
               IconButton(
                 icon: const Icon(Icons.qr_code_scanner_rounded),
-                tooltip: 'Scan',
+                tooltip: 'Qr Scan',
                 onPressed: _scan,
               ),
             ],
           ),
-          body: _buildBody(),
+          body:DashBoardBody(),
         ),
       ),
     );
   }
 
-  Widget _buildBody() {
-    // we need to apply condition to display qr or not
-
-return DashBoardBody();
-
-  }
 
   // code to invoke scan in flutter
 

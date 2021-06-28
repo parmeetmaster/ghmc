@@ -52,17 +52,23 @@ class _DownloadViewScreenDashboardState
               ),
             ),
           ),
-          /*    leading: IconButton(
-              icon: const Icon(Icons.menu),
-              tooltip: 'menu',
-              onPressed: () {},
-            ),*/
-          title: const Text('Dash Board'),
+          title: const Text('Dashboard download sheet'),
           actions: [
             IconButton(
               icon: const Icon(Icons.download),
-              tooltip: 'map',
-              onPressed: () {},
+              tooltip: 'Download',
+              onPressed: () {
+                final provider = DashBoardProvider.getReference(context);
+                provider.downloadMasterFile(
+                    context: context,
+                    startDate: widget.startDate,
+                    endDate: widget.endDate,
+                    selected_zone: widget.selected_zone,
+                    selected_vehicle: widget.selected_vehicle,
+                    selected_transfer_station: null,
+                    filename: 'VEHICLE-MASTER',
+                    operation: downloadType.vehicle_type);
+              },
             ),
           ],
         ),
@@ -94,20 +100,6 @@ class _DownloadViewScreenDashboardState
                                 ...e.map((e) => DataCell(Text("${e}"))),
                               ]))
                   ],
-
-                  /*     rows: List<DataRow>.generate(
-                  10,
-                  (index) => DataRow(
-                          color: (index + 1) % 2 == 0
-                              ? MaterialStateProperty.all(Colors.grey[200])
-                              : MaterialStateProperty.all(Colors.transparent),
-                          cells: [
-                            DataCell(Text('A' * (10 - index % 10))),
-                            DataCell(Text('B' * (10 - (index + 5) % 10))),
-                            DataCell(Text('C' * (15 - (index + 5) % 10))),
-                            DataCell(Text('D' * (15 - (index + 10) % 10))),
-                            DataCell(Text(((index + 0.1) * 25.4).toString()))
-                          ]))*/
                 ),
               )
             : Container(
