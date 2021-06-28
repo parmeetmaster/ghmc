@@ -14,28 +14,26 @@ class DashBordHeaderItem extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            header??"",
+            header ?? "",
             style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w600),
+                color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
           ),
           SizedBox(
             width: 7,
           ),
-         if(icon!=null)
-          Icon(
+          if (icon != null)
+            Icon(
               icon,
-            color: Colors.white,
-            size: 25,
-          )
+              color: Colors.white,
+              size: 25,
+            )
         ],
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
       ),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          gradient: LinearGradient(colors:color??[])),
+          gradient: LinearGradient(colors: color ?? [])),
     );
   }
 }

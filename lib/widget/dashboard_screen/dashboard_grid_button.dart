@@ -1,13 +1,12 @@
-
-
 import 'package:flutter/material.dart';
 
 class DashBoardItemButton extends StatefulWidget {
-   List<Color>? color_grid;
-   String? header;
-   String? amount;
+  List<Color>? color_grid;
+  String? header;
+  String? amount;
 
-   DashBoardItemButton({Key? key,this.color_grid,this.header,this.amount}) : super(key: key);
+  DashBoardItemButton({Key? key, this.color_grid, this.header, this.amount})
+      : super(key: key);
 
   @override
   _DashBoardItemButtonState createState() => _DashBoardItemButtonState();
@@ -28,24 +27,22 @@ class _DashBoardItemButtonState extends State<DashBoardItemButton> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      widget.header??"",
+                      widget.header ?? "",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      widget.amount??"",
+                      widget.amount ?? "",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w600),
                       overflow: TextOverflow.ellipsis,
                     ),
-
                   ],
                 ),
-
               ],
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,

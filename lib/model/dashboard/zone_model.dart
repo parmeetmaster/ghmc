@@ -7,10 +7,7 @@ class MenuItemModel {
   String? message;
   List<MenuItem>? data;
 
-  MenuItemModel({
-      this.success, 
-      this.message, 
-      this.data});
+  MenuItemModel({this.success, this.message, this.data});
 
   MenuItemModel.fromJson(dynamic json) {
     success = json["success"];
@@ -32,7 +29,6 @@ class MenuItemModel {
     }
     return map;
   }
-
 }
 
 /// id : "1"
@@ -42,9 +38,7 @@ class MenuItem {
   String? id;
   String? name;
 
-  MenuItem({
-      this.id, 
-      this.name});
+  MenuItem({this.id, this.name});
 
   MenuItem.fromJson(dynamic json) {
     id = json["id"];
@@ -57,5 +51,4 @@ class MenuItem {
     map["name"] = name;
     return map;
   }
-
 }

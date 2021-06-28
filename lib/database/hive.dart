@@ -11,7 +11,7 @@ class HiveUtils<T> {
 // this function need to intialised for smooth working of records
   static initalised() async {
     final documentDirectory = await getApplicationDocumentsDirectory();
-     Hive
+    Hive
       ..init(documentDirectory.path)
       ..registerAdapter(DownloadModelAdapter());
     db = await Hive.openBox(dbname);
@@ -30,12 +30,13 @@ class HiveUtils<T> {
     Box s = db as Box;
     s.values.length.toString().printwarn;
     List<T>? ls = s.values
-        .where((element) => (element as DownloadModel).id == _id).cast<T>()
+        .where((element) => (element as DownloadModel).id == _id)
+        .cast<T>()
         .toList();
     //List<DownloadModel> lsdata = ls as List<DownloadModel>;
 
     ls.forEach((element) {
-      (element as DownloadModel) .file_name!.printverbose;
+      (element as DownloadModel).file_name!.printverbose;
     });
   }
 }

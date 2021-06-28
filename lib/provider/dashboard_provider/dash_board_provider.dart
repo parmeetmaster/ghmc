@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/src/multipart_file.dart';
@@ -8,18 +7,21 @@ import 'package:flutter/material.dart';
 import 'package:ghmc/api/api.dart';
 import 'package:ghmc/globals/constants.dart';
 import 'package:ghmc/globals/globals.dart';
+import 'package:ghmc/model/dashboard/app_bar/dashboard_location_gep_bep_model.dart';
 import 'package:ghmc/model/dashboard/zone_model.dart';
 import 'package:ghmc/model/driver_data_model.dart';
 import 'package:ghmc/provider/login_provider/login_provider.dart';
 import 'package:ghmc/screens/success/success.dart';
+import 'package:ghmc/util/location.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:ghmc/widget/buttons/gradeint_button.dart';
 import 'package:intl/intl.dart';
+import 'package:location/location.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:ghmc/util/utils.dart';
 
-enum downloadType{gvp_bep,transfer_station,vehicle_type}
+enum downloadType { gvp_bep, transfer_station, vehicle_type }
 
 class DashBoardProvider extends ChangeNotifier {
   AwesomeDialog? dialog;
@@ -29,6 +31,31 @@ class DashBoardProvider extends ChangeNotifier {
   MenuItemModel? vehicle_type; // used to show dialog with item on dashboard
   MenuItemModel? transfer_station; // used to show dialog with item on dashboard
   StateSetter? setState; // this used to manage download bottom sheet
+  bool? is_any_gep_bep = false;
+
+  checkNearGepBep(BuildContext context) async {
+    DashboardLocationGepBepModel? model;
+    LocationData? data = await CustomLocation().getLocation();
+    if (data == null || data.latitude == null || data.latitude!.isNaN) {
+      "Location not enable".showSnackbar(context);
+      return;
+    }
+
+    await Future.delayed(Duration(seconds: 30)).then((value) async {
+      try {
+        ApiResponse response = await getNearGepBepUsingLatLng(
+            lat: data.latitude.toString(), lng: data.longitude.toString());
+        model =
+            DashboardLocationGepBepModel.fromJson(response.completeResponse);
+      } catch (e) {}
+      if (model != null) {
+        is_any_gep_bep = model!.found;
+      }
+      notifyListeners();
+      checkNearGepBep(context);
+      "Location Called".printinfo;
+    });
+  }
 
   getProviderObject() {
     _instance = _instance ?? new DashBoardProvider();
@@ -132,7 +159,7 @@ class DashBoardProvider extends ChangeNotifier {
     ApiResponse response = await ApiBase().baseFunction(() => ApiBase()
         .getInstance()!
         .post("/dashboard_gvp_bep",
-        data: {"user_id": userid, "date": dateString}));
+            data: {"user_id": userid, "date": dateString}));
     MProgressIndicator.hide();
     return response;
   }
@@ -147,6 +174,18 @@ class DashBoardProvider extends ChangeNotifier {
   Future<ApiResponse> getTransferStation() async {
     ApiResponse response = await ApiBase()
         .baseFunction(() => ApiBase().getInstance()!.get("/transfer"));
+    MProgressIndicator.hide(); // close indicator
+    return response;
+  }
+
+  Future<ApiResponse> getNearGepBepUsingLatLng(
+      {required String lat, required String lng}) async {
+    ApiResponse response = await ApiBase().baseFunction(
+        () => ApiBase().getInstance()!.post("/distance_gvp", data: {
+              'user_id': '${Globals.userData!.data!.userId}',
+              'latittude': '$lat',
+              'longitude': '$lng'
+            }));
     MProgressIndicator.hide(); // close indicator
     return response;
   }
@@ -261,10 +300,10 @@ class DashBoardProvider extends ChangeNotifier {
 
           // 🔴 sheeet Dismiss here
           if (double.tryParse(percentage)! >= 100) {
-            this.setState=null;
-          Future.delayed(Duration(seconds: 2)).then((value) {
-            Navigator.pop(ctx);
-          });
+            this.setState = null;
+            Future.delayed(Duration(seconds: 2)).then((value) {
+              Navigator.pop(ctx);
+            });
           }
 
           return Container(
@@ -310,25 +349,18 @@ class DashBoardProvider extends ChangeNotifier {
                 new CircularPercentIndicator(
                   radius: 60.0,
                   lineWidth: 5.0,
-                  percent: ((){
-                    if(double.tryParse(percentage)!>100){
-                      percentage="100";
-                      if(this.setState!=null)
-                     this.setState!((){});
+                  percent: (() {
+                    if (double.tryParse(percentage)! > 100) {
+                      percentage = "100";
+                      if (this.setState != null) this.setState!(() {});
                       return 1.0;
-
-
-                    }else if(double.tryParse(percentage)!<0){
-                      percentage="100";
-                      if(this.setState!=null)
-                      setState((){});
+                    } else if (double.tryParse(percentage)! < 0) {
+                      percentage = "100";
+                      if (this.setState != null) setState(() {});
                       return 0.0;
-                    }
-
-                    else{
+                    } else {
                       return double.tryParse(percentage)! / 100;
                     }
-
                   }()),
                   center: new Text("${this.percentage}%"),
                   progressColor: Colors.green,
@@ -349,10 +381,10 @@ class DashBoardProvider extends ChangeNotifier {
       required String url}) async {
     percentage = "0"; //◀ reset percentage here
 
-
     _showConfirmDownloadBottomSheet(context, () async {
       _showDownloadProgress(context);
-      String? android_path = "${await FileSupport().getRootFolderPath()}/Download/";
+      String? android_path =
+          "${await FileSupport().getRootFolderPath()}/Download/";
       File? file = await FileSupport().downloadFileInDownloadFolderAndroid(
           url: url,
           //  path: android_path,
@@ -360,9 +392,8 @@ class DashBoardProvider extends ChangeNotifier {
           extension: ".xls",
           progress: (p) {
             p.printinfo;
-            percentage=p;
-            if(setState!=null)
-            this.setState!((){});
+            percentage = p;
+            if (setState != null) this.setState!(() {});
           });
     });
   }
@@ -371,9 +402,15 @@ class DashBoardProvider extends ChangeNotifier {
 
   void downloadMasterFile(
       {required BuildContext context,
-        required String filename, DateTime? startDate, DateTime? endDate, MenuItem? selected_transfer_station, MenuItem? selected_vehicle, MenuItem? selected_zone,required dynamic? operation}) async {
+      required String filename,
+      DateTime? startDate,
+      DateTime? endDate,
+      MenuItem? selected_transfer_station,
+      MenuItem? selected_vehicle,
+      MenuItem? selected_zone,
+      required dynamic? operation}) async {
     percentage = "0"; //◀ reset percentage here
-    String url="";
+    String url = "";
     Dio dio = new Dio();
     String? android_path = "${await FileSupport().getDownloadFolderPath()}/";
     android_path.printwarn;
@@ -389,42 +426,40 @@ class DashBoardProvider extends ChangeNotifier {
     fullPath.printinfo;
     File file = new File("");
 
-  Map<String,dynamic> map= {
-    'user_id': '${Globals.userData!.data!.userId}',
-    'start_date': '${DateFormat("dd-MM-yyyy").format(startDate!)}',
-    'end_date': '${DateFormat("dd-MM-yyyy").format(endDate!)}',
-    'zone_id': '${selected_zone!.id}',
-    'vehicle_type': '${selected_vehicle!.id}'
+    Map<String, dynamic> map = {
+      'user_id': '${Globals.userData!.data!.userId}',
+      'start_date': '${DateFormat("dd-MM-yyyy").format(startDate!)}',
+      'end_date': '${DateFormat("dd-MM-yyyy").format(endDate!)}',
+      'zone_id': '${selected_zone!.id}',
+      'vehicle_type': '${selected_vehicle!.id}'
     };
 
-  if(operation==downloadType.transfer_station)
-  map.addAll({"transfer_station":'${selected_transfer_station!.id}'});
+    if (operation == downloadType.transfer_station)
+      map.addAll({"transfer_station": '${selected_transfer_station!.id}'});
 
-
-
-  if(operation==downloadType.gvp_bep){
-    url="https://digitalraiz.com/projects/geo_tagginging_ghmc/api/dashboard_gvp_bep_download";
-  }else if(operation==downloadType.transfer_station){
-    url="https://digitalraiz.com/projects/geo_tagginging_ghmc/api/transfer_search";
-  }
+    if (operation == downloadType.gvp_bep) {
+      url = "${base_url}/dashboard_gvp_bep_download";
+    } else if (operation == downloadType.transfer_station) {
+      url = "${base_url}/transfer_search";
+    } else if (operation == downloadType.vehicle_type) {
+      url = "${base_url}/search_download";
+    }
     try {
-      Response response = await dio.get(
-        url,
-        queryParameters:map,
-        options: Options(
-            responseType: ResponseType.bytes,
-            followRedirects: false,
-            validateStatus: (status) {
-              return status! < 500;
-            }),
-        onReceiveProgress: (received, total) {
-          "Download Started".showSnackbar(context);
-          if (total != -1) {
-           if(int.parse((received / total * 100).toStringAsFixed(0))>=100){
-             "Download Complete".showSnackbar(context);
+      Response response = await dio.get(url,
+          queryParameters: map,
+          options: Options(
+              responseType: ResponseType.bytes,
+              followRedirects: false,
+              validateStatus: (status) {
+                return status! < 500;
+              }), onReceiveProgress: (received, total) {
+        "Download Started".showSnackbar(context);
+        if (total != -1) {
+          if (int.parse((received / total * 100).toStringAsFixed(0)) >= 100) {
+            "Download Complete".showSnackbar(context);
           }
-        }}
-      );
+        }
+      });
       print(response.headers);
       file = File(fullPath);
       var raf = file.openSync(mode: FileMode.write);
@@ -434,7 +469,29 @@ class DashBoardProvider extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
+  }
 
-}
+  Future<ApiResponse> getGepDataWithLocation() async {
+    /*
+    LocationData loc= await CustomLocation().getLocation();
 
+   ApiResponse response = await ApiBase().baseFunction(
+           () => ApiBase().getInstance()!.post("/distance_gvp",data: {
+             'user_id': Globals.userData!.data!.userId,
+             'latittude': '"17.258963"',
+             'longitude': '"72.25896"'
+           }));
+
+  */
+
+    ApiResponse response = await ApiBase().baseFunction(() => ApiBase()
+            .getInstance()!
+            .post("/distance_gvp", data: {
+          'user_id': '"2"',
+          'latittude': '"17.258963"',
+          'longitude': '"72.25896"'
+        }));
+    MProgressIndicator.hide(); // close indicator
+    return response;
+  }
 }

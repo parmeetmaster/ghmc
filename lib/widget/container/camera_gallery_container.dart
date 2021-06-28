@@ -6,7 +6,8 @@ import 'package:ghmc/util/utils.dart';
 
 class CameraGalleryContainerWidget extends StatefulWidget {
   Function(File)? oncapture;
-   CameraGalleryContainerWidget({Key? key,required this.oncapture}) : super(key: key);
+  CameraGalleryContainerWidget({Key? key, required this.oncapture})
+      : super(key: key);
 
   @override
   _CameraGalleryContainerWidgetState createState() =>
@@ -39,9 +40,9 @@ class _CameraGalleryContainerWidgetState
                           backgroundColor: Colors.black,
                           onPressed: () async {
                             photo = await FilePick().takecameraPic();
-                            if(photo!=null){
+                            if (photo != null) {
                               "Photo taken".printinfo;
-                              if(widget.oncapture!=null){
+                              if (widget.oncapture != null) {
                                 widget.oncapture!(photo!);
                               }
                             }
@@ -57,9 +58,9 @@ class _CameraGalleryContainerWidgetState
                           backgroundColor: Colors.black,
                           onPressed: () async {
                             photo = await FilePick().takecameraPic();
-                            if(photo!=null){
+                            if (photo != null) {
                               "Photo taken".printinfo;
-                              if(widget.oncapture!=null){
+                              if (widget.oncapture != null) {
                                 widget.oncapture!(photo!);
                               }
                             }

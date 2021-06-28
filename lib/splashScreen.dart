@@ -20,12 +20,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   checkuserLoggedIn() async {
     // initalise all provider global data
-   await SplashProvider.getReference(context).initialisation(context);
+    await SplashProvider.getReference(context).initialisation(context);
 
-   //security added here for check device not rooted
+    //security added here for check device not rooted
     bool isrooted = await Security().check_is_device_rooted();
 
     if (isrooted == true) {

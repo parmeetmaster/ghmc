@@ -9,11 +9,7 @@ class GepAndBepDashboardModel {
   String? message;
   List<Data>? data;
 
-  GepAndBepDashboardModel({
-      this.success, 
-      this.login, 
-      this.message, 
-      this.data});
+  GepAndBepDashboardModel({this.success, this.login, this.message, this.data});
 
   GepAndBepDashboardModel.fromJson(dynamic json) {
     success = json["success"];
@@ -37,7 +33,6 @@ class GepAndBepDashboardModel {
     }
     return map;
   }
-
 }
 
 /// name : "GVP"
@@ -55,12 +50,12 @@ class Data {
   int? trips;
   String? url;
 
-  Data({
-      this.name, 
-      this.total, 
-      this.attend, 
-      this.noteAttend, 
-      this.trips, 
+  Data(
+      {this.name,
+      this.total,
+      this.attend,
+      this.noteAttend,
+      this.trips,
       this.url});
 
   Data.fromJson(dynamic json) {
@@ -82,5 +77,4 @@ class Data {
     map["url"] = url;
     return map;
   }
-
 }

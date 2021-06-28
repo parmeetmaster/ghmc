@@ -45,16 +45,14 @@ class ApiBase {
         connectTimeout: 30000,
         contentType: "application/x-www-form-urlencoded"))
       ..interceptors.add(PrettyDioLogger(
-       request : true,
-       requestHeader : true,
-       requestBody : true,
-    //   responseHeader : true,
-       responseBody : true,
-        error : true,
+        request: true,
+        requestHeader: true,
+        requestBody: true,
+        //   responseHeader : true,
+        responseBody: true,
+        error: true,
 
-        compact : true,
-       
-     
+        compact: true,
       ));
   }
 

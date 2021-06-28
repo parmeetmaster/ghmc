@@ -20,10 +20,12 @@ import 'package:ghmc/util/permission.dart';
 import 'package:ghmc/util/qrcode_screen.dart';
 import 'package:ghmc/widget/drawer.dart';
 import 'package:ghmc/util/utils.dart';
+import 'package:provider/provider.dart';
 
 import '../../globals/globals.dart';
 import '../Testscreens/test_screen.dart';
 import 'dashbaord/dashboard_body.dart';
+import 'map_button_screen/gvp_bep_image_upload.dart';
 
 enum WhatToDo { qrscan }
 
@@ -43,22 +45,6 @@ class DashBordScreen extends StatefulWidget {
 
 class _DashBordScreenState extends State<DashBordScreen>
     with SingleTickerProviderStateMixin {
-/*  ScanResult? scanResult;
-
-  final _flashOnController = TextEditingController(text: 'Flash on');
-  final _flashOffController = TextEditingController(text: 'Flash off');
-  final _cancelController = TextEditingController(text: 'Cancel');
-
-  var _aspectTolerance = 0.00;
-  var _numberOfCameras = 0;
-  var _selectedCamera = -1;
-  var _useAutoFocus = true;
-  var _autoEnableFlash = false;
-
-  static final _possibleFormats = BarcodeFormat.values.toList()
-    ..removeWhere((e) => e == BarcodeFormat.unknown);
-
-  List<BarcodeFormat> selectedFormats = [..._possibleFormats];*/
   TabController? _tabController;
   int _activeIndex = 0;
 
@@ -86,6 +72,9 @@ class _DashBordScreenState extends State<DashBordScreen>
     });
 
     _tabController = TabController(length: 2, vsync: this);
+
+    final provider = DashBoardProvider.getReference(context);
+    provider.checkNearGepBep(context);
   }
 
   @override
@@ -95,54 +84,64 @@ class _DashBordScreenState extends State<DashBordScreen>
     int activetab;
 
 /*    final scanResult = this.scanResult;*/
-    return Scaffold(
-      body: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          drawer: Drawer(
-            child: MainDrawer(),
-          ),
-          appBar: AppBar(
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: <Color>[
-                    Color(0xFF9C27B0),
-                    Color(0xFFF06292),
-                    Color(0xFFFF5277),
-                  ],
+    return Consumer<DashBoardProvider>(builder: (context, value, child) {
+      return Scaffold(
+        body: DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            drawer: Drawer(
+              child: MainDrawer(),
+            ),
+            appBar: AppBar(
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: <Color>[
+                      Color(0xFF9C27B0),
+                      Color(0xFFF06292),
+                      Color(0xFFFF5277),
+                    ],
+                  ),
                 ),
               ),
+              /*    leading: IconButton(
+                  icon: const Icon(Icons.menu),
+                  tooltip: 'menu',
+                  onPressed: () {},
+                ),*/
+              title: const Text('Dash Board'),
+              actions: [
+                /*  if(value.is_any_gep_bep==null || value.is_any_gep_bep==false)
+                  IconButton(
+                    icon: const Icon(Icons.map,color: Colors.white,),
+                    tooltip: 'Map',
+                    onPressed: () {
+                    },
+                  ),
+                  if(value.is_any_gep_bep==true)*/
+                IconButton(
+                  icon: const Icon(
+                    Icons.map,
+                    color: Colors.green,
+                  ),
+                  tooltip: 'Map',
+                  onPressed: () {
+                    GvpBepImageUpload().push(context);
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.qr_code_scanner_rounded),
+                  tooltip: 'Qr Scan',
+                  onPressed: _scan,
+                ),
+              ],
             ),
-            /*    leading: IconButton(
-              icon: const Icon(Icons.menu),
-              tooltip: 'menu',
-              onPressed: () {},
-            ),*/
-            title: const Text('Dash Board'),
-            actions: [
-
-              IconButton(
-                icon: const Icon(Icons.map),
-                tooltip: 'Map',
-                onPressed: () {
-
-
-                },
-              ),
-              IconButton(
-                icon: const Icon(Icons.qr_code_scanner_rounded),
-                tooltip: 'Qr Scan',
-                onPressed: _scan,
-              ),
-            ],
+            body: DashBoardBody(),
           ),
-          body:DashBoardBody(),
         ),
-      ),
-    );
+      );
+    });
   }
-
 
   // code to invoke scan in flutter
 

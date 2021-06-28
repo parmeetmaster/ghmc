@@ -464,7 +464,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
             // view downloads
             InkWell(
               onTap: () {
-             _download_master_file();
+                _download_master_file();
               },
               child: Container(
                 child: Row(
@@ -1368,7 +1368,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                       Center(
                         child: InkWell(
                           onTap: () {
-                      _download_master_file();
+                            _download_master_file();
                           },
                           child: Container(
                             width: 200,
@@ -1490,28 +1490,27 @@ class _UserDashBoard2State extends State<DashBoardBody> {
 
   // this is used to download view download action.
   void _download_master_file() {
-    final value=DashBoardProvider.getReference(context);
+    final value = DashBoardProvider.getReference(context);
 
     if (this._selected_zone == null ||
         this.startDate == null ||
         this.endDate == null ||
         this._selected_vehicle == null) {
-      "Please Select all options before download"
-          .showSnackbar(context);
+      "Please Select all options before download".showSnackbar(context);
       return;
     }
 
-    if(this._selected_transfer_station==null && tab_index==2){
-     "Transfer Station required".showSnackbar(context);
+    if (this._selected_transfer_station == null && tab_index == 2) {
+      "Transfer Station required".showSnackbar(context);
       return;
     }
 
     if (tab_index == 0) {
       DownloadViewScreenDashboard(
-          startDate: startDate,
-          endDate: endDate,
-          selected_vehicle: _selected_vehicle,
-          selected_zone: _selected_zone)
+              startDate: startDate,
+              endDate: endDate,
+              selected_vehicle: _selected_vehicle,
+              selected_zone: _selected_zone)
           .push(context);
     } else if (tab_index == 1) {
       value.downloadMasterFile(
@@ -1522,10 +1521,8 @@ class _UserDashBoard2State extends State<DashBoardBody> {
           selected_vehicle: _selected_vehicle,
           selected_transfer_station: _selected_transfer_station,
           filename: 'GVP-BEP-MASTER',
-          operation:downloadType.gvp_bep
-      );
-    }
-    else if (tab_index == 2) {
+          operation: downloadType.gvp_bep);
+    } else if (tab_index == 2) {
       value.downloadMasterFile(
           context: context,
           startDate: startDate,
@@ -1534,9 +1531,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
           selected_vehicle: _selected_vehicle,
           selected_transfer_station: _selected_transfer_station,
           filename: 'TRANSFER-STATION-MASTER',
-          operation:downloadType.transfer_station
-      );
+          operation: downloadType.transfer_station);
     }
-
   }
 }

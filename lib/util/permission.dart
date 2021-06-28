@@ -31,10 +31,8 @@ class PermissionUtils {
   bool isStorageEnable() {
     return is_storage_enable;
   }
+
   bool isNotificationEnable() {
     return is_notification_enable;
   }
-
-
-
 }

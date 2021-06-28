@@ -15,13 +15,13 @@ class TransferStationTabModel {
   String? garbageCollection;
   List<TransferStationDataItem>? data;
 
-  TransferStationTabModel({
-      this.success, 
-      this.login, 
-      this.message, 
-      this.totalVehicles, 
-      this.trips, 
-      this.garbageCollection, 
+  TransferStationTabModel(
+      {this.success,
+      this.login,
+      this.message,
+      this.totalVehicles,
+      this.trips,
+      this.garbageCollection,
       this.data});
 
   TransferStationTabModel.fromJson(dynamic json) {
@@ -52,7 +52,6 @@ class TransferStationTabModel {
     }
     return map;
   }
-
 }
 
 /// ts_name : "TSM-Jiyaguda"
@@ -68,11 +67,11 @@ class TransferStationDataItem {
   String? garbageCollection;
   String? url;
 
-  TransferStationDataItem({
-      this.tsName, 
-      this.vehiclesCount, 
-      this.tripsCount, 
-      this.garbageCollection, 
+  TransferStationDataItem(
+      {this.tsName,
+      this.vehiclesCount,
+      this.tripsCount,
+      this.garbageCollection,
       this.url});
 
   TransferStationDataItem.fromJson(dynamic json) {
@@ -92,5 +91,4 @@ class TransferStationDataItem {
     map["url"] = url;
     return map;
   }
-
 }

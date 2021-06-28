@@ -9,11 +9,7 @@ class DashboardVehicleModel {
   String? message;
   List<Data>? data;
 
-  DashboardVehicleModel({
-      this.success, 
-      this.login, 
-      this.message, 
-      this.data});
+  DashboardVehicleModel({this.success, this.login, this.message, this.data});
 
   DashboardVehicleModel.fromJson(dynamic json) {
     success = json["success"];
@@ -37,7 +33,6 @@ class DashboardVehicleModel {
     }
     return map;
   }
-
 }
 
 /// tag : "Total Summary"
@@ -61,15 +56,15 @@ class Data {
   String? notAttendUrl;
   String? tsTripsUrl;
 
-  Data({
-      this.tag, 
-      this.total, 
-      this.attend, 
-      this.notAttend, 
-      this.tsTrips, 
-      this.totalUrl, 
-      this.attendUrl, 
-      this.notAttendUrl, 
+  Data(
+      {this.tag,
+      this.total,
+      this.attend,
+      this.notAttend,
+      this.tsTrips,
+      this.totalUrl,
+      this.attendUrl,
+      this.notAttendUrl,
       this.tsTripsUrl});
 
   Data.fromJson(dynamic json) {
@@ -97,5 +92,4 @@ class Data {
     map["ts_trips_url"] = tsTripsUrl;
     return map;
   }
-
 }

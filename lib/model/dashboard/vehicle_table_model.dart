@@ -17,23 +17,25 @@ class VehicleTableModel {
   String? message;
   Data? data;
 
-  factory VehicleTableModel.fromRawJson(String str) => VehicleTableModel.fromJson(json.decode(str));
+  factory VehicleTableModel.fromRawJson(String str) =>
+      VehicleTableModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory VehicleTableModel.fromJson(Map<String, dynamic> json) => VehicleTableModel(
-    success: json["success"],
-    login: json["login"],
-    message: json["message"],
-    data: Data.fromJson(json["data"]),
-  );
+  factory VehicleTableModel.fromJson(Map<String, dynamic> json) =>
+      VehicleTableModel(
+        success: json["success"],
+        login: json["login"],
+        message: json["message"],
+        data: Data.fromJson(json["data"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "success": success,
-    "login": login,
-    "message": message,
-    "data": data!.toJson(),
-  };
+        "success": success,
+        "login": login,
+        "message": message,
+        "data": data!.toJson(),
+      };
 }
 
 class Data {
@@ -50,12 +52,14 @@ class Data {
   String toRawJson() => json.encode(toJson());
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    columns: List<String>.from(json["columns"].map((x) => x)),
-    rows: List<List<String>>.from(json["rows"].map((x) => List<String>.from(x.map((x) => x)))),
-  );
+        columns: List<String>.from(json["columns"].map((x) => x)),
+        rows: List<List<String>>.from(
+            json["rows"].map((x) => List<String>.from(x.map((x) => x)))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "columns": List<dynamic>.from(columns!.map((x) => x)),
-    "rows": List<dynamic>.from(rows!.map((x) => List<dynamic>.from(x.map((x) => x)))),
-  };
+        "columns": List<dynamic>.from(columns!.map((x) => x)),
+        "rows": List<dynamic>.from(
+            rows!.map((x) => List<dynamic>.from(x.map((x) => x)))),
+      };
 }

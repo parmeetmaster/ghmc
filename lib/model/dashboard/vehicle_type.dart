@@ -9,11 +9,7 @@ class VehicleType {
   String? message;
   List<Data>? data;
 
-  VehicleType({
-      this.login, 
-      this.success, 
-      this.message, 
-      this.data});
+  VehicleType({this.login, this.success, this.message, this.data});
 
   VehicleType.fromJson(dynamic json) {
     login = json["login"];
@@ -37,7 +33,6 @@ class VehicleType {
     }
     return map;
   }
-
 }
 
 /// id : "all"
@@ -47,9 +42,7 @@ class Data {
   String? id;
   String? name;
 
-  Data({
-      this.id, 
-      this.name});
+  Data({this.id, this.name});
 
   Data.fromJson(dynamic json) {
     id = json["id"];
@@ -62,5 +55,4 @@ class Data {
     map["name"] = name;
     return map;
   }
-
 }

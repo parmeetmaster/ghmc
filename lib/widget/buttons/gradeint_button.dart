@@ -7,12 +7,17 @@ class GradientButton extends StatelessWidget {
   double? height;
   double? padding;
 
-  GradientButton({this.title = "", this.onclick,this.height=30,this.fontsize=20,this.padding=8});
+  GradientButton(
+      {this.title = "",
+      this.onclick,
+      this.height = 30,
+      this.fontsize = 20,
+      this.padding = 8});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.all(padding!),
+      padding: EdgeInsets.all(padding!),
       child: Container(
         child: FlatButton(
             height: height,

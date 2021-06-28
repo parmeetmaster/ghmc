@@ -1,12 +1,8 @@
-
 import 'package:hive/hive.dart';
 part 'download_records.g.dart';
 
-
-
 @HiveType(typeId: 0)
-class DownloadModel{
-
+class DownloadModel {
   @HiveField(0)
   String? id;
 
@@ -23,11 +19,9 @@ class DownloadModel{
   String? file_type;
 
   DownloadModel(
-      {  required this.id,
-        required  this.download_link,
-        required   this.file_name,
-        required   this.download_path,
-        required   this.file_type});
-
-
+      {required this.id,
+      required this.download_link,
+      required this.file_name,
+      required this.download_path,
+      required this.file_type});
 }
