@@ -111,14 +111,14 @@ class _DashBordScreenState extends State<DashBordScreen>
                 ),*/
               title: const Text('Dash Board'),
               actions: [
-                /*  if(value.is_any_gep_bep==null || value.is_any_gep_bep==false)
+                  if(value.is_any_gep_bep==null || value.is_any_gep_bep==false)
                   IconButton(
                     icon: const Icon(Icons.map,color: Colors.white,),
                     tooltip: 'Map',
                     onPressed: () {
                     },
                   ),
-                  if(value.is_any_gep_bep==true)*/
+                  if(value.is_any_gep_bep==true)
                 IconButton(
                   icon: const Icon(
                     Icons.map,

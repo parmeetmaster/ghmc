@@ -444,6 +444,7 @@ class DashBoardProvider extends ChangeNotifier {
     } else if (operation == downloadType.vehicle_type) {
       url = "${base_url}/search_download";
     }
+    "Download Started".showSnackbar(context);
     try {
       Response response = await dio.get(url,
           queryParameters: map,
@@ -453,7 +454,7 @@ class DashBoardProvider extends ChangeNotifier {
               validateStatus: (status) {
                 return status! < 500;
               }), onReceiveProgress: (received, total) {
-        "Download Started".showSnackbar(context);
+
         if (total != -1) {
           if (int.parse((received / total * 100).toStringAsFixed(0)) >= 100) {
             "Download Complete".showSnackbar(context);
@@ -483,15 +484,35 @@ class DashBoardProvider extends ChangeNotifier {
            }));
 
   */
-
+    LocationData? loc= await CustomLocation().getLocation();
     ApiResponse response = await ApiBase().baseFunction(() => ApiBase()
             .getInstance()!
             .post("/distance_gvp", data: {
-          'user_id': '"2"',
-          'latittude': '"17.258963"',
-          'longitude': '"72.25896"'
+      'user_id': Globals.userData!.data!.userId,
+      'latittude': '${loc!.latitude}',
+      'longitude': '${loc.longitude}',
         }));
     MProgressIndicator.hide(); // close indicator
+    return response;
+  }
+
+  Future<ApiResponse> submitGepBep(File? before_image, File? after_image,
+      DashboardLocationGepBepModel? model) async {
+    LocationData? loc = await CustomLocation().getLocation();
+
+    ApiResponse response = await ApiBase().baseFunction(
+        () async => ApiBase().getInstance()!.post("/distance_gvp", data: {
+              'user_id': '${Globals.userData!.data!.userId}',
+              'date': '${DateTime.now().appDate}',
+              'id': '${model!.data!.id}',
+              'longitude': loc!.longitude,
+              'latittude': loc.latitude,
+             'before_image': await FileSupport().getMultiPartFromFile(before_image!),
+             'after_image': await FileSupport().getMultiPartFromFile(after_image!),
+
+            }));
+    MProgressIndicator.hide();
+
     return response;
   }
 }

@@ -57,7 +57,7 @@ class _CameraGalleryContainerWidgetState
                       FloatingActionButton(
                           backgroundColor: Colors.black,
                           onPressed: () async {
-                            photo = await FilePick().takecameraPic();
+                            photo = await FilePick().pickFile();
                             if (photo != null) {
                               "Photo taken".printinfo;
                               if (widget.oncapture != null) {

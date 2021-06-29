@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:ghmc/api/api.dart';
 import 'package:ghmc/model/dashboard/app_bar/dashboard_location_gep_bep_model.dart';
@@ -6,6 +8,9 @@ import 'package:ghmc/widget/appbar/appbar.dart';
 import 'package:ghmc/widget/buttons/gradeint_button.dart';
 import 'package:ghmc/widget/card_seperate_row.dart';
 import 'package:ghmc/widget/container/camera_gallery_container.dart';
+import 'package:ghmc/widget/dialogs/single_button_dialog.dart';
+import 'package:provider/provider.dart';
+import 'package:ghmc/util/utils.dart';
 
 class GvpBepImageUpload extends StatefulWidget {
   const GvpBepImageUpload({Key? key}) : super(key: key);
@@ -23,8 +28,12 @@ class _GvpBepImageUploadState extends State<GvpBepImageUpload> {
     loadIntialData();
   }
 
+  File? _before_image;
+  File? _after_image;
+
   @override
   Widget build(BuildContext context) {
+    final provider=Provider.of<DashBoardProvider>(context);
     return Scaffold(
       appBar: FAppBar.getCommonAppBar(title: "Gvp/BEP MAP"),
       body: _model != null && _model!.found == true
@@ -73,7 +82,9 @@ class _GvpBepImageUploadState extends State<GvpBepImageUpload> {
                   ),
                 ),
                 CameraGalleryContainerWidget(
-                  oncapture: (File) {},
+                  oncapture: (file) {
+                    _before_image=file;
+                  },
                 ),
 
                 // 2️⃣
@@ -92,13 +103,37 @@ class _GvpBepImageUploadState extends State<GvpBepImageUpload> {
                   ),
                 ),
                 CameraGalleryContainerWidget(
-                  oncapture: (File) {},
+                  oncapture: (file) {
+                    _after_image=file;
+                  },
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 Center(
                   child: GradientButton(
+                    onclick: ()async{
+                      ApiResponse resp;
+
+                    if(_before_image!=null && _after_image!=null) {
+                      resp=await provider.submitGepBep(
+                          _before_image, _after_image, _model);
+
+                     if(resp.status==200){
+                       SingleButtonDialog(message: resp.message,onOk: (){
+                         Navigator.pop(context);
+                       },type: Imagetype.svg,
+                         imageurl: "assets/check.svg",
+
+                       );
+                     }else{
+                       resp.message!.showSnackbar(context);
+                     }
+
+                    }else {
+                      "Please add Images".showSnackbar(context);
+                    }
+                    },
                     title: "Submit",
                     fontsize: 18,
                   ),

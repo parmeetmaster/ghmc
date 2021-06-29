@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_support/file_support.dart';
 import 'package:flutter/material.dart';
 import 'package:ghmc/util/geocoding_utils.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
 import 'custom_route_builder.dart';
@@ -75,18 +76,6 @@ extension m_string on String {
     );
   }
 
-  bool hasTextOverflow(TextStyle style,
-      {double minWidth = 0,
-      double maxWidth = double.infinity,
-      int maxLines = 2}) {
-    final TextPainter textPainter = TextPainter(
-      text: TextSpan(text: this, style: style),
-      maxLines: maxLines,
-      textDirection: TextDirection.ltr,
-    )..layout(minWidth: minWidth, maxWidth: maxWidth);
-
-    return textPainter.didExceedMaxLines;
-  }
 
   bool isEmail() {
     RegExp regExp = RegExp(
@@ -131,6 +120,13 @@ extension navigator on Widget {
         barrierColor: Colors.black45));
   }
 }
+
+extension my_data on DateTime{
+
+  String? get appDate => DateFormat("dd-MM-yyyy").format(this);
+
+}
+
 
 extension formatAddress on GeoHolder {
   // this!.fulldata!.results!.first.formattedAddress
