@@ -89,7 +89,7 @@ void main() async {
       ChangeNotifierProvider(create: (ctx) => AddVehicleProvider()),
       ChangeNotifierProvider(create: (ctx) => AddDataProvider()),
       ChangeNotifierProvider(create: (ctx) => LocationProvider()),
-      ChangeNotifierProvider(create: (ctx) => AddGvpBepProvider()),
+      ChangeNotifierProvider(create: (ctx) => GvpBepProvider()),
       ChangeNotifierProvider(create: (ctx) => SupportProvider()),
       ChangeNotifierProvider(create: (ctx) => SplashProvider()),
       ChangeNotifierProvider(create: (ctx) => CulvertProvider()),

@@ -30,6 +30,7 @@ class MainDrawer extends StatefulWidget {
 class _MainDrawerState extends State<MainDrawer> {
   late AwesomeDialog dialog;
   double drawer_item_text = 15;
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -154,25 +155,28 @@ class _MainDrawerState extends State<MainDrawer> {
                       ));
                 },
               ),
-            ListTile(
-              leading: Icon(
-                Icons.airplane_ticket,
-                color: Colors.white,
-                size: 25,
+            if (Globals.userData!.data!.departmentId == "10" ||
+                Globals.userData!.data!.departmentId == "11" ||
+                Globals.userData!.data!.departmentId == "1")
+              ListTile(
+                leading: Icon(
+                  Icons.airplane_ticket,
+                  color: Colors.white,
+                  size: 25,
+                ),
+                title: Text(
+                  "Add Culvert",
+                  style: TextStyle(
+                      fontSize: drawer_item_text, color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => (AddCulvertScreen()),
+                      ));
+                },
               ),
-              title: Text(
-                "Add Culvert",
-                style:
-                TextStyle(fontSize: drawer_item_text, color: Colors.white),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => (AddCulvertScreen()),
-                    ));
-              },
-            ),
             ListTile(
               leading: Icon(
                 Icons.directions_car_rounded,

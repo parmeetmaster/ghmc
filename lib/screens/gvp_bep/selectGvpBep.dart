@@ -151,38 +151,7 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
                   formatted_address = geoData!.formattedAddress;
                 },
               ),
-              SizedBox(
-                height: 20.0,
-              ),
-              //area
-              Padding(
-                padding: const EdgeInsets.all(0.0),
-                child: TextFormField(
-                  controller: _areaController,
-                  decoration: InputDecoration(
-                      enabledBorder: const OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 0.0),
-                      ),
-                      focusColor: Colors.black45,
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 2.0),
-                      ),
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                      border: OutlineInputBorder(),
-                      labelText: ' Area/ Colony',
-                      labelStyle: TextStyle(color: Colors.black)),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Field should not be empty';
-                    }
-                    return null;
-                  },
-                ),
-              ),
+
               SizedBox(
                 height: 20.0,
               ),
@@ -326,6 +295,38 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
                   },
                 ),
               ),
+              SizedBox(
+                height: 20.0,
+              ),
+              //area
+              Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: TextFormField(
+                  controller: _areaController,
+                  decoration: InputDecoration(
+                      enabledBorder: const OutlineInputBorder(
+                        // width: 0.0 produces a thin "hairline" border
+                        borderSide:
+                        const BorderSide(color: Colors.grey, width: 0.0),
+                      ),
+                      focusColor: Colors.black45,
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                        const BorderSide(color: Colors.grey, width: 2.0),
+                      ),
+                      contentPadding:
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      border: OutlineInputBorder(),
+                      labelText: ' Area/ Colony',
+                      labelStyle: TextStyle(color: Colors.black)),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Field should not be empty';
+                    }
+                    return null;
+                  },
+                ),
+              ),
 
               SizedBox(
                 height: 20,
@@ -374,7 +375,7 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
                         return;
                       }
 
-                      final provider = Provider.of<AddGvpBepProvider>(context,
+                      final provider = Provider.of<GvpBepProvider>(context,
                           listen: false);
                       ApiResponse response = await provider.submit_Gvp_Bep(
                           geo_data: geoData,

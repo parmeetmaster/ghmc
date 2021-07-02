@@ -400,7 +400,7 @@ class DashBoardProvider extends ChangeNotifier {
 
   // download master gvp bep file
 
-  void downloadMasterFile(
+  Future<void> downloadMasterFile(
       {required BuildContext context,
       required String filename,
       DateTime? startDate,

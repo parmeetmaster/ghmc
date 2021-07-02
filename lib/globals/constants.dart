@@ -21,7 +21,7 @@ List<Color> main_color = [
 
 //  variables
 enum modes { testing, release }
-dynamic mode = modes.release;
+dynamic mode = modes.testing;
 
 // string
 

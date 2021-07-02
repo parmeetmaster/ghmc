@@ -5,6 +5,7 @@ import 'package:ghmc/api/api.dart';
 import 'package:ghmc/globals/constants.dart';
 import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/model/credentials.dart';
+import 'package:ghmc/model/gep_bep/gep_bep_list_model.dart';
 import 'package:ghmc/provider/add_gvp_bep_provider/addGvpBepProvider.dart';
 import 'package:ghmc/util/geocoding_utils.dart';
 import 'package:ghmc/util/location.dart';
@@ -17,19 +18,15 @@ import '../dashboard/dashBordScreen.dart';
 import 'googleMapScreen.dart';
 
 class AddGvpBepScreen extends StatefulWidget {
-  final Access data;
+  final GepBepItem data;
 
   const AddGvpBepScreen({Key? key, required this.data}) : super(key: key);
 
   @override
-  _AddGvpBepScreenState createState() => _AddGvpBepScreenState(data: data);
+  _AddGvpBepScreenState createState() => _AddGvpBepScreenState();
 }
 
 class _AddGvpBepScreenState extends State<AddGvpBepScreen> {
-  final Access data;
-
-  _AddGvpBepScreenState({required this.data});
-
   var locationCredentials = '';
 
   double gap = 10.0;
@@ -80,37 +77,54 @@ class _AddGvpBepScreenState extends State<AddGvpBepScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  SizedBox(
+                    height: gap,
+                  ),
+                  _getRowVehicleDetails(
+                    key: "Type",
+                    value: "${widget.data.type}",
+                  ),
+                  SizedBox(
+                    height: gap,
+                  ),
                   _getRowVehicleDetails(
                     key: "Landmark",
-                    value: "${data.landmarks}",
+                    value: "${widget.data.landmark}",
+                  ),
+                  SizedBox(
+                    height: gap,
+                  ),
+                  _getRowVehicleDetails(
+                    key: "Area",
+                    value: "${widget.data.area}",
                   ),
                   SizedBox(
                     height: gap,
                   ),
                   _getRowVehicleDetails(
                     key: "Ward",
-                    value: "${data.ward}",
+                    value: "${widget.data.wardName}",
                   ),
                   SizedBox(
                     height: gap,
                   ),
                   _getRowVehicleDetails(
                     key: "Circle",
-                    value: "${data.circle}",
+                    value: "${widget.data.circle}",
                   ),
                   SizedBox(
                     height: gap,
                   ),
                   _getRowVehicleDetails(
                     key: "Zone",
-                    value: "${data.zone}",
+                    value: "${widget.data.zone}",
                   ),
                 ],
               ),
             ),
           ),
         ),
-        Padding(
+      /*  Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
             decoration: ShapeDecoration(
@@ -152,7 +166,7 @@ class _AddGvpBepScreenState extends State<AddGvpBepScreen> {
               ),
             ),
           ),
-        ),
+        ),*/
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Card(
@@ -199,20 +213,16 @@ class _AddGvpBepScreenState extends State<AddGvpBepScreen> {
                     return;
                   }
 
+                  GeoHolder? data = await GeoUtils().getGeoDatafromLocation(
+                      await CustomLocation().getLocation(), context);
                   MProgressIndicator.show(context);
                   ApiResponse? response =
-                      await AddGvpBepProvider.getInstance(context)
-                          .addGvpBepData(
-                    userId: '${Globals.userData!.data!.userId}',
-                    circleId: '${data.circleId}',
-                    landMarkId: '${data.landmarksId}',
-                    wardId: '${data.wardId}',
-                    zoneId: '${data.zoneId}',
-                    address: '${statename}',
-                    longitude: "${locationdata.longitude}",
-                    latitude: "${locationdata.latitude}",
-                    type: '$selecteditem',
-                  );
+                      await GvpBepProvider.getInstance(context).addGvpBepData(
+                          userId: '${Globals.userData!.data!.userId}',
+                          address: '${data!.statename}',
+                          longitude: "${locationdata.longitude}",
+                          latitude: "${locationdata.latitude}",
+                          id: widget.data.id);
                   if (response!.status == 200) {
                     await SingleButtonDialog(
                       message: response.message,
@@ -222,6 +232,8 @@ class _AddGvpBepScreenState extends State<AddGvpBepScreen> {
                         DashBordScreen().pushAndPopTillFirst(context);
                       },
                     ).pushDialog(context);
+                  }else {
+                    response.message!.showSnackbar(context);
                   }
                   MProgressIndicator.hide();
                 },

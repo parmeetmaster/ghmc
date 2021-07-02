@@ -45,6 +45,19 @@ class _UserDashBoard2State extends State<DashBoardBody> {
         [updateVehicleData(), getTransferStationData(), updateGvpAndBep()]);
   }
 
+  _resetDashBoard(){
+     startDate=null;
+   endDate=null;
+   _selected_zone=null;
+    _selected_vehicle=null;
+   _selected_transfer_station=null;
+
+    setState(() {
+
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     if (_dashboardTransferStationTabModel != null ||
@@ -66,6 +79,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                           onTap: () {
                             setState(() {
                               tab_index = 0;
+                              _resetDashBoard();
                             });
                           },
                           child: Center(
@@ -93,6 +107,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                           onTap: () {
                             setState(() {
                               tab_index = 1;
+                              _resetDashBoard();
                             });
                           },
                           child: Center(
@@ -120,6 +135,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                           onTap: () {
                             setState(() {
                               tab_index = 2;
+                              _resetDashBoard();
                             });
                           },
                           child: Center(
@@ -1487,7 +1503,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
   }
 
   // this is used to download view download action.
-  void _download_master_file() {
+  void _download_master_file() async{
     final value = DashBoardProvider.getReference(context);
 
     if (this._selected_zone == null ||
@@ -1504,14 +1520,15 @@ class _UserDashBoard2State extends State<DashBoardBody> {
     }
 
     if (tab_index == 0) {
-      DownloadViewScreenDashboard(
+    await  DownloadViewScreenDashboard(
               startDate: startDate,
               endDate: endDate,
               selected_vehicle: _selected_vehicle,
               selected_zone: _selected_zone)
           .push(context);
+    _resetDashBoard(); // see reset data here
     } else if (tab_index == 1) {
-      value.downloadMasterFile(
+      await  value.downloadMasterFile(
           context: context,
           startDate: startDate,
           endDate: endDate,
@@ -1520,8 +1537,9 @@ class _UserDashBoard2State extends State<DashBoardBody> {
           selected_transfer_station: _selected_transfer_station,
           filename: 'GVP-BEP-MASTER',
           operation: downloadType.gvp_bep);
+      _resetDashBoard(); // see reset data here
     } else if (tab_index == 2) {
-      value.downloadMasterFile(
+     await value.downloadMasterFile(
           context: context,
           startDate: startDate,
           endDate: endDate,
@@ -1530,6 +1548,8 @@ class _UserDashBoard2State extends State<DashBoardBody> {
           selected_transfer_station: _selected_transfer_station,
           filename: 'TRANSFER-STATION-MASTER',
           operation: downloadType.transfer_station);
+      _resetDashBoard(); // see reset data here
     }
+
   }
 }

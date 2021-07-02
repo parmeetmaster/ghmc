@@ -11,33 +11,28 @@ import 'package:ghmc/util/location.dart';
 import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:provider/provider.dart';
 
-class AddGvpBepProvider extends ChangeNotifier {
+class GvpBepProvider extends ChangeNotifier {
   AwesomeDialog? dialog;
 
-  static AddGvpBepProvider getInstance(BuildContext context) {
-    return Provider.of<AddGvpBepProvider>(context, listen: false);
+  static GvpBepProvider getInstance(BuildContext context) {
+    return Provider.of<GvpBepProvider>(context, listen: false);
   }
 
   Future<ApiResponse?> addGvpBepData({
-    String? type,
     String? userId,
-    String? zoneId,
-    String? circleId,
-    String? wardId,
-    String? landMarkId,
     String? address,
     String? latitude,
     String? longitude,
+    String? id,
   }) async {
     ApiResponse response;
+
+
+
     response = await ApiBase().baseFunction(
       () => ApiBase().getInstance()!.post('/add_gvp_bep', data: {
-        'type': type,
-        'user_id': userId,
-        'zone_id': zoneId,
-        'circle_id': circleId,
-        'ward_id': wardId,
-        'land_mark_id': landMarkId,
+      'user_id':userId,
+        'id': id,
         'address': address,
         'latitude': latitude,
         'longitude': longitude,
@@ -46,6 +41,18 @@ class AddGvpBepProvider extends ChangeNotifier {
     MProgressIndicator.hide();
     return response;
   }
+
+  Future<ApiResponse?> getGepBepList() async{
+    ApiResponse response;
+    response = await ApiBase().baseFunction(
+          () => ApiBase().getInstance()!.post('/gvp_bep_list', data: {
+        'user_id': Globals.userData!.data!.userId,
+      }),
+    );
+    MProgressIndicator.hide();
+    return response;
+  }
+
 
   submit_Gvp_Bep(
       {String? formatted_address,
