@@ -7,6 +7,7 @@ import 'package:ghmc/provider/login_provider/login_provider.dart';
 import 'package:ghmc/screens/add_data/add_data_page.dart';
 import 'package:ghmc/screens/add_vehicle/add_vehicle_page.dart';
 import 'package:ghmc/screens/complaint_box/complain_screen.dart';
+import 'package:ghmc/screens/culvert/addCulvert.dart';
 import 'package:ghmc/screens/dashboard/vehicle_tab.dart';
 import 'package:ghmc/screens/gvp_bep/gvp_bvp_list.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
@@ -153,6 +154,25 @@ class _MainDrawerState extends State<MainDrawer> {
                       ));
                 },
               ),
+            ListTile(
+              leading: Icon(
+                Icons.airplane_ticket,
+                color: Colors.white,
+                size: 25,
+              ),
+              title: Text(
+                "Add Culvert",
+                style:
+                TextStyle(fontSize: drawer_item_text, color: Colors.white),
+              ),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => (AddCulvertScreen()),
+                    ));
+              },
+            ),
             ListTile(
               leading: Icon(
                 Icons.directions_car_rounded,

@@ -1,4 +1,3 @@
-
 import 'package:ghmc/model/credentials.dart';
 
 class Globals {

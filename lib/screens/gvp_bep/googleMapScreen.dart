@@ -71,9 +71,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                             .getGeoDatafromLocation(
                                 await CustomLocation().getLocation(), context);
                         MProgressIndicator.hide();
-                        showDialog(
+                      await  showDialog(
                           context: context,
-                          builder: (ctx) => AlertDialog(
+                          builder: (ctx) => new AlertDialog(
                             title: Text('Your location'),
                             content: Text(
                                 '${data!.fulldata!.results!.first.formattedAddress}'),

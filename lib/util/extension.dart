@@ -76,7 +76,6 @@ extension m_string on String {
     );
   }
 
-
   bool isEmail() {
     RegExp regExp = RegExp(
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
@@ -121,12 +120,9 @@ extension navigator on Widget {
   }
 }
 
-extension my_data on DateTime{
-
+extension my_data on DateTime {
   String? get appDate => DateFormat("dd-MM-yyyy").format(this);
-
 }
-
 
 extension formatAddress on GeoHolder {
   // this!.fulldata!.results!.first.formattedAddress

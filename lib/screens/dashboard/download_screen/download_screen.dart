@@ -58,7 +58,6 @@ class _DownloadViewScreenDashboardState
               icon: const Icon(Icons.download),
               tooltip: 'Download',
               onPressed: () {
-
                 final provider = DashBoardProvider.getReference(context);
                 provider.downloadMasterFile(
                     context: context,
@@ -98,7 +97,7 @@ class _DownloadViewScreenDashboardState
                                   : MaterialStateProperty.all(
                                       Colors.transparent),
                               cells: [
-                                ...e .map((e) => DataCell(Text("${e}"))),
+                                ...e.map((e) => DataCell(Text("${e}"))),
                               ]))
                   ],
                 ),

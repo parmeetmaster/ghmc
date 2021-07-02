@@ -9,7 +9,7 @@ class MProgressIndicator {
       color: Colors.black12,
       child: Center(
         child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation(Color(0xfff97b26)),
+          valueColor: AlwaysStoppedAnimation(Colors.pink),
         ),
       ),
     ),

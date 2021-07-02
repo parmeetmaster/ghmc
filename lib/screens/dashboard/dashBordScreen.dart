@@ -9,9 +9,11 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ghmc/api/api.dart';
 import 'package:ghmc/model/credentials.dart';
+import 'package:ghmc/model/culvert/culvert_issue.dart';
 import 'package:ghmc/model/driver_data_model.dart';
 import 'package:ghmc/provider/dashboard_provider/dash_board_provider.dart';
 import 'package:ghmc/screens/add_vehicle/add_vehicle_page.dart';
+import 'package:ghmc/screens/culvert/culvert.dart';
 import 'package:ghmc/screens/dashboard/vehicle_tab.dart';
 import 'package:ghmc/screens/errors/14_no_result_found.dart';
 import 'package:ghmc/screens/transfer/transfer_station.dart';
@@ -111,24 +113,27 @@ class _DashBordScreenState extends State<DashBordScreen>
                 ),*/
               title: const Text('Dash Board'),
               actions: [
-                  if(value.is_any_gep_bep==null || value.is_any_gep_bep==false)
+                if (value.is_any_gep_bep == null ||
+                    value.is_any_gep_bep == false)
                   IconButton(
-                    icon: const Icon(Icons.map,color: Colors.white,),
+                    icon: const Icon(
+                      Icons.map,
+                      color: Colors.white,
+                    ),
+                    tooltip: 'Map',
+                    onPressed: () {},
+                  ),
+                if (value.is_any_gep_bep == true)
+                  IconButton(
+                    icon: const Icon(
+                      Icons.map,
+                      color: Colors.green,
+                    ),
                     tooltip: 'Map',
                     onPressed: () {
+                      GvpBepImageUpload().push(context);
                     },
                   ),
-                  if(value.is_any_gep_bep==true)
-                IconButton(
-                  icon: const Icon(
-                    Icons.map,
-                    color: Colors.green,
-                  ),
-                  tooltip: 'Map',
-                  onPressed: () {
-                    GvpBepImageUpload().push(context);
-                  },
-                ),
                 IconButton(
                   icon: const Icon(Icons.qr_code_scanner_rounded),
                   tooltip: 'Qr Scan',
@@ -168,6 +173,12 @@ class _DashBordScreenState extends State<DashBordScreen>
           .getTransferStationManager(
               widget.credentialsModel!.data!.userId!, qrdata);
     }
+    else if (Globals.userData!.data!.departmentId == "10") {
+      //see if user is culert eligible
+      model = await DashBoardProvider.getReference(context)
+          .getCulvertData(
+          widget.credentialsModel!.data!.userId!, qrdata);
+    }
     print(" here is data${model!.status}");
     if (model.status != 200) {
       Navigator.push(context,
@@ -175,12 +186,18 @@ class _DashBordScreenState extends State<DashBordScreen>
     }
 
     MProgressIndicator.hide();
+    if(model.status!=200){
+      model.message!.showSnackbar(context);
+    }
+
 
     // check user for attendence
     if (Globals.getUserData()!.data!.departmentId == "3") {
       justDialog(model);
     } else if (Globals.getUserData()!.data!.departmentId == "4") {
       showTransferScreen(model, qrdata);
+    }else if (Globals.getUserData()!.data!.departmentId == "10") {
+      showCulvertScreen(model, qrdata);
     }
   }
 
@@ -471,6 +488,13 @@ class _DashBordScreenState extends State<DashBordScreen>
                     model: QrDataModel.fromJson(model.completeResponse ?? ""),
                     scanid: qrdata,
                   )));
+  }
+
+  void showCulvertScreen(ApiResponse model, String qrdata) {
+
+    if(model.status==200)
+    CulvertScreen(CulvertIssue.fromJson(model.completeResponse)).push(context);
+
   }
 }
 // todo add validation for jpg and png

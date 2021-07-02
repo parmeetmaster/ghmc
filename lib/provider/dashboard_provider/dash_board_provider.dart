@@ -41,17 +41,17 @@ class DashBoardProvider extends ChangeNotifier {
       return;
     }
 
+    try {
+      ApiResponse response = await getNearGepBepUsingLatLng(
+          lat: data.latitude.toString(), lng: data.longitude.toString());
+      model = DashboardLocationGepBepModel.fromJson(response.completeResponse);
+    } catch (e) {}
+    if (model != null) {
+      is_any_gep_bep = model.found;
+    }
+    notifyListeners();
+
     await Future.delayed(Duration(seconds: 30)).then((value) async {
-      try {
-        ApiResponse response = await getNearGepBepUsingLatLng(
-            lat: data.latitude.toString(), lng: data.longitude.toString());
-        model =
-            DashboardLocationGepBepModel.fromJson(response.completeResponse);
-      } catch (e) {}
-      if (model != null) {
-        is_any_gep_bep = model!.found;
-      }
-      notifyListeners();
       checkNearGepBep(context);
       "Location Called".printinfo;
     });
@@ -454,7 +454,6 @@ class DashBoardProvider extends ChangeNotifier {
               validateStatus: (status) {
                 return status! < 500;
               }), onReceiveProgress: (received, total) {
-
         if (total != -1) {
           if (int.parse((received / total * 100).toStringAsFixed(0)) >= 100) {
             "Download Complete".showSnackbar(context);
@@ -484,14 +483,13 @@ class DashBoardProvider extends ChangeNotifier {
            }));
 
   */
-    LocationData? loc= await CustomLocation().getLocation();
-    ApiResponse response = await ApiBase().baseFunction(() => ApiBase()
-            .getInstance()!
-            .post("/distance_gvp", data: {
-      'user_id': Globals.userData!.data!.userId,
-      'latittude': '${loc!.latitude}',
-      'longitude': '${loc.longitude}',
-        }));
+    LocationData? loc = await CustomLocation().getLocation();
+    ApiResponse response = await ApiBase().baseFunction(
+        () => ApiBase().getInstance()!.post("/distance_gvp", data: {
+              'user_id': Globals.userData!.data!.userId,
+              'latittude': '${loc!.latitude}',
+              'longitude': '${loc.longitude}',
+            }));
     MProgressIndicator.hide(); // close indicator
     return response;
   }
@@ -507,12 +505,30 @@ class DashBoardProvider extends ChangeNotifier {
               'id': '${model!.data!.id}',
               'longitude': loc!.longitude,
               'latittude': loc.latitude,
-             'before_image': await FileSupport().getMultiPartFromFile(before_image!),
-             'after_image': await FileSupport().getMultiPartFromFile(after_image!),
-
+              'before_image':
+                  await FileSupport().getMultiPartFromFile(before_image!),
+              'after_image':
+                  await FileSupport().getMultiPartFromFile(after_image!),
             }));
     MProgressIndicator.hide();
 
     return response;
   }
+
+ Future<ApiResponse?>? getCulvertData(String userid, String qrdata)async {
+   LocationData? loc = await CustomLocation().getLocation();
+
+   ApiResponse response = await ApiBase().baseFunction(
+           () async => ApiBase().getInstance()!.post("/getculvertissue", data: {
+             'unique_no': qrdata,
+             'latitude': loc!.latitude,
+             'longitude': loc.longitude,
+             'user_id': Globals.userData!.data!.userId
+           }));
+   MProgressIndicator.hide();
+
+   return response;
+
+
+ }
 }

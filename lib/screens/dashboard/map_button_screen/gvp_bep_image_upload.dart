@@ -12,6 +12,8 @@ import 'package:ghmc/widget/dialogs/single_button_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:ghmc/util/utils.dart';
 
+import '../dashBordScreen.dart';
+
 class GvpBepImageUpload extends StatefulWidget {
   const GvpBepImageUpload({Key? key}) : super(key: key);
 
@@ -33,7 +35,7 @@ class _GvpBepImageUploadState extends State<GvpBepImageUpload> {
 
   @override
   Widget build(BuildContext context) {
-    final provider=Provider.of<DashBoardProvider>(context);
+    final provider = Provider.of<DashBoardProvider>(context);
     return Scaffold(
       appBar: FAppBar.getCommonAppBar(title: "Gvp/BEP MAP"),
       body: _model != null && _model!.found == true
@@ -83,7 +85,7 @@ class _GvpBepImageUploadState extends State<GvpBepImageUpload> {
                 ),
                 CameraGalleryContainerWidget(
                   oncapture: (file) {
-                    _before_image=file;
+                    _before_image = file;
                   },
                 ),
 
@@ -104,7 +106,7 @@ class _GvpBepImageUploadState extends State<GvpBepImageUpload> {
                 ),
                 CameraGalleryContainerWidget(
                   oncapture: (file) {
-                    _after_image=file;
+                    _after_image = file;
                   },
                 ),
                 SizedBox(
@@ -112,27 +114,28 @@ class _GvpBepImageUploadState extends State<GvpBepImageUpload> {
                 ),
                 Center(
                   child: GradientButton(
-                    onclick: ()async{
+                    onclick: () async {
                       ApiResponse resp;
 
-                    if(_before_image!=null && _after_image!=null) {
-                      resp=await provider.submitGepBep(
-                          _before_image, _after_image, _model);
+                      if (_before_image != null && _after_image != null) {
+                        resp = await provider.submitGepBep(
+                            _before_image, _after_image, _model);
 
-                     if(resp.status==200){
-                       SingleButtonDialog(message: resp.message,onOk: (){
-                         Navigator.pop(context);
-                       },type: Imagetype.svg,
-                         imageurl: "assets/check.svg",
-
-                       );
-                     }else{
-                       resp.message!.showSnackbar(context);
-                     }
-
-                    }else {
-                      "Please add Images".showSnackbar(context);
-                    }
+                        if (resp.status == 200) {
+                          SingleButtonDialog(
+                            message: resp.message,
+                            onOk: (c) {
+                              DashBordScreen().pushAndPopTillFirst(context);
+                            },
+                            type: Imagetype.svg,
+                            imageurl: "assets/check.svg",
+                          ).pushDialog(context);
+                        } else {
+                          resp.message!.showSnackbar(context);
+                        }
+                      } else {
+                        "Please add Images".showSnackbar(context);
+                      }
                     },
                     title: "Submit",
                     fontsize: 18,

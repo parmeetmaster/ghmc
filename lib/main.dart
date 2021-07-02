@@ -4,6 +4,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:ghmc/provider/add_gvp_bep_provider/addGvpBepProvider.dart';
 import 'package:ghmc/provider/add_data/add_data_provider.dart';
 import 'package:ghmc/provider/add_vehicle/add_vehicle.dart';
+import 'package:ghmc/provider/culvert/culvert_provider.dart';
 import 'package:ghmc/provider/dashboard_provider/dash_board_provider.dart';
 import 'package:ghmc/provider/location_provider/location_provider.dart';
 import 'package:ghmc/provider/login_provider/login_provider.dart';
@@ -28,13 +29,23 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+// Declared as global, outside of any class
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
 
+  print("Handling a background message: ${message.messageId}");
+
+  // Use this method to automatically convert the push data, in case you gonna use our data standard
+}
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   await HiveUtils.initalised();
+
+  FirebaseApp firebaseApp = await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
@@ -47,6 +58,7 @@ void main() async {
     provisional: false,
     sound: true,
   );
+
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Got a message whilst in the foreground!');
     print('Message data: ${message.data}');
@@ -56,11 +68,9 @@ void main() async {
     }
   });
 
-
   //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  await FirebaseMessaging.instance
-      .setForegroundNotificationPresentationOptions(
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
     badge: true,
     sound: true,
@@ -68,11 +78,9 @@ void main() async {
 
   FirebaseMessaging.instance.getToken().then((value) {
     String? token = value;
-    token!.printwtf;
+    print(token);
+    token!.printwtf; // print fcm token
   });
-
-
-
 
   runApp(MultiProvider(
     providers: [
@@ -84,6 +92,7 @@ void main() async {
       ChangeNotifierProvider(create: (ctx) => AddGvpBepProvider()),
       ChangeNotifierProvider(create: (ctx) => SupportProvider()),
       ChangeNotifierProvider(create: (ctx) => SplashProvider()),
+      ChangeNotifierProvider(create: (ctx) => CulvertProvider()),
     ],
     child: Phoenix(child: MyApp()),
   ));
@@ -111,10 +120,3 @@ class MyApp extends StatelessWidget {
   }
 }
 // todo working start from owner type test pending
-
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp();
-  print('Handling a background message ${message.messageId}');
-}

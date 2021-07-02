@@ -1223,8 +1223,6 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                                       flex: 8,
                                       child: Center(
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 5),
                                           child: Text(
                                             "${index}",
                                             style: TextStyle(
@@ -1242,7 +1240,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                                       flex: 14,
                                       child: Container(
                                         padding:
-                                            EdgeInsets.symmetric(horizontal: 5),
+                                            EdgeInsets.symmetric(horizontal: 3),
                                         child: Center(
                                             child: Text(
                                           "${item.tsName ?? ""}",
@@ -1259,7 +1257,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                                       flex: 16,
                                       child: Container(
                                         padding:
-                                            EdgeInsets.symmetric(horizontal: 5),
+                                            EdgeInsets.symmetric(horizontal: 3),
                                         child: Text(
                                           "Vehicle Count \n ${item.vehiclesCount} ",
                                           style: TextStyle(
@@ -1276,7 +1274,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                                       flex: 15,
                                       child: Container(
                                         padding:
-                                            EdgeInsets.symmetric(horizontal: 5),
+                                            EdgeInsets.symmetric(horizontal: 3),
                                         child: Text(
                                           "Trip Count \n ${item.tripsCount} ",
                                           textAlign: TextAlign.center,
@@ -1293,7 +1291,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                                       flex: 19,
                                       child: Container(
                                         padding:
-                                            EdgeInsets.symmetric(horizontal: 5),
+                                            EdgeInsets.symmetric(horizontal: 3),
                                         child: Text(
                                           "Garbage Weight\n${item.garbageCollection} kg ",
                                           textAlign: TextAlign.center,
