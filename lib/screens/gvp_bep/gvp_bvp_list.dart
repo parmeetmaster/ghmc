@@ -85,116 +85,120 @@ class _GvpBepScreenState extends State<GvpBepScreen> {
           ],
         ),
       ),
-      body: gepBepListModel!=null?ListView(
-        shrinkWrap: true,
-        children: gepBepListModel!.data!
-            .map(
-              (element) => Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20,
-                  horizontal: 20,
-                ),
-                child: Card(
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: gap,
-                        ),
-                        _getRowVehicleDetails(
-                          key: "Type",
-                          value: "${element.type}",
-                        ),
-                        SizedBox(
-                          height: gap,
-                        ),
-                        _getRowVehicleDetails(
-                          key: "Landmark",
-                          value: "${element.landmark}",
-                        ),
-                        SizedBox(
-                          height: gap,
-                        ),
-                        _getRowVehicleDetails(
-                          key: "Area/Colony ",
-                          value: "${element.area}",
-                        ),
-
-                        SizedBox(
-                          height: gap,
-                        ),
-                        _getRowVehicleDetails(
-                          key: "Ward",
-                          value: "${element.wardName}",
-                        ),
-                        SizedBox(
-                          height: gap,
-                        ),
-                        _getRowVehicleDetails(
-                          key: "Circle",
-                          value: "${element.circle}",
-                        ),
-                        SizedBox(
-                          height: gap,
-                        ),
-                        _getRowVehicleDetails(
-                          key: "Zone",
-                          value: "${element.zone}",
-                        ),
-
-                        SizedBox(
-                          height: gap,
-                        ),
-
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            child: FlatButton(
-                                height: 40,
-                                minWidth: 300,
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => AddGvpBepScreen(
-                                        data: element,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  'Add GVP/BVP',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                )),
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Color(0xFFAD1457),
-                                    Color(0xFFAD801D9E)
-                                  ],
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                ),
-                                borderRadius: BorderRadius.circular(30.0)),
+      body: gepBepListModel != null
+          ? ListView(
+              shrinkWrap: true,
+              children: gepBepListModel!.data!
+                  .map(
+                    (element) => Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 20,
+                        horizontal: 20,
+                      ),
+                      child: Card(
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
                           ),
-                        )
-
-                      ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: gap,
+                              ),
+                              _getRowVehicleDetails(
+                                key: "Type",
+                                value: "${element.type}",
+                              ),
+                              SizedBox(
+                                height: gap,
+                              ),
+                              _getRowVehicleDetails(
+                                key: "Landmark",
+                                value: "${element.landmark}",
+                              ),
+                              SizedBox(
+                                height: gap,
+                              ),
+                              _getRowVehicleDetails(
+                                key: "Area/Colony ",
+                                value: "${element.area}",
+                              ),
+                              SizedBox(
+                                height: gap,
+                              ),
+                              _getRowVehicleDetails(
+                                key: "Ward",
+                                value: "${element.wardName}",
+                              ),
+                              SizedBox(
+                                height: gap,
+                              ),
+                              _getRowVehicleDetails(
+                                key: "Circle",
+                                value: "${element.circle}",
+                              ),
+                              SizedBox(
+                                height: gap,
+                              ),
+                              _getRowVehicleDetails(
+                                key: "Zone",
+                                value: "${element.zone}",
+                              ),
+                              SizedBox(
+                                height: gap,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  child: FlatButton(
+                                      height: 40,
+                                      minWidth: 300,
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddGvpBepScreen(
+                                              data: element,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Text(
+                                        'Add GVP/BVP',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      )),
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Color(0xFFAD1457),
+                                          Color(0xFFAD801D9E)
+                                        ],
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                      ),
+                                      borderRadius:
+                                          BorderRadius.circular(30.0)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
+                  )
+                  .toList(),
             )
-            .toList(),
-      ):Container(child: Center(child: CircularProgressIndicator(),),),
+          : Container(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
     );
   }
 
@@ -260,18 +264,16 @@ class _GvpBepScreenState extends State<GvpBepScreen> {
     );
   }
 
-  void _load_Gep_Bep()async {
-    final provider =Provider.of<GvpBepProvider>(context,listen: false);
+  void _load_Gep_Bep() async {
+    final provider = Provider.of<GvpBepProvider>(context, listen: false);
 
-    ApiResponse? response=await provider.getGepBepList();
+    ApiResponse? response = await provider.getGepBepList();
 
-    if(response!.status==200)
-    gepBepListModel=GepBepListModel.fromJson(response.completeResponse);
+    if (response!.status == 200)
+      gepBepListModel = GepBepListModel.fromJson(response.completeResponse);
     else
       response.message!.showSnackbar(context);
 
-  setState(() {
-
-  });
+    setState(() {});
   }
 }

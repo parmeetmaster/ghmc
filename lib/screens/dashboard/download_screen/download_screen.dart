@@ -2,6 +2,7 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:ghmc/api/api.dart';
 import 'package:ghmc/globals/constants.dart';
+import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/model/dashboard/vehicle_table_model.dart';
 import 'package:ghmc/model/dashboard/zone_model.dart';
 import 'package:ghmc/provider/dashboard_provider/dash_board_provider.dart';
@@ -34,6 +35,7 @@ class _DownloadViewScreenDashboardState
   @override
   void initState() {
     super.initState();
+    Globals.userData!.data!.userId!.printwtf;
     loadReport();
   }
 

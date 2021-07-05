@@ -9,11 +9,7 @@ class GepBepListModel {
   String? message;
   List<GepBepItem>? data;
 
-  GepBepListModel({
-      this.success, 
-      this.login, 
-      this.message, 
-      this.data});
+  GepBepListModel({this.success, this.login, this.message, this.data});
 
   GepBepListModel.fromJson(dynamic json) {
     success = json["success"];
@@ -37,7 +33,6 @@ class GepBepListModel {
     }
     return map;
   }
-
 }
 
 /// id : "1"
@@ -57,13 +52,13 @@ class GepBepItem {
   String? circle;
   String? zone;
 
-  GepBepItem({
-      this.id, 
-      this.type, 
-      this.area, 
-      this.landmark, 
-      this.wardName, 
-      this.circle, 
+  GepBepItem(
+      {this.id,
+      this.type,
+      this.area,
+      this.landmark,
+      this.wardName,
+      this.circle,
       this.zone});
 
   GepBepItem.fromJson(dynamic json) {
@@ -87,5 +82,4 @@ class GepBepItem {
     map["zone"] = zone;
     return map;
   }
-
 }

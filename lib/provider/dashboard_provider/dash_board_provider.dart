@@ -17,6 +17,7 @@ import 'package:ghmc/util/m_progress_indicator.dart';
 import 'package:ghmc/widget/buttons/gradeint_button.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
+import 'package:open_file/open_file.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:ghmc/util/utils.dart';
@@ -466,6 +467,7 @@ class DashBoardProvider extends ChangeNotifier {
       // response.data is List<int> type
       raf.writeFromSync(response.data);
       await raf.close();
+      OpenFile.open(file.path);
     } catch (e) {
       print(e);
     }
@@ -515,20 +517,18 @@ class DashBoardProvider extends ChangeNotifier {
     return response;
   }
 
- Future<ApiResponse?>? getCulvertData(String userid, String qrdata)async {
-   LocationData? loc = await CustomLocation().getLocation();
+  Future<ApiResponse?>? getCulvertData(String userid, String qrdata) async {
+    LocationData? loc = await CustomLocation().getLocation();
 
-   ApiResponse response = await ApiBase().baseFunction(
-           () async => ApiBase().getInstance()!.post("/getculvertissue", data: {
-             'unique_no': qrdata,
-             'latitude': loc!.latitude,
-             'longitude': loc.longitude,
-             'user_id': Globals.userData!.data!.userId
-           }));
-   MProgressIndicator.hide();
+    ApiResponse response = await ApiBase().baseFunction(
+        () async => ApiBase().getInstance()!.post("/getculvertissue", data: {
+              'unique_no': qrdata,
+              'latitude': loc!.latitude,
+              'longitude': loc.longitude,
+              'user_id': Globals.userData!.data!.userId
+            }));
+    MProgressIndicator.hide();
 
-   return response;
-
-
- }
+    return response;
+  }
 }

@@ -307,15 +307,15 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
                       enabledBorder: const OutlineInputBorder(
                         // width: 0.0 produces a thin "hairline" border
                         borderSide:
-                        const BorderSide(color: Colors.grey, width: 0.0),
+                            const BorderSide(color: Colors.grey, width: 0.0),
                       ),
                       focusColor: Colors.black45,
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                        const BorderSide(color: Colors.grey, width: 2.0),
+                            const BorderSide(color: Colors.grey, width: 2.0),
                       ),
                       contentPadding:
-                      EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                          EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                       border: OutlineInputBorder(),
                       labelText: ' Area/ Colony',
                       labelStyle: TextStyle(color: Colors.black)),
@@ -375,8 +375,8 @@ class _SelectGvpBepScreenState extends State<SelectGvpBepScreen> {
                         return;
                       }
 
-                      final provider = Provider.of<GvpBepProvider>(context,
-                          listen: false);
+                      final provider =
+                          Provider.of<GvpBepProvider>(context, listen: false);
                       ApiResponse response = await provider.submit_Gvp_Bep(
                           geo_data: geoData,
                           landmark_controller: _landMarkController,

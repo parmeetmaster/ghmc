@@ -172,12 +172,10 @@ class _DashBordScreenState extends State<DashBordScreen>
       model = await DashBoardProvider.getReference(context)
           .getTransferStationManager(
               widget.credentialsModel!.data!.userId!, qrdata);
-    }
-    else if (Globals.userData!.data!.departmentId == "10") {
+    } else if (Globals.userData!.data!.departmentId == "10") {
       //see if user is culert eligible
       model = await DashBoardProvider.getReference(context)
-          .getCulvertData(
-          widget.credentialsModel!.data!.userId!, qrdata);
+          .getCulvertData(widget.credentialsModel!.data!.userId!, qrdata);
     }
     print(" here is data${model!.status}");
     if (model.status != 200) {
@@ -186,17 +184,16 @@ class _DashBordScreenState extends State<DashBordScreen>
     }
 
     MProgressIndicator.hide();
-    if(model.status!=200){
+    if (model.status != 200) {
       model.message!.showSnackbar(context);
     }
-
 
     // check user for attendence
     if (Globals.getUserData()!.data!.departmentId == "3") {
       justDialog(model);
     } else if (Globals.getUserData()!.data!.departmentId == "4") {
       showTransferScreen(model, qrdata);
-    }else if (Globals.getUserData()!.data!.departmentId == "10") {
+    } else if (Globals.getUserData()!.data!.departmentId == "10") {
       showCulvertScreen(model, qrdata);
     }
   }
@@ -491,10 +488,9 @@ class _DashBordScreenState extends State<DashBordScreen>
   }
 
   void showCulvertScreen(ApiResponse model, String qrdata) {
-
-    if(model.status==200)
-    CulvertScreen(CulvertIssue.fromJson(model.completeResponse)).push(context);
-
+    if (model.status == 200)
+      CulvertScreen(CulvertIssue.fromJson(model.completeResponse))
+          .push(context);
   }
 }
 // todo add validation for jpg and png

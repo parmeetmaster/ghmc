@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ghmc/globals/globals.dart';
+import 'package:ghmc/model/culvert/culvert_issue.dart';
 import 'package:ghmc/provider/login_provider/login_provider.dart';
 import 'package:ghmc/screens/add_data/add_data_page.dart';
 import 'package:ghmc/screens/add_vehicle/add_vehicle_page.dart';
 import 'package:ghmc/screens/complaint_box/complain_screen.dart';
 import 'package:ghmc/screens/culvert/addCulvert.dart';
+import 'package:ghmc/screens/culvert/culvertIssues.dart';
 import 'package:ghmc/screens/dashboard/vehicle_tab.dart';
 import 'package:ghmc/screens/gvp_bep/gvp_bvp_list.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
@@ -160,7 +162,7 @@ class _MainDrawerState extends State<MainDrawer> {
                 Globals.userData!.data!.departmentId == "1")
               ListTile(
                 leading: Icon(
-                  Icons.airplane_ticket,
+                  Icons.linear_scale,
                   color: Colors.white,
                   size: 25,
                 ),
@@ -174,6 +176,28 @@ class _MainDrawerState extends State<MainDrawer> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => (AddCulvertScreen()),
+                      ));
+                },
+              ),
+            if (Globals.userData!.data!.departmentId == "10" ||
+                Globals.userData!.data!.departmentId == "11" ||
+                Globals.userData!.data!.departmentId == "1")
+              ListTile(
+                leading: Icon(
+                  Icons.home_repair_service,
+                  color: Colors.white,
+                  size: 25,
+                ),
+                title: Text(
+                  "Issue Culvert",
+                  style: TextStyle(
+                      fontSize: drawer_item_text, color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => (CulvertIssueScreen()),
                       ));
                 },
               ),

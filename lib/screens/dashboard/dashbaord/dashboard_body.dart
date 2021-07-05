@@ -45,18 +45,15 @@ class _UserDashBoard2State extends State<DashBoardBody> {
         [updateVehicleData(), getTransferStationData(), updateGvpAndBep()]);
   }
 
-  _resetDashBoard(){
-     startDate=null;
-   endDate=null;
-   _selected_zone=null;
-    _selected_vehicle=null;
-   _selected_transfer_station=null;
+  _resetDashBoard() {
+    startDate = null;
+    endDate = null;
+    _selected_zone = null;
+    _selected_vehicle = null;
+    _selected_transfer_station = null;
 
-    setState(() {
-
-    });
+    setState(() {});
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +68,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                 Card(
               child: IntrinsicHeight(
                 child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Expanded(
@@ -149,61 +147,41 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                             ),
                           ),
                         )),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5.0),
+                      child: Container(
+                        width: 1,
+                        height: 40,
+                        color: Colors.grey[500],
+                      ),
+                    ),
+                    Expanded(
+                        flex: 12,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              tab_index = 2;
+                              _resetDashBoard();
+                            });
+                          },
+                          child: Center(
+                            child: Text(
+                              "Transfer Station",
+                              style: TextStyle(
+                                  color: tab_index == 2
+                                      ? Color(0xffE33535)
+                                      : Color(0xff2796B7),
+                                  fontSize: 16),
+                            ),
+                          ),
+                        )),
                   ],
                 ),
               ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10))),
             )
-            /* : Card(
-                    child: IntrinsicHeight(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Expanded(
-                              child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                tab_index = 0;
-                              });
-                            },
-                            child: Center(
-                              child: Text(
-                                "Vehicles",
-                                style: TextStyle(
-                                    color: Color(0xffE33535), fontSize: 16),
-                              ),
-                            ),
-                          )),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Container(
-                              width: 1,
-                              height: 40,
-                              color: Colors.grey[500],
-                            ),
-                          ),
-                          Expanded(
-                              child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                tab_index = 1;
-                              });
-                            },
-                            child: Center(
-                              child: Text(
-                                "GVP / BEP",
-                                style: TextStyle(
-                                    color: Color(0xff2796B7), fontSize: 16),
-                              ),
-                            ),
-                          )),
-                        ],
-                      ),
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                  ),*/
+
             );
 
         // 🚌 this is above 4 button set of gvp and bep
@@ -1503,7 +1481,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
   }
 
   // this is used to download view download action.
-  void _download_master_file() async{
+  void _download_master_file() async {
     final value = DashBoardProvider.getReference(context);
 
     if (this._selected_zone == null ||
@@ -1520,15 +1498,15 @@ class _UserDashBoard2State extends State<DashBoardBody> {
     }
 
     if (tab_index == 0) {
-    await  DownloadViewScreenDashboard(
+      await DownloadViewScreenDashboard(
               startDate: startDate,
               endDate: endDate,
               selected_vehicle: _selected_vehicle,
               selected_zone: _selected_zone)
           .push(context);
-    _resetDashBoard(); // see reset data here
+      _resetDashBoard(); // see reset data here
     } else if (tab_index == 1) {
-      await  value.downloadMasterFile(
+      await value.downloadMasterFile(
           context: context,
           startDate: startDate,
           endDate: endDate,
@@ -1539,7 +1517,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
           operation: downloadType.gvp_bep);
       _resetDashBoard(); // see reset data here
     } else if (tab_index == 2) {
-     await value.downloadMasterFile(
+      await value.downloadMasterFile(
           context: context,
           startDate: startDate,
           endDate: endDate,
@@ -1550,6 +1528,5 @@ class _UserDashBoard2State extends State<DashBoardBody> {
           operation: downloadType.transfer_station);
       _resetDashBoard(); // see reset data here
     }
-
   }
 }

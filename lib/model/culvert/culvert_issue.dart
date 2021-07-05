@@ -7,10 +7,7 @@ class CulvertIssue {
   bool? login;
   Data? data;
 
-  CulvertIssue({
-      this.success, 
-      this.login, 
-      this.data});
+  CulvertIssue({this.success, this.login, this.data});
 
   CulvertIssue.fromJson(dynamic json) {
     success = json["success"];
@@ -27,7 +24,6 @@ class CulvertIssue {
     }
     return map;
   }
-
 }
 
 /// culvert_id : "15"
@@ -49,14 +45,14 @@ class Data {
   String? circle;
   String? zone;
 
-  Data({
-      this.culvertId, 
-      this.culvertType, 
-      this.culvertName, 
-      this.area, 
-      this.landmark, 
-      this.ward, 
-      this.circle, 
+  Data(
+      {this.culvertId,
+      this.culvertType,
+      this.culvertName,
+      this.area,
+      this.landmark,
+      this.ward,
+      this.circle,
       this.zone});
 
   Data.fromJson(dynamic json) {
@@ -82,5 +78,4 @@ class Data {
     map["zone"] = zone;
     return map;
   }
-
 }

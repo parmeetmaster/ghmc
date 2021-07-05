@@ -5,12 +5,9 @@
 class CulvertDataModel {
   bool? success;
   String? message;
-  List<DataItem>? data;
+  List<DataItem>? data = [];
 
-  CulvertDataModel({
-      this.success, 
-      this.message, 
-      this.data});
+  CulvertDataModel({this.success, this.message, this.data});
 
   CulvertDataModel.fromJson(dynamic json) {
     success = json["success"];
@@ -32,7 +29,6 @@ class CulvertDataModel {
     }
     return map;
   }
-
 }
 
 /// id : "1"
@@ -42,9 +38,7 @@ class DataItem {
   String? id;
   String? name;
 
-  DataItem({
-      this.id, 
-      this.name});
+  DataItem({this.id, this.name});
 
   DataItem.fromJson(dynamic json) {
     id = json["id"];
@@ -57,5 +51,4 @@ class DataItem {
     map["name"] = name;
     return map;
   }
-
 }

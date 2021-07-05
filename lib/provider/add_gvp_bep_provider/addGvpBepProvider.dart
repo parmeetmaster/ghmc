@@ -27,11 +27,9 @@ class GvpBepProvider extends ChangeNotifier {
   }) async {
     ApiResponse response;
 
-
-
     response = await ApiBase().baseFunction(
       () => ApiBase().getInstance()!.post('/add_gvp_bep', data: {
-      'user_id':userId,
+        'user_id': userId,
         'id': id,
         'address': address,
         'latitude': latitude,
@@ -42,17 +40,16 @@ class GvpBepProvider extends ChangeNotifier {
     return response;
   }
 
-  Future<ApiResponse?> getGepBepList() async{
+  Future<ApiResponse?> getGepBepList() async {
     ApiResponse response;
     response = await ApiBase().baseFunction(
-          () => ApiBase().getInstance()!.post('/gvp_bep_list', data: {
+      () => ApiBase().getInstance()!.post('/gvp_bep_list', data: {
         'user_id': Globals.userData!.data!.userId,
       }),
     );
     MProgressIndicator.hide();
     return response;
   }
-
 
   submit_Gvp_Bep(
       {String? formatted_address,

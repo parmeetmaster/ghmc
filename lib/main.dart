@@ -79,7 +79,7 @@ void main() async {
   FirebaseMessaging.instance.getToken().then((value) {
     String? token = value;
     print(token);
-    token!.printwtf; // print fcm token
+    // token!.printwtf; // print fcm token
   });
 
   runApp(MultiProvider(

@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:ghmc/api/api.dart';
+import 'package:ghmc/model/culvert/area_model.dart';
 import 'package:ghmc/model/culvert/culvert_issue.dart';
+import 'package:ghmc/model/culvert/culvert_issue_name.dart';
 import 'package:ghmc/provider/culvert/culvert_provider.dart';
 import 'package:ghmc/screens/dashboard/dashBordScreen.dart';
 import 'package:ghmc/util/file_picker.dart';
@@ -28,12 +30,20 @@ class _CulvertScreenState extends State<CulvertScreen> {
   double fontSize = 14.0;
 
   File? photo;
+  CulvertIssueName? culvertIssue;
+  CulvertIssueNameItem? culvertIssueName;
+
+  @override
+  void initState() {
+    super.initState();
+    _getIssueName();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: FAppBar.getCommonAppBar(title: "Culvert"),
-      body: SingleChildScrollView(
+      body: culvertIssue!=null?SingleChildScrollView(
         child: Column(
           children: [
             Center(
@@ -257,6 +267,59 @@ class _CulvertScreenState extends State<CulvertScreen> {
                       ),
                     ),
                   ),
+          SizedBox(height: 10,),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.90,
+              decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    width: 1.0,
+                    style: BorderStyle.solid,
+                    color: Colors.grey,
+                  ),
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(5.0)),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(
+                    8.0, 0, 0, 0),
+                child: DropdownButton<CulvertIssueNameItem>(
+                  underline: Container(
+                    color: Colors.transparent,
+                  ),
+                  hint: Text('Issue Name'),
+                  isExpanded: true,
+                  value: culvertIssueName,
+                  icon:
+                  const Icon(Icons.arrow_drop_down),
+                  iconSize: 20,
+                  elevation: 16,
+                  style: const TextStyle(
+                      color: Colors.black),
+                  items: culvertIssue!.data!
+                      .map<DropdownMenuItem<CulvertIssueNameItem>>(
+                          (CulvertIssueNameItem value) {
+                            if(value.status!.toLowerCase()=="active")
+                        return DropdownMenuItem<CulvertIssueNameItem>(
+                          value: value,
+                          child: Text("${value.name}"),
+                        );
+                            else
+                            return DropdownMenuItem<CulvertIssueNameItem>(
+                                value: value,
+                                child: Container(),
+                                   );
+                      }).toList(),
+                  onChanged: (newValue) async {
+                    setState(() {
+                      culvertIssueName =newValue as CulvertIssueNameItem;
+                    });
+                  },
+                ),
+              ),
+            ),
+            SizedBox(height: 10,),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -321,26 +384,28 @@ class _CulvertScreenState extends State<CulvertScreen> {
                     final provider =
                         Provider.of<CulvertProvider>(context, listen: false);
                     ApiResponse resp = await provider.submit(
-                        widget.culvertIssue, photo, issueTypeValue);
 
-                    if(resp.status==200){
-                      SingleButtonDialog(okbtntext: "Done",onOk: (c){
-                        DashBordScreen().pushAndPopTillFirst(context);
-                      },imageurl: "assets/check.svg",type: Imagetype.svg,message: resp.message,onCancel: (c){
-                        Navigator.of(c).pop();
-                        DashBordScreen().pushAndPopTillFirst(context);
-                      },
+                        widget.culvertIssue, photo, issueTypeValue,culvertIssueName);
+
+                    if (resp.status == 200) {
+                      SingleButtonDialog(
+                        okbtntext: "Done",
+                        onOk: (c) {
+                          DashBordScreen().pushAndPopTillFirst(context);
+                        },
+                        imageurl: "assets/check.svg",
+                        type: Imagetype.svg,
+                        message: resp.message,
+                        onCancel: (c) {
+                          Navigator.of(c).pop();
+                          DashBordScreen().pushAndPopTillFirst(context);
+                        },
                       ).pushDialog(context);
                     }
 
-
-                    if(resp.status!=200){
+                    if (resp.status != 200) {
                       resp.message!.showSnackbar(context);
                     }
-
-
-
-
                   },
                   child: Text(
                     'Submit',
@@ -356,7 +421,16 @@ class _CulvertScreenState extends State<CulvertScreen> {
             ),
           ],
         ),
-      ),
+      ):Container(child: Center(child: CircularProgressIndicator(),),),
     );
+  }
+
+  Future<void> _getIssueName() async {
+    final provider = Provider.of<CulvertProvider>(context, listen: false);
+    ApiResponse? response = await provider.getCulvertIssuesTypes();
+    culvertIssue = CulvertIssueName.fromJson(response!.completeResponse);
+    setState(() {
+
+    });
   }
 }

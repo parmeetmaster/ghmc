@@ -124,7 +124,7 @@ class _AddGvpBepScreenState extends State<AddGvpBepScreen> {
             ),
           ),
         ),
-      /*  Padding(
+        /*  Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
             decoration: ShapeDecoration(
@@ -232,8 +232,9 @@ class _AddGvpBepScreenState extends State<AddGvpBepScreen> {
                         DashBordScreen().pushAndPopTillFirst(context);
                       },
                     ).pushDialog(context);
-                  }else {
+                  } else {
                     response.message!.showSnackbar(context);
+                    DashBordScreen().pushAndPopTillFirst(context);
                   }
                   MProgressIndicator.hide();
                 },

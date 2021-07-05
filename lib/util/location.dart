@@ -4,7 +4,7 @@ import 'package:location/location.dart';
 class CustomLocation {
   Future<LocationData?>? getLocation() async {
     Location location = new Location();
-
+    location.changeSettings(accuracy: LocationAccuracy.high);
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
     LocationData? _locationData;
