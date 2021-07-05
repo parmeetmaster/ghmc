@@ -31,6 +31,7 @@ class DashBoardProvider extends ChangeNotifier {
   MenuItemModel? zones; // used to show dialog with item on dashboard
   MenuItemModel? vehicle_type; // used to show dialog with item on dashboard
   MenuItemModel? transfer_station; // used to show dialog with item on dashboard
+  MenuItemModel? circles; // used to show dialog with item on dashboard
   StateSetter? setState; // this used to manage download bottom sheet
   bool? is_any_gep_bep = false;
 
@@ -85,22 +86,23 @@ class DashBoardProvider extends ChangeNotifier {
   }
 
   Future<ApiResponse?> getDriverData(String id, String qrdata) async {
-    ApiResponse response = await ApiBase().baseFunction(() => ApiBase()
-        .getInstance()!
-        .post("/sfa_user_scan", data: {"user_id": id, "geo_id": qrdata}));
+    ApiResponse response = await ApiBase().baseFunction(() =>
+        ApiBase()
+            .getInstance()!
+            .post("/sfa_user_scan", data: {"user_id": id, "geo_id": qrdata}));
     return response;
   }
 
-  Future<ApiResponse?> getTransferStationManager(
-      String id, String qrdata) async {
-    ApiResponse response = await ApiBase().baseFunction(() => ApiBase()
-        .getInstance()!
-        .post("/sfa_user", data: {"user_id": id, "geo_id": qrdata}));
+  Future<ApiResponse?> getTransferStationManager(String id,
+      String qrdata) async {
+    ApiResponse response = await ApiBase().baseFunction(() =>
+        ApiBase()
+            .getInstance()!
+            .post("/sfa_user", data: {"user_id": id, "geo_id": qrdata}));
     return response;
   }
 
-  uploadData(
-      int? active_percent,
+  uploadData(int? active_percent,
       int? type_of_waste,
       QrDataModel? model,
       String? scanid,
@@ -137,19 +139,20 @@ class DashBoardProvider extends ChangeNotifier {
           dialog!.dismiss();
           //Navigator.of(context,rootNavigator: true);
         },
-      )..show();
+      )
+        ..show();
   }
 
-  void updatePassword(
-      {TextEditingController? old_password,
-      TextEditingController? new_password,
-      TextEditingController? new_confirm_password}) {}
+  void updatePassword({TextEditingController? old_password,
+    TextEditingController? new_password,
+    TextEditingController? new_confirm_password}) {}
 
   Future<ApiResponse?> getVehicesInfo(
       {required String userid, required String dateString}) async {
-    ApiResponse response = await ApiBase().baseFunction(() => ApiBase()
-        .getInstance()!
-        .post("/vechile_dashboard",
+    ApiResponse response = await ApiBase().baseFunction(() =>
+        ApiBase()
+            .getInstance()!
+            .post("/vechile_dashboard",
             data: {"user_id": userid, "date": dateString}));
     MProgressIndicator.hide();
     return response;
@@ -157,9 +160,10 @@ class DashBoardProvider extends ChangeNotifier {
 
   Future<ApiResponse?> getGepBepInfo(
       {required String userid, required String dateString}) async {
-    ApiResponse response = await ApiBase().baseFunction(() => ApiBase()
-        .getInstance()!
-        .post("/dashboard_gvp_bep",
+    ApiResponse response = await ApiBase().baseFunction(() =>
+        ApiBase()
+            .getInstance()!
+            .post("/dashboard_gvp_bep",
             data: {"user_id": userid, "date": dateString}));
     MProgressIndicator.hide();
     return response;
@@ -182,7 +186,8 @@ class DashBoardProvider extends ChangeNotifier {
   Future<ApiResponse> getNearGepBepUsingLatLng(
       {required String lat, required String lng}) async {
     ApiResponse response = await ApiBase().baseFunction(
-        () => ApiBase().getInstance()!.post("/distance_gvp", data: {
+            () =>
+            ApiBase().getInstance()!.post("/distance_gvp", data: {
               'user_id': '${Globals.userData!.data!.userId}',
               'latittude': '$lat',
               'longitude': '$lng'
@@ -193,9 +198,10 @@ class DashBoardProvider extends ChangeNotifier {
 
   Future<ApiResponse> getTransferStationTabData(
       {String? dateString, String? userid}) async {
-    ApiResponse response = await ApiBase().baseFunction(() => ApiBase()
-        .getInstance()!
-        .post("/transfer_station_dashboard",
+    ApiResponse response = await ApiBase().baseFunction(() =>
+        ApiBase()
+            .getInstance()!
+            .post("/transfer_station_dashboard",
             data: {"date": dateString!, "user_id": userid}));
     MProgressIndicator.hide(); // close indicator
     return response;
@@ -203,7 +209,7 @@ class DashBoardProvider extends ChangeNotifier {
 
   Future<ApiResponse> getVehicleType() async {
     ApiResponse response = await ApiBase().baseFunction(
-        () => ApiBase().getInstance()!.get("/dash_vechiles_type"));
+            () => ApiBase().getInstance()!.get("/dash_vechiles_type"));
     MProgressIndicator.hide(); // close indicator
     return response;
   }
@@ -215,7 +221,8 @@ class DashBoardProvider extends ChangeNotifier {
     MenuItem? vehicle,
   }) async {
     ApiResponse response = await ApiBase().baseFunction(
-        () => ApiBase().getInstance()!.post("/search_view", data: {
+            () =>
+            ApiBase().getInstance()!.post("/search_view", data: {
               'user_id': Globals.userData!.data!.userId,
               'zone_id': zone!.id,
               'start_date': startdate,
@@ -226,89 +233,18 @@ class DashBoardProvider extends ChangeNotifier {
     return response;
   }
 
-  _showConfirmDownloadBottomSheet(
-      BuildContext context, Function performDownload) {
+  _showConfirmDownloadBottomSheet(BuildContext context,
+      Function performDownload) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (ctx) => Container(
-        height: MediaQuery.of(context).size.height * 0.25,
-        decoration: new BoxDecoration(
-          color: Colors.white,
-          borderRadius: new BorderRadius.only(
-            topLeft: const Radius.circular(25.0),
-            topRight: const Radius.circular(25.0),
-          ),
-        ),
-        child: ListView(
-          shrinkWrap: true,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Align(
-                    alignment: Alignment.topRight,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.clear,
-                        color: Colors.red,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(ctx);
-                      },
-                    )),
-              ],
-            ),
-            Center(
-              child: Text(
-                "Do you like to download ?",
-                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
-              ),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Center(
-              child: GradientButton(
-                title: "Download File",
-                height: 20,
-                fontsize: 14,
-                onclick: () async {
-                  Navigator.pop(ctx);
-                  performDownload();
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  _showDownloadProgress(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) {
-        return StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-          this.setState = setState;
-
-          // 🔴 sheeet Dismiss here
-          if (double.tryParse(percentage)! >= 100) {
-            this.setState = null;
-            Future.delayed(Duration(seconds: 2)).then((value) {
-              Navigator.pop(ctx);
-            });
-          }
-
-          return Container(
-            height: MediaQuery.of(context).size.height * 0.25,
+      builder: (ctx) =>
+          Container(
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.25,
             decoration: new BoxDecoration(
               color: Colors.white,
               borderRadius: new BorderRadius.only(
@@ -340,46 +276,124 @@ class DashBoardProvider extends ChangeNotifier {
                 ),
                 Center(
                   child: Text(
-                    "Downlaod Progress",
+                    "Do you like to download ?",
                     style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
                   ),
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 50,
                 ),
-                new CircularPercentIndicator(
-                  radius: 60.0,
-                  lineWidth: 5.0,
-                  percent: (() {
-                    if (double.tryParse(percentage)! > 100) {
-                      percentage = "100";
-                      if (this.setState != null) this.setState!(() {});
-                      return 1.0;
-                    } else if (double.tryParse(percentage)! < 0) {
-                      percentage = "100";
-                      if (this.setState != null) setState(() {});
-                      return 0.0;
-                    } else {
-                      return double.tryParse(percentage)! / 100;
-                    }
-                  }()),
-                  center: new Text("${this.percentage}%"),
-                  progressColor: Colors.green,
+                Center(
+                  child: GradientButton(
+                    title: "Download File",
+                    height: 20,
+                    fontsize: 14,
+                    onclick: () async {
+                      Navigator.pop(ctx);
+                      performDownload();
+                    },
+                  ),
                 ),
               ],
             ),
-          );
-        });
+          ),
+    );
+  }
+
+  _showDownloadProgress(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              this.setState = setState;
+
+              // 🔴 sheeet Dismiss here
+              if (double.tryParse(percentage)! >= 100) {
+                this.setState = null;
+                Future.delayed(Duration(seconds: 2)).then((value) {
+                  Navigator.pop(ctx);
+                });
+              }
+
+              return Container(
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.25,
+                decoration: new BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: new BorderRadius.only(
+                    topLeft: const Radius.circular(25.0),
+                    topRight: const Radius.circular(25.0),
+                  ),
+                ),
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.clear,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {
+                                Navigator.pop(ctx);
+                              },
+                            )),
+                      ],
+                    ),
+                    Center(
+                      child: Text(
+                        "Downlaod Progress",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 20),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    new CircularPercentIndicator(
+                      radius: 60.0,
+                      lineWidth: 5.0,
+                      percent: (() {
+                        if (double.tryParse(percentage)! > 100) {
+                          percentage = "100";
+                          if (this.setState != null) this.setState!(() {});
+                          return 1.0;
+                        } else if (double.tryParse(percentage)! < 0) {
+                          percentage = "100";
+                          if (this.setState != null) setState(() {});
+                          return 0.0;
+                        } else {
+                          return double.tryParse(percentage)! / 100;
+                        }
+                      }()),
+                      center: new Text("${this.percentage}%"),
+                      progressColor: Colors.green,
+                    ),
+                  ],
+                ),
+              );
+            });
       },
     );
   }
 
   String percentage = "0";
 
-  void downloadFile(
-      {required BuildContext context,
-      required String filename,
-      required String url}) async {
+  void downloadFile({required BuildContext context,
+    required String filename,
+    required String url}) async {
     percentage = "0"; //◀ reset percentage here
 
     _showConfirmDownloadBottomSheet(context, () async {
@@ -401,15 +415,14 @@ class DashBoardProvider extends ChangeNotifier {
 
   // download master gvp bep file
 
-  Future<void> downloadMasterFile(
-      {required BuildContext context,
-      required String filename,
-      DateTime? startDate,
-      DateTime? endDate,
-      MenuItem? selected_transfer_station,
-      MenuItem? selected_vehicle,
-      MenuItem? selected_zone,
-      required dynamic? operation}) async {
+  Future<void> downloadMasterFile({required BuildContext context,
+    required String filename,
+    DateTime? startDate,
+    DateTime? endDate,
+    MenuItem? selected_transfer_station,
+    MenuItem? selected_vehicle,
+    MenuItem? selected_zone,
+    required dynamic? operation}) async {
     percentage = "0"; //◀ reset percentage here
     String url = "";
     Dio dio = new Dio();
@@ -455,12 +468,13 @@ class DashBoardProvider extends ChangeNotifier {
               validateStatus: (status) {
                 return status! < 500;
               }), onReceiveProgress: (received, total) {
-        if (total != -1) {
-          if (int.parse((received / total * 100).toStringAsFixed(0)) >= 100) {
-            "Download Complete".showSnackbar(context);
-          }
-        }
-      });
+            if (total != -1) {
+              if (int.parse((received / total * 100).toStringAsFixed(0)) >=
+                  100) {
+                "Download Complete".showSnackbar(context);
+              }
+            }
+          });
       print(response.headers);
       file = File(fullPath);
       var raf = file.openSync(mode: FileMode.write);
@@ -487,7 +501,8 @@ class DashBoardProvider extends ChangeNotifier {
   */
     LocationData? loc = await CustomLocation().getLocation();
     ApiResponse response = await ApiBase().baseFunction(
-        () => ApiBase().getInstance()!.post("/distance_gvp", data: {
+            () =>
+            ApiBase().getInstance()!.post("/distance_gvp", data: {
               'user_id': Globals.userData!.data!.userId,
               'latittude': '${loc!.latitude}',
               'longitude': '${loc.longitude}',
@@ -501,16 +516,19 @@ class DashBoardProvider extends ChangeNotifier {
     LocationData? loc = await CustomLocation().getLocation();
 
     ApiResponse response = await ApiBase().baseFunction(
-        () async => ApiBase().getInstance()!.post("/distance_gvp", data: {
+            () async =>
+            ApiBase().getInstance()!.post("/distance_gvp", data: {
               'user_id': '${Globals.userData!.data!.userId}',
-              'date': '${DateTime.now().appDate}',
+              'date': '${DateTime
+                  .now()
+                  .appDate}',
               'id': '${model!.data!.id}',
               'longitude': loc!.longitude,
               'latittude': loc.latitude,
               'before_image':
-                  await FileSupport().getMultiPartFromFile(before_image!),
+              await FileSupport().getMultiPartFromFile(before_image!),
               'after_image':
-                  await FileSupport().getMultiPartFromFile(after_image!),
+              await FileSupport().getMultiPartFromFile(after_image!),
             }));
     MProgressIndicator.hide();
 
@@ -521,7 +539,8 @@ class DashBoardProvider extends ChangeNotifier {
     LocationData? loc = await CustomLocation().getLocation();
 
     ApiResponse response = await ApiBase().baseFunction(
-        () async => ApiBase().getInstance()!.post("/getculvertissue", data: {
+            () async =>
+            ApiBase().getInstance()!.post("/getculvertissue", data: {
               'unique_no': qrdata,
               'latitude': loc!.latitude,
               'longitude': loc.longitude,
@@ -530,5 +549,19 @@ class DashBoardProvider extends ChangeNotifier {
     MProgressIndicator.hide();
 
     return response;
+  }
+
+  void getCirclesForCulvert(MenuItem? selected_zone) async {
+    if (selected_zone == null) return;
+    ApiResponse response = await ApiBase().baseFunction(
+            () async =>
+            ApiBase().getInstance()!.post("/circle", data: {
+              'zone_id': selected_zone.id,
+              'user_id': Globals.userData!.data!.userId
+            }));
+
+    circles = MenuItemModel.fromJson(response.completeResponse);
+    MProgressIndicator.hide();
+    notifyListeners();
   }
 }
