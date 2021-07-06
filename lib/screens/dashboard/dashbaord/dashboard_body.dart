@@ -3,6 +3,7 @@ import 'package:ghmc/api/api.dart';
 import 'package:ghmc/globals/constants.dart';
 import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/model/dashboard/dashboard_vehicle.dart';
+import 'package:ghmc/model/dashboard/tab/culvert/culvert_dash_board_model.dart';
 import 'package:ghmc/model/dashboard/tab/gvp_bep/gep_and_bep_dashboard_model.dart';
 import 'package:ghmc/model/dashboard/tab/transfer_station/transfer_station_tab_model.dart';
 import 'package:ghmc/model/dashboard/zone_model.dart';
@@ -37,6 +38,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
   MenuItem? _selected_circle;
   String? status;
   TransferStationTabModel? _dashboardTransferStationTabModel;
+  CulvertDashBoardModel? _dashboardCulvertModel;
 
   @override
   void initState() {
@@ -44,8 +46,12 @@ class _UserDashBoard2State extends State<DashBoardBody> {
     Globals.userData!.data!.token!.toString().printwtf;
     /*  updateVehicleData(DateTime.now());
     getTransferStationData();*/
-    Future.wait(
-        [updateVehicleData(), getTransferStationData(), updateGvpAndBep()]);
+    Future.wait([
+      updateVehicleData(),
+      getTransferStationData(),
+      updateGvpAndBep(),
+      updateCulvert()
+    ]);
   }
 
   _resetDashBoard() {
@@ -1911,19 +1917,24 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                         padding: EdgeInsets.all(10),
                         shrinkWrap: true,
                         children: [
-                          if (_dashboardTransferStationTabModel != null)
-                            ..._dashboardTransferStationTabModel!.data!
+                          if (_dashboardCulvertModel != null)
+                            ..._dashboardCulvertModel!.data!
                                 .mapIndexed((item, index) => Column(
                                       //  shrinkWrap: true,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        PhysicalModel(
+                                        Card(
                                           color: Colors.white,
                                           elevation: 12,
                                           shadowColor: Colors.black,
-                                          borderRadius:
-                                              BorderRadius.circular(20),
+                                          shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                color: Colors.white70,
+                                                width: 1),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
                                           child: Container(
                                             height: 90,
                                             child: Stack(
@@ -1952,7 +1963,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                                                         child: Center(
                                                           child: Container(
                                                             child: Text(
-                                                              "${index}",
+                                                              "${++index}",
                                                               style: TextStyle(
                                                                   fontSize: 14,
                                                                   color: Colors
@@ -1976,7 +1987,7 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                                                                       3),
                                                           child: Center(
                                                               child: Text(
-                                                            "${item.tsName ?? ""}",
+                                                            "${item.name ?? ""}",
                                                             style: TextStyle(
                                                                 fontSize: 12,
                                                                 color: Colors
@@ -1994,14 +2005,38 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                                                               .symmetric(
                                                                   horizontal:
                                                                       3),
-                                                          child: Text(
-                                                            "Vehicle Count \n ${item.vehiclesCount} ",
-                                                            style: TextStyle(
-                                                                fontSize: 12,
-                                                                color: Colors
-                                                                    .black),
-                                                            textAlign: TextAlign
-                                                                .center,
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                "Green",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    color: Colors
+                                                                            .green[
+                                                                        500]),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              ),
+                                                              SizedBox(
+                                                                height: 3,
+                                                              ),
+                                                              Text(
+                                                                "${item.green} ",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    color: Colors
+                                                                        .black),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              ),
+                                                            ],
                                                           ),
                                                         )),
                                                     VerticalDivider(
@@ -2015,14 +2050,38 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                                                               .symmetric(
                                                                   horizontal:
                                                                       3),
-                                                          child: Text(
-                                                            "Trip Count \n ${item.tripsCount} ",
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                                fontSize: 12,
-                                                                color: Colors
-                                                                    .black),
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                "Orange",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    color: Colors
+                                                                            .orange[
+                                                                        500]),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              ),
+                                                              SizedBox(
+                                                                height: 3,
+                                                              ),
+                                                              Text(
+                                                                "${item.orange} ",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    color: Colors
+                                                                        .black),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              ),
+                                                            ],
                                                           ),
                                                         )),
                                                     VerticalDivider(
@@ -2030,20 +2089,44 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                                                       thickness: 1,
                                                     ),
                                                     Expanded(
-                                                        flex: 19,
+                                                        flex: 15,
                                                         child: Container(
                                                           padding: EdgeInsets
                                                               .symmetric(
                                                                   horizontal:
                                                                       3),
-                                                          child: Text(
-                                                            "Garbage Weight\n${item.garbageCollection} kg ",
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                                fontSize: 12,
-                                                                color: Colors
-                                                                    .black),
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                "Red",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    color: Colors
+                                                                            .red[
+                                                                        500]),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              ),
+                                                              SizedBox(
+                                                                height: 3,
+                                                              ),
+                                                              Text(
+                                                                "${item.red} ",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    color: Colors
+                                                                        .black),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              ),
+                                                            ],
                                                           ),
                                                         )),
                                                     VerticalDivider(
@@ -2055,10 +2138,10 @@ class _UserDashBoard2State extends State<DashBoardBody> {
                                                         child: InkWell(
                                                           onTap: () {
                                                             startDowload(
-                                                                tabindex: 2,
+                                                                tabindex: 3,
                                                                 url: item.url!,
                                                                 name: item
-                                                                    .tsName!);
+                                                                    .name!);
                                                           },
                                                           child: Container(
                                                             child: Icon(
@@ -2178,6 +2261,8 @@ class _UserDashBoard2State extends State<DashBoardBody> {
       filetype = "GVP-BEP";
     } else if (tab_index == 2) {
       filetype = "Transfer-Station";
+    }else if (tab_index == 3) {
+      filetype = "Culvert-Issue";
     }
 
     DashBoardProvider.getReference(context).downloadFile(
@@ -2193,9 +2278,13 @@ class _UserDashBoard2State extends State<DashBoardBody> {
 
     if (this._selected_zone == null ||
         this.startDate == null ||
-        this.endDate == null ||
-        this._selected_vehicle == null) {
+        this.endDate == null ) {
       "Please Select all options before download".showSnackbar(context);
+      return;
+    }
+
+    if (this._selected_vehicle == null && (tab_index == 2 || tab_index == 1|| tab_index==0)) {
+      "Selected Vehicle required".showSnackbar(context);
       return;
     }
 
@@ -2203,6 +2292,16 @@ class _UserDashBoard2State extends State<DashBoardBody> {
       "Transfer Station required".showSnackbar(context);
       return;
     }
+
+    if (this._selected_circle == null && tab_index == 3) {
+      "Selected Circle".showSnackbar(context);
+      return;
+    }
+    if (this.status == null && tab_index == 3) {
+      "Status Required".showSnackbar(context);
+      return;
+    }
+
 
     if (tab_index == 0) {
       await DownloadViewScreenDashboard(
@@ -2234,6 +2333,33 @@ class _UserDashBoard2State extends State<DashBoardBody> {
           filename: 'TRANSFER-STATION-MASTER',
           operation: downloadType.transfer_station);
       _resetDashBoard(); // see reset data here
+    } else if (tab_index == 3) {
+      await value.downloadMasterFile(
+          context: context,
+          startDate: startDate,
+          endDate: endDate,
+          selected_zone: _selected_zone,
+          selected_circle: _selected_circle,
+          selected_transfer_station: _selected_transfer_station,
+          status: status,
+          filename: 'CULVERT-MASTER',
+          operation: downloadType.culvert);
+      _resetDashBoard(); // see reset data here
     }
+  }
+
+  Future<void> updateCulvert() async {
+    final provider = Provider.of<DashBoardProvider>(context, listen: false);
+
+
+    ApiResponse? response = await provider.getCulvertDashBoard();
+    if (response.status != 200) {
+      response.message!.showSnackbar(context);
+      return;
+    }
+    _dashboardCulvertModel =
+        CulvertDashBoardModel.fromJson(response.completeResponse);
+
+    setState(() {});
   }
 }

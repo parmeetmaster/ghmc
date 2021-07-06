@@ -53,8 +53,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
             mapType: MapType.normal,
             initialCameraPosition: camera_location,
             myLocationEnabled: true,
-            myLocationButtonEnabled: true,
+            myLocationButtonEnabled: false,
             onMapCreated: _onMapCreated,
+
           ),
           Positioned(
               left: 120.0,
