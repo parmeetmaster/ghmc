@@ -8,6 +8,7 @@ import 'package:ghmc/api/api.dart';
 import 'package:ghmc/globals/constants.dart';
 import 'package:ghmc/globals/globals.dart';
 import 'package:ghmc/model/dashboard/app_bar/dashboard_location_gep_bep_model.dart';
+import 'package:ghmc/model/dashboard/drawer_authority.dart';
 import 'package:ghmc/model/dashboard/zone_model.dart';
 import 'package:ghmc/model/driver_data_model.dart';
 import 'package:ghmc/provider/login_provider/login_provider.dart';
@@ -562,5 +563,28 @@ class DashBoardProvider extends ChangeNotifier {
     MProgressIndicator.hide();
 
     return response;
+  }
+
+  void setAuthentications() async{
+
+    ApiResponse response = await ApiBase().baseFunction(() async =>
+        ApiBase().getInstance()!.post("/user_access", data: {
+          'user_id': Globals.userData!.data!.userId,
+        }));
+    MProgressIndicator.hide();
+   Globals.authority= DrawerAuthority.fromJson(response.completeResponse);
+notifyListeners();
+  }
+
+  Future<ApiResponse?>? uploadVehicleImage({File? vehicle_image,String? id}) async{
+    ApiResponse response = await ApiBase().baseFunction(() async =>
+        ApiBase().getInstance()!.post("/vehicle_att", data: FormData.fromMap({
+          'user_id': Globals.userData!.data!.userId,
+          'id': id,
+          'image':await FileSupport().getMultiPartFromFile(vehicle_image!)
+        })));
+    MProgressIndicator.hide();
+    return response;
+
   }
 }

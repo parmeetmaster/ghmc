@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +12,7 @@ import 'package:ghmc/screens/add_vehicle/add_vehicle_page.dart';
 import 'package:ghmc/screens/complaint_box/complain_screen.dart';
 import 'package:ghmc/screens/culvert/addCulvert.dart';
 import 'package:ghmc/screens/culvert/culvertIssues.dart';
+import 'package:ghmc/util/open_camera.dart';
 import 'package:ghmc/screens/dashboard/vehicle_tab.dart';
 import 'package:ghmc/screens/gvp_bep/gvp_bvp_list.dart';
 import 'package:ghmc/screens/login/ghmc_loginpage.dart';
@@ -92,6 +95,7 @@ class _MainDrawerState extends State<MainDrawer> {
             SizedBox(
               height: 20,
             ),
+           if(Globals.authority!.data!.first.home==true)
             ListTile(
               leading: Icon(
                 Icons.home,
@@ -107,6 +111,7 @@ class _MainDrawerState extends State<MainDrawer> {
                 Navigator.pop(context);
               },
             ),
+            if(Globals.authority!.data!.first.complaints==true)
             ListTile(
               leading: Icon(
                 Icons.local_police,
@@ -123,6 +128,7 @@ class _MainDrawerState extends State<MainDrawer> {
                     MaterialPageRoute(builder: (context) => ComplainScreen()));
               },
             ),
+            if(Globals.authority!.data!.first.geoTagging==true)
             ListTile(
               leading: Icon(
                 Icons.location_on_outlined,
@@ -136,9 +142,10 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               onTap: () {},
             ),
-            if (Globals.userData!.data!.departmentId == "3" ||
-                Globals.userData!.data!.departmentId == "4")
-              ListTile(
+          /*  if (Globals.userData!.data!.departmentId == "3" ||
+                Globals.userData!.data!.departmentId == "4")*/
+            if(Globals.authority!.data!.first.dataEntry==true)
+            ListTile(
                 leading: Icon(
                   Icons.library_books,
                   color: Colors.white,
@@ -157,9 +164,10 @@ class _MainDrawerState extends State<MainDrawer> {
                       ));
                 },
               ),
-            if (Globals.userData!.data!.departmentId == "10" ||
+/*            if (Globals.userData!.data!.departmentId == "10" ||
                 Globals.userData!.data!.departmentId == "11" ||
-                Globals.userData!.data!.departmentId == "1")
+                Globals.userData!.data!.departmentId == "1")*/
+            if(Globals.authority!.data!.first.addCulvert==true)
               ListTile(
                 leading: Icon(
                   Icons.linear_scale,
@@ -179,9 +187,7 @@ class _MainDrawerState extends State<MainDrawer> {
                       ));
                 },
               ),
-            if (Globals.userData!.data!.departmentId == "10" ||
-                Globals.userData!.data!.departmentId == "11" ||
-                Globals.userData!.data!.departmentId == "1")
+            if(Globals.authority!.data!.first.issueCulvert==true)
               ListTile(
                 leading: Icon(
                   Icons.home_repair_service,
@@ -201,6 +207,28 @@ class _MainDrawerState extends State<MainDrawer> {
                       ));
                 },
               ),
+         /*   ListTile(
+              leading: Icon(
+                Icons.home_repair_service,
+                color: Colors.white,
+                size: 25,
+              ),
+              title: Text(
+                "CAMERA Culvert",
+                style: TextStyle(
+                    fontSize: drawer_item_text, color: Colors.white),
+              ),
+              onTap: ()async {
+            File? file=    await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => (CameraPicture()),
+                    ));
+               file!.path.printwtf;
+
+              },
+            ),*/
+            if(Globals.authority!.data!.first.addGvpbep==true)
             ListTile(
               leading: Icon(
                 Icons.directions_car_rounded,

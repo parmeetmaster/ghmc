@@ -49,7 +49,7 @@ class QrData {
     this.circle,
     this.zone,
     this.owner_type,
-    this.createdDate,
+    this.createdDate, this.id,
   });
 
   String? vechileType;
@@ -63,12 +63,14 @@ class QrData {
   String? zone;
   String? createdDate;
   String? owner_type;
+  String? id;
 
   factory QrData.fromRawJson(String str) => QrData.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory QrData.fromJson(Map<String, dynamic> json) => QrData(
+        id: json["id"],
         vechileType: json["vechile_type"],
         vechileNo: json["vechile_no"],
         driverName: json["driver_name"],
